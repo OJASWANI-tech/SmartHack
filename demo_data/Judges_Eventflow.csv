@@ -1,0 +1,16 @@
+judge_name,email,domain,institution,max_workload,availability
+Dr. Aris Vance,vance@polytech.edu,"AI Developer, Data Engineering",MIT,4,"morning, afternoon"
+Sarah Jenkins,s.jenkins@vcfund.io,"FinTech & Decentralized Payments, PM",Venture Labs,5,"afternoon, evening"
+Marcus Thorne,marcus@infosec.net,"cyber, security",InfoSec Corp,3,morning
+Elena Rostova,elena@medtech.org,"ui, design, HealthTech",Global Health,4,afternoon
+Block Wood,wood@ether.io,"web3, blockchain",Consensys,6,"morning, evening"
+Prof. Alan Turing,turing@stanford.edu,"ai, machine learning, devs",Stanford University,5,"morning, afternoon"
+Nadia Kovalev,nadia@cyberfort.tech,"security, cybersecurity & zero-trust architecture",CyberFort,4,evening
+David Zhang,d.zhang@quantumcap.com,"business, fintech, biz",Quantum Capital,3,afternoon
+Dr. Chloe Carter,ccarter@johnshopkins.edu,"healthtech & digital patient care, ux",Johns Hopkins,5,morning
+Vitalik Nakamoto,solidity@mainnet.org,"blockchain, web3 & blockchain infrastructure",Ethereum Foundation,6,"afternoon, evening"
+Liam O'Connor,liam@devhouse.io,"developer, data, AI",DevHouse Labs,4,"morning, evening"
+Sophia Martinez,s.martinez@neobank.com,"fintech & decentralized payments, pm, business",NeoBank,4,afternoon
+Alex Mercer,mercer@blackbox.io,"cyber, zero-trust architecture",BlackBox Security,3,"morning, afternoon"
+Dr. Maya Lin,lin@biotechdesign.com,"design, designer, healthtech",BioTech Design,5,"afternoon, evening"
+Gavin Wood,gavin@parity.io,"web3, blockchain infrastructure, devs",Parity Tech,5,morning

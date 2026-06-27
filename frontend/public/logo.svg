@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&amp;display=swap');
+      .logo-txt {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 900;
+        font-size: 30px;
+        fill: #ffffff;
+      }
+      .logo-accent {
+        fill: #00b87c;
+      }
+    </style>
+  </defs>
+  
+  <!-- Left Side: Checkmark Logo -->
+  <g transform="translate(6, 5) scale(0.4)">
+    <!-- Open Circle -->
+    <path d="M 68 18 A 38 38 0 1 0 88 50" fill="none" stroke="#00b87c" stroke-width="10" stroke-linecap="round" />
+    <!-- Checkmark -->
+    <path d="M 36 50 L 48 62 L 80 28" fill="none" stroke="#00b87c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Right Side: Text -->
+  <text x="56" y="37" class="logo-txt"><tspan class="logo-accent">e</tspan>Flow</text>
+</svg>
