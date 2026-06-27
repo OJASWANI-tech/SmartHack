@@ -1,178 +1,410 @@
 # 🚀 SmartHack — Intelligent Hackathon Management Platform
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Celery](https://img.shields.io/badge/Celery-37814A?style=for-the-badge&logo=celery&logoColor=white)](https://docs.celeryq.dev/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
+SmartHack is a full-stack hackathon management platform built to simplify the complete event workflow — from participant onboarding and team creation to judging, score analysis, leaderboard generation, and organizer control.
 
-EventWiSE is an award-winning, end-to-end event orchestration and hackathon management ecosystem designed to handle complex administrative challenges automatically. By combining **algorithmic team matching**, **real-time statistical anomaly detection**, and **automated secure access routing**, EventWiSE shifts the operational burden away from organizers, ensuring a transparent, fair, and seamless hackathon experience.
+The platform focuses on automation, fairness, and scalability by using secure authentication, background processing, intelligent team matching, and statistical anomaly detection.
 
 ---
 
-## 📖 Table of Contents
-- [💡 The Problem & The EventWiSE Solution](#-the-problem--the-eventwise-solution)
-- [🧠 Technical Innovations (Our Secret Sauce)](#-technical-innovations-our-secret-sauce)
-- [⚙️ System Architecture](#️-system-architecture)
-- [🛡️ Security & Sandbox Safeguards](#️-security--sandbox-safeguards)
-- [📂 Codebase Structure](#-codebase-structure)
-- [🚀 Quick Start & Orchestration](#-quick-start--orchestration)
-- [🧪 CLI Verification Tools](#-cli-verification-tools)
+## 🔧 Tech Stack
+
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge\&logo=fastapi)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge\&logo=react\&logoColor=61DAFB)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge\&logo=postgresql\&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge\&logo=redis\&logoColor=white)
+![Celery](https://img.shields.io/badge/Celery-37814A?style=for-the-badge\&logo=celery\&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge\&logo=docker\&logoColor=white)
 
 ---
 
-## 💡 The Problem & The EventWiSE Solution
+## 📌 Overview
 
-| Pain Point in Hackathons | The EventWiSE Solution |
-| :--- | :--- |
-| **Biased & Outlier Judging** | **Statistical Outlier Anomaly Engine** dynamically flags biased scorecards and halts results progression until audited. |
-| **Manual, Sub-Optimal Team Matching** | **Algorithmic Matchmaker** groups participants by experience mix, institution caps, and skill sets with generative LLM rationales. |
-| **Weak Authentication & Leak Risks** | **Single-Use JTI Magic Links** expire securely, preventing unauthorized access or credential leakages. |
-| **Testing Inundated by Live Emails** | **Resend Sandbox Interceptors** automatically redirect non-production emails to authorized tester accounts. |
+Managing a hackathon manually can become difficult when there are many participants, teams, judges, scorecards, and result stages.
+
+SmartHack solves this by providing a centralized platform where organizers can manage events, participants can access their assigned flow, judges can evaluate teams, and the system can automatically process scores and detect unusual judging patterns.
 
 ---
 
-## 🧠 Technical Innovations (Our Secret Sauce)
+## ✨ Key Features
 
-### 📊 Real-Time Multi-Dimensional Anomaly Engine
-Organizers often struggle with rogue or biased judging. EventWiSE implements a statistical outlier detector (Z-Score variant) running across four dimensions: *Innovation, Code Quality, Presentation,* and *Impact*. If a judge submits scores that diverge significantly from the panel average, the system:
-1. Flags the team's evaluation status as `in_progress`.
-2. Creates an **Approval Gate** block on stage transitions.
-3. Logs the outlier's reasoning using an LLM-assisted audit trial.
+### 👥 Participant Management
 
-### 🧩 Self-Healing State Ledger
-Wiping and re-seeding databases during dry runs often leads to orphaned records. Our API router implements a **self-healing cleanup trigger** that automatically sweeps and deletes orphaned ledger rows when loading active records, ensuring consistent synchronization with no duplicates.
+* Participant registration
+* Profile and role-based access
+* Event-specific participant tracking
+* Team allocation support
+* Secure invitation flow
 
 ---
 
-## ⚙️ System Architecture
+### 🧠 Intelligent Team Matching
 
-The following diagram illustrates the flow of data from participant signup through team scoring and final anomaly checks:
+SmartHack includes a team formation engine that can group participants based on multiple constraints such as:
+
+* Skills
+* Experience level
+* Institution diversity
+* Team size
+* Technology preferences
+
+This helps organizers create more balanced and fair teams instead of assigning participants manually.
+
+---
+
+### ⚖️ Judging Workflow
+
+Judges can evaluate teams using structured scorecards and predefined judging parameters.
+
+Supported judging flow:
+
+* Judge dashboard
+* Score submission
+* Rubric-based evaluation
+* Multi-judge scoring
+* Score aggregation
+* Leaderboard generation
+
+---
+
+### 📊 Score Anomaly Detection
+
+SmartHack uses statistical analysis to detect unusual score patterns during judging.
+
+The anomaly detection system checks score variations across parameters such as:
+
+* Innovation
+* Code quality
+* Presentation
+* Impact
+
+If a scorecard is significantly different from the panel average, the system can flag it for organizer review before final results are published.
+
+---
+
+### 🔐 Secure Access System
+
+The platform supports secure authentication and access control using:
+
+* JWT-based authentication
+* Role-based authorization
+* Magic link verification
+* Single-use token validation
+* Token replay protection
+
+This ensures that organizers, judges, and participants can only access the sections assigned to them.
+
+---
+
+### ⚡ Background Processing
+
+SmartHack uses Celery and Redis to handle long-running tasks asynchronously.
+
+Background tasks include:
+
+* Email sending
+* Score recalculation
+* Leaderboard updates
+* Anomaly checks
+* Automated notifications
+
+This improves backend performance and avoids blocking API requests.
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TD
+    A[User: Organizer / Judge / Participant] --> B[React Frontend]
+    B --> C[FastAPI Backend]
+    C --> D[PostgreSQL Database]
+    C --> E[Redis Broker]
+    E --> F[Celery Worker]
+    F --> D
+    F --> G[Email & Background Services]
+```
+
+---
+
+## 🔄 Application Flow
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    actor Participant as Participant/Judge
-    participant FE as Frontend React App
-    participant BE as FastAPI Backend
-    participant Worker as Celery Worker
-    participant DB as PostgreSQL
-    participant Cache as Redis
+    participant User
+    participant Frontend
+    participant Backend
+    participant Database
+    participant Worker
 
-    Participant->>FE: Click Magic Invite Link
-    FE->>BE: GET /api/v1/tokens/verify?token=XYZ
-    BE->>DB: Query Token state & JTI validation
-    DB-->>BE: Active Token Data
-    BE-->>FE: Authenticate Context & Allow Access
-    
-    Participant->>FE: Submit Evaluation Scoresheet
-    FE->>BE: POST /api/v1/events/{id}/scores
-    BE->>Cache: Enqueue Consolidation Task
-    Cache->>Worker: Recalculate panel averages
-    Worker->>Worker: Run Statistical Z-Score Outlier Check
-    alt Anomaly Detected
-        Worker->>DB: Insert anomaly record & raise Approval Gate
-    else Clean Score
-        Worker->>DB: Save Finalized Scores & unlock Leaderboard
-    end
+    User->>Frontend: Opens invitation or dashboard
+    Frontend->>Backend: Sends authentication request
+    Backend->>Database: Validates user and token
+    Database-->>Backend: Returns user role and event data
+    Backend-->>Frontend: Sends authorized access
+
+    User->>Frontend: Submits judging score
+    Frontend->>Backend: Sends scorecard
+    Backend->>Database: Stores evaluation
+    Backend->>Worker: Triggers score processing
+    Worker->>Database: Updates leaderboard and anomaly status
 ```
 
 ---
 
-## 🛡️ Security & Sandbox Safeguards
-
-- **Strict Sandbox Interception**: Standard emails are intercepted on staging. If the API key is marked under test, all emails (Welcome, Invite, Credentials) are safely rerouted to **`shubhtech1056@gmail.com`**.
-- **JTI Replay Attack Guard**: All issued tokens include a unique cryptographic token identifier (`jti`) saved in the database. Once used or expired, the identifier is marked `revoked` and cannot be replayed.
-
----
-
-## 📂 Codebase Structure
+## 📁 Project Structure
 
 ```bash
-eventflow/
-├── backend/                  # FastAPI Application Core
+SmartHack/
+│
+├── backend/
 │   ├── app/
-│   │   ├── api/v1/endpoints/ # API Route handlers (mentors, events, anomalies)
-│   │   ├── core/             # JWT Auth, security configurations
-│   │   ├── models/           # SQLAlchemy DB Models (FinalizedTeam, Score, etc.)
-│   │   └── services/         # Email dispatchers & scoring matrix calculations
+│   │   ├── api/              # API routes
+│   │   ├── core/             # Auth and config
+│   │   ├── models/           # Database models
+│   │   ├── schemas/          # Request/response schemas
+│   │   ├── services/         # Business logic
+│   │   └── utils/            # Helper functions
+│   │
 │   └── requirements.txt
-├── frontend/                 # React SPA (Vite)
+│
+├── frontend/
 │   ├── src/
-│   │   ├── components/       # Universal layout structures & Skeletons
-│   │   └── pages/            # Organizers, Participant, and Judge Views
+│   │   ├── components/       # Reusable UI components
+│   │   ├── pages/            # App pages
+│   │   ├── services/         # API calls
+│   │   └── hooks/            # Custom hooks
+│   │
 │   └── package.json
-├── ai_app/                   # Celery & Worker Application
-│   ├── celery_app.py         # Celery configurations
-│   └── tasks/                # Background tasks (LLM analyses, email dispatches)
-└── docker-compose.yml        # Docker Multi-container Orchestration Config
+│
+├── ai_app/
+│   ├── celery_app.py         # Celery configuration
+│   └── tasks/                # Background jobs
+│
+├── docker-compose.yml
+└── README.md
 ```
 
 ---
 
-## 🚀 Quick Start & Orchestration
+## 🧩 Core Modules
 
-### Running Everything Instantly (Docker Compose)
-Ensure you have Docker and Docker Compose installed, then run:
+### Organizer Module
+
+* Create and manage events
+* Track participant data
+* Manage judges
+* Monitor team allocation
+* Review flagged scorecards
+* Control leaderboard publishing
+
+---
+
+### Participant Module
+
+* Access event dashboard
+* View team assignment
+* Submit required details
+* Receive event updates
+* Track event progress
+
+---
+
+### Judge Module
+
+* View assigned teams
+* Submit evaluation scores
+* Use structured judging rubrics
+* Review submitted evaluations
+
+---
+
+### Scoring Module
+
+* Stores judge scorecards
+* Calculates average scores
+* Updates leaderboard
+* Detects scoring anomalies
+* Supports manual review flow
+
+---
+
+### Background Worker Module
+
+* Runs async jobs
+* Processes leaderboard updates
+* Sends emails
+* Performs anomaly checks
+* Handles scheduled tasks
+
+---
+
+## 🛡️ Security Highlights
+
+* JWT authentication for protected routes
+* Magic link based access
+* Unique token identifier for each login link
+* Single-use token validation
+* Role-based route protection
+* Environment-based secret management
+* Secure API request validation
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/OJASWANI-tech/SmartHack.git
+cd SmartHack
+```
+
+---
+
+### 2. Run Using Docker
+
 ```bash
 docker-compose up --build
 ```
-This boots:
-- **FastAPI Backend** on `http://localhost:8000`
-- **React Frontend** on `http://localhost:5173`
-- **PostgreSQL Database** on port `5432`
-- **Redis Cache & Broker** on port `6379`
-- **Celery Worker** queueing task processing
+
+This starts:
+
+* FastAPI backend
+* React frontend
+* PostgreSQL database
+* Redis server
+* Celery worker
 
 ---
 
-### Manual/Local Orchestration Setup
+## 🖥️ Manual Setup
 
-#### 1. Setup Database & Cache
-Create a local PostgreSQL database named `eventflow` and start your local Redis server.
+### Backend Setup
 
-#### 2. Configure Environment variables (`backend/.env`)
-```env
-DATABASE_URL=postgresql+asyncpg://postgres:<your_password>@localhost:5432/eventflow
-RESEND_API_KEY=re_yourAPIKeyHere
-REDIS_URL=redis://localhost:6379
-```
-
-#### 3. Start Backend API
 ```bash
 cd backend
+
 python -m venv venv
+
 source venv/bin/activate
+
 pip install -r requirements.txt
 
-# Synchronize Database schema
-python ../init_db_tables.py
-
-# Start Uvicorn
 uvicorn app.main:app --reload --port 8000
 ```
 
-#### 4. Start Celery Worker
-In a new terminal window:
+For Windows:
+
 ```bash
-cd ai_app
-source ../backend/venv/bin/activate
-celery -A celery_app worker --loglevel=info -Q llm_queue
+venv\Scripts\activate
 ```
 
-#### 5. Start React Dev Server
-In another terminal window:
+---
+
+### Frontend Setup
+
 ```bash
 cd frontend
+
 npm install
+
 npm run dev
 ```
 
 ---
 
-## 🧪 CLI Verification & Diagnostics Tools
+### Celery Worker Setup
 
-EventWiSE comes equipped with CLI scripts to run instant sanity tests on your database environment:
-- **`python seed_data.py`**: Seeds initial mock participants, events, and schedules.
-- **`python check_finalized_teams.py`**: Performs verification audits on finalized team entries and current score snapshots.
-- **`python reset_db.py`**: Truncates transactional tables, resetting identifiers back to 1.
+```bash
+cd ai_app
+
+celery -A celery_app worker --loglevel=info
+```
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file inside the backend folder.
+
+```env
+DATABASE_URL=postgresql+asyncpg://postgres:<password>@localhost:5432/smarthack
+REDIS_URL=redis://localhost:6379
+SECRET_KEY=your_secret_key
+RESEND_API_KEY=your_resend_api_key
+```
+
+---
+
+## 🧪 Utility Scripts
+
+The project can include helper scripts for local development and testing.
+
+```bash
+python seed_data.py
+```
+
+Seeds sample participants, teams, events, and judging data.
+
+```bash
+python reset_db.py
+```
+
+Resets development database tables.
+
+```bash
+python check_finalized_teams.py
+```
+
+Checks team and score consistency.
+
+---
+
+## 📈 Performance Optimizations
+
+* Async backend using FastAPI
+* Redis-based background queue
+* Celery workers for heavy tasks
+* PostgreSQL for structured data storage
+* API separation between frontend and backend
+* Background leaderboard computation
+* Non-blocking email and scoring operations
+
+---
+
+## 📊 Use Cases
+
+SmartHack can be used for:
+
+* College hackathons
+* Coding competitions
+* Innovation challenges
+* Technical fests
+* Ideathons
+* Project evaluation events
+* Multi-round competitions
+
+---
+
+## 🔮 Future Enhancements
+
+* AI-generated judge feedback
+* Plagiarism detection for submissions
+* Real-time event analytics
+* Resume-based participant matching
+* Live notifications
+* Admin analytics dashboard
+* Multi-event organization support
+* Deployment on cloud platforms
+
+---
+
+## 📌 Project Status
+
+SmartHack is designed as a scalable full-stack project for hackathon and event management. It demonstrates backend architecture, frontend development, authentication, database design, background processing, and intelligent automation.
+
+---
+
+## 📄 License
+
+This project is created for learning, portfolio building, and hackathon/event management use cases.
