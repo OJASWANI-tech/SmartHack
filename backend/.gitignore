@@ -1,6 +1,37 @@
+# Python
 venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Environment files
 .env
+backend/.env
+frontend/.env
+
+# Database
 *.db
+
+# macOS
 .DS_Store
+
+# VS Code
+.vscode/
+
+# Node
+node_modules/
+
+# Build folders
+dist/
+build/
+
+# Logs
+*.log
+
+# Cache
+.pytest_cache/
+.mypy_cache/
+
+# OS
+Thumbs.db
