@@ -6,7 +6,6 @@ import ProtectedRoute from './components/common/ProtectedRoute'
 import AdminRoute from './components/common/AdminRoute'
 import AccessDenied from './pages/AccessDenied'
 import Login from './pages/Login'
-import LandingPage from './pages/LandingPage'
 import LinkExpired from './pages/LinkExpired'
 import AuthCallback from './pages/AuthCallback'
 
@@ -144,7 +143,7 @@ function App() {
   return (
     <Routes>
       {/* OPEN ENTRY PASSES */}
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/access-denied" element={<AccessDenied />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
