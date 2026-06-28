@@ -1,4 +1,4 @@
-participants = [
+﻿participants = [
     {
         "id": 1,
         "name": "Aryan Mehta",
@@ -21,7 +21,7 @@ committee = [
     {
         "id": 201,
         "name": "Event Committee",
-        "email": "committee@eventflow.in",
+        "email": "committee@HackSmart.in",
         "role": "committee"
     }
 ]

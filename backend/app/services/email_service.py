@@ -1,4 +1,4 @@
-import os
+﻿import os
 import httpx
 from app.core.config import settings
 
@@ -15,7 +15,7 @@ async def send_magic_link(to: str, link: str, role: str):
 
     # always prints
     print("\n" + "="*60)
-    print(f"  📧 [{role.upper()}] MAGIC LINK")
+    print(f"  ðŸ“§ [{role.upper()}] MAGIC LINK")
     print(f"  To (Original):   {to}")
     print("="*60 + "\n")
 
@@ -51,7 +51,7 @@ async def send_magic_link(to: str, link: str, role: str):
 
 def _build_email(role: str, link: str) -> tuple[str, str]:
     if role == "evaluator":
-        subject = "Your Evaluator Access Link — EventFlow"
+        subject = "Your Evaluator Access Link â€” HackSmart"
         body = f"""
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #7dbbff;">You've been invited as an Evaluator</h2>
@@ -70,7 +70,7 @@ def _build_email(role: str, link: str) -> tuple[str, str]:
         </div>
         """
     elif role == "participant":
-        subject = "Your Participant Access Link — EventFlow"
+        subject = "Your Participant Access Link â€” HackSmart"
         body = f"""
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #7dbbff;">Welcome to the Hackathon!</h2>
@@ -88,7 +88,7 @@ def _build_email(role: str, link: str) -> tuple[str, str]:
         </div>
         """
     else:
-        subject = "Your Access Link — EventFlow"
+        subject = "Your Access Link â€” HackSmart"
         body = f"""
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #7dbbff;">Your Access Link</h2>
@@ -106,9 +106,9 @@ def _build_email(role: str, link: str) -> tuple[str, str]:
 async def send_invite_email(to: str, invite_link: str, inviter_name: str):
     """Send committee invite email via Resend."""
 
-        # ← ADD THIS BLOCK (always prints)
+        # â† ADD THIS BLOCK (always prints)
     print("\n" + "="*60)
-    print(f"  📧 [COMMITTEE INVITE]")
+    print(f"  ðŸ“§ [COMMITTEE INVITE]")
     print(f"  To:      {to}")
     print(f"  From:    {inviter_name}")
     print(f"  Link:    {invite_link}")
@@ -117,11 +117,11 @@ async def send_invite_email(to: str, invite_link: str, inviter_name: str):
     if not settings.RESEND_API_KEY or settings.RESEND_API_KEY.startswith("re_your"):
         return  # dev mode, skip email
     
-    subject = "You've been invited to join the Committee — EventFlow"
+    subject = "You've been invited to join the Committee â€” HackSmart"
     body = f"""
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #7dbbff;">You've been invited to join the Committee</h2>
-        <p>{inviter_name} has invited you to join the EventFlow committee panel.</p>
+        <p>{inviter_name} has invited you to join the HackSmart committee panel.</p>
         <p>Click the button below to set up your account. This link expires in 48 hours.</p>
         <a href="{invite_link}" 
            style="display: inline-block; padding: 12px 24px; background: #7dbbff; 

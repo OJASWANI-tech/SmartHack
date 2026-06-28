@@ -1,4 +1,4 @@
-import asyncio
+﻿import asyncio
 import os
 import sys
 import argparse
@@ -30,14 +30,14 @@ async def update_participant(db: AsyncSession, p_id_str: str, updates: dict):
     try:
         p_id = uuid.UUID(p_id_str)
     except ValueError:
-        print("❌ Invalid UUID format.")
+        print("âŒ Invalid UUID format.")
         return
 
     stmt = select(Participant).where(Participant.id == p_id)
     res = await db.execute(stmt)
     p = res.scalar_one_or_none()
     if not p:
-        print(f"❌ Participant with ID {p_id_str} not found.")
+        print(f"âŒ Participant with ID {p_id_str} not found.")
         return
 
     print("\n--- Current Details ---")
@@ -55,13 +55,13 @@ async def update_participant(db: AsyncSession, p_id_str: str, updates: dict):
             if key == "skill_tags" and isinstance(val, str):
                 val = [s.strip() for s in val.split(",") if s.strip()]
             setattr(p, key, val)
-            print(f"🔄 Updated {key} to: {val}")
+            print(f"ðŸ”„ Updated {key} to: {val}")
 
     await db.commit()
-    print("💾 Updates committed successfully!")
+    print("ðŸ’¾ Updates committed successfully!")
 
 async def main():
-    parser = argparse.ArgumentParser(description="Manage EventFlow Participants")
+    parser = argparse.ArgumentParser(description="Manage HackSmart Participants")
     parser.add_argument("--list", action="store_true", help="List all participants")
     parser.add_argument("--id", type=str, help="Participant UUID to update")
     parser.add_argument("--first-name", type=str, help="Update first name")
@@ -104,7 +104,7 @@ async def main():
             if updates:
                 await update_participant(db, args.id, updates)
             else:
-                print("❌ No updates specified. Provide update flags like --first-name, --skills, etc.")
+                print("âŒ No updates specified. Provide update flags like --first-name, --skills, etc.")
         else:
             parser.print_help()
             
@@ -119,3 +119,4 @@ if __name__ == "__main__":
         asyncio.run(main())
     else:
         asyncio.run(main())
+

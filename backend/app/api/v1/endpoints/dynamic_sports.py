@@ -1,12 +1,12 @@
-"""
-dynamic_sports.py — Sports-track extension of the /api/dynamic runtime engine.
+﻿"""
+dynamic_sports.py â€” Sports-track extension of the /api/dynamic runtime engine.
 
 Adds the structured data the generic dynamic engine (dynamic_runtime.py) doesn't
 model: real fixtures/brackets (DynamicMatch) and roster lineup metadata on top of
-the existing Team/TeamMember/Participant rows that the sports committee intake flow
-already writes via /api/v1/events/{id}/form-teams. This file is purely additive —
+the existing Team/TeamMember/Participant rows that the sports committee intakHackSmart
+already writes via /api/v1/events/{id}/form-teams. This file is purely additive â€”
 it never modifies dynamic_runtime.py, teams.py, or any /committee, /participant,
-/evaluator route — so other event types and the MVP flow are unaffected.
+/evaluator route â€” so other event types and the MVP flow are unaffected.
 
 Routes (prefix /api/dynamic/sports):
   GET  /event/{event_id}/teams                          -> teams + members + roster fields
@@ -79,9 +79,9 @@ async def _load_event(db: AsyncSession, event_id: str) -> Event:
     return event
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Teams + roster
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 def _serialize_team(team: Team) -> dict:
     members = []
     for tm in team.members:
@@ -173,7 +173,7 @@ async def update_roster(event_id: str, team_id: str, req: RosterUpdateRequest, d
 @router.post("/event/{event_id}/teams/upload-csv")
 async def upload_teams_csv(event_id: str, file: UploadFile = File(...), db: AsyncSession = Depends(get_db)):
     """
-    Deterministic team provisioning from a roster CSV — columns: team_name,
+    Deterministic team provisioning from a roster CSV â€” columns: team_name,
     player_name, and optionally email / institution. Unlike the MVP intake
     engine (which randomly balances an uploaded roster into N teams of a given
     size), this creates exactly the teams named in the file, get-or-create on
@@ -263,9 +263,9 @@ async def upload_teams_csv(event_id: str, file: UploadFile = File(...), db: Asyn
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Referees
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 def _serialize_referee(r: DynamicReferee) -> dict:
     return {
         "id": str(r.id),
@@ -287,7 +287,7 @@ def _generate_access_code(taken: set[str]) -> str:
 
 @router.post("/event/{event_id}/referees/upload-csv")
 async def upload_referees_csv(event_id: str, file: UploadFile = File(...), db: AsyncSession = Depends(get_db)):
-    """Provisions referees with a generated access_code — the 'simple profile
+    """Provisions referees with a generated access_code â€” the 'simple profile
     lock' a referee enters on the Referee Console to unlock their queue."""
     event = await _load_event(db, event_id)
     rows = _read_csv_rows(await file.read())
@@ -339,9 +339,9 @@ async def list_referees(event_id: str, db: AsyncSession = Depends(get_db)):
     return [_serialize_referee(r) for r in refs]
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Matches / fixtures / bracket
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async def _team_name_map(db: AsyncSession, event_id) -> dict[str, str]:
     teams = (await db.execute(select(Team).where(Team.event_id == event_id))).scalars().all()
     return {str(t.id): t.name for t in teams}
@@ -442,7 +442,7 @@ async def generate_bracket(event_id: str, req: GenerateBracketRequest, db: Async
                 match_number += 1
         db.add_all(created)
     else:
-        # single_elim — pad to the next power of two with byes (null = bye slot).
+        # single_elim â€” pad to the next power of two with byes (null = bye slot).
         size = 2 ** math.ceil(math.log2(len(team_ids)))
         slots: list[Optional[uuid.UUID]] = list(team_ids) + [None] * (size - len(team_ids))
 
@@ -463,7 +463,7 @@ async def generate_bracket(event_id: str, req: GenerateBracketRequest, db: Async
                     team_b_id=b if round_idx == 0 else None,
                     status="scheduled",
                 )
-                # First round with a bye auto-advances — resolved after wiring next_match_id below.
+                # First round with a bye auto-advances â€” resolved after wiring next_match_id below.
                 round_matches.append(match)
                 created.append(match)
             rounds_matches.append(round_matches)
@@ -602,3 +602,4 @@ async def standings(event_id: str, db: AsyncSession = Depends(get_db)):
     for i, r in enumerate(rows, 1):
         r["rank"] = i
     return {"event_id": str(event.id), "standings": rows}
+

@@ -1,4 +1,4 @@
-from .event import Event
+﻿from .event import Event
 from .stage import Stage
 from .participant import Participant
 from .team import Team
@@ -34,7 +34,7 @@ from .event_team_formation_config import EventTeamFormationConfig
 from .event_budget import EventBudget
 from .event_committee_role import EventCommitteeRole
 from .event_resource_requirement import EventResourceRequirement
-# Dynamic runtime track (parallel to the MVP submission/score flow)
+# Dynamic runtime track (parallel to the MVP submission/scorHackSmart)
 from .dynamic_submission import DynamicSubmission
 from .dynamic_evaluation import DynamicEvaluation
 from .dynamic_match import DynamicMatch
@@ -51,3 +51,4 @@ __all__ = [
     "EventBudget", "EventCommitteeRole", "EventResourceRequirement",
     "DynamicSubmission", "DynamicEvaluation", "DynamicMatch", "DynamicReferee",
 ]
+

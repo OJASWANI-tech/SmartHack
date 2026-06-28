@@ -1,6 +1,6 @@
-# 🚀 SmartHack — Intelligent Hackathon Management Platform
+# 🚀 HackSmart — Intelligent Hackathon Management Platform
 
-SmartHack is a full-stack hackathon management platform built to simplify the complete event workflow — from participant onboarding and team creation to judging, score analysis, leaderboard generation, and organizer control.
+HackSmart is a full-stack hackathon management platform built to simplify the complete event workflow — from participant onboarding and team creation to judging, score analysis, leaderboard generation, and organizer control.
 
 The platform focuses on automation, fairness, and scalability by using secure authentication, background processing, intelligent team matching, and statistical anomaly detection.
 
@@ -21,7 +21,7 @@ The platform focuses on automation, fairness, and scalability by using secure au
 
 Managing a hackathon manually can become difficult when there are many participants, teams, judges, scorecards, and result stages.
 
-SmartHack solves this by providing a centralized platform where organizers can manage events, participants can access their assigned flow, judges can evaluate teams, and the system can automatically process scores and detect unusual judging patterns.
+HackSmart solves this by providing a centralized platform where organizers can manage events, participants can access their assigned flow, judges can evaluate teams, and the system can automatically process scores and detect unusual judging patterns.
 
 ---
 
@@ -39,7 +39,7 @@ SmartHack solves this by providing a centralized platform where organizers can m
 
 ### 🧠 Intelligent Team Matching
 
-SmartHack includes a team formation engine that can group participants based on multiple constraints such as:
+HackSmart includes a team formation engine that can group participants based on multiple constraints such as:
 
 * Skills
 * Experience level
@@ -68,7 +68,7 @@ Supported judging flow:
 
 ### 📊 Score Anomaly Detection
 
-SmartHack uses statistical analysis to detect unusual score patterns during judging.
+HackSmart uses statistical analysis to detect unusual score patterns during judging.
 
 The anomaly detection system checks score variations across parameters such as:
 
@@ -97,7 +97,7 @@ This ensures that organizers, judges, and participants can only access the secti
 
 ### ⚡ Background Processing
 
-SmartHack uses Celery and Redis to handle long-running tasks asynchronously.
+HackSmart uses Celery and Redis to handle long-running tasks asynchronously.
 
 Background tasks include:
 
@@ -154,7 +154,7 @@ sequenceDiagram
 ## 📁 Project Structure
 
 ```bash
-SmartHack/
+HackSmart/
 │
 ├── backend/
 │   ├── app/
@@ -255,8 +255,13 @@ SmartHack/
 ### 1. Clone the Repository
 
 ```bash
+<<<<<<< HEAD
 git clone https://github.com/OJASWANI-tech/SmartHack.git
 cd SmartHack
+=======
+git clone https://github.com/OJASWANI-tech/HackSmart.git
+cd HackSmart
+>>>>>>> c7cbba4 (Update HackSmart branding and configuration)
 ```
 
 ---
@@ -374,7 +379,11 @@ Checks team and score consistency.
 
 ## 📊 Use Cases
 
+<<<<<<< HEAD
 SmartHack can be used for:
+=======
+HackSmart can be used for:
+>>>>>>> c7cbba4 (Update HackSmart branding and configuration)
 
 * College hackathons
 * Coding competitions
@@ -401,7 +410,11 @@ SmartHack can be used for:
 
 ## 📌 Project Status
 
+<<<<<<< HEAD
 SmartHack is designed as a scalable full-stack project for hackathon and event management. It demonstrates backend architecture, frontend development, authentication, database design, background processing, and intelligent automation.
+=======
+HackSmart is designed as a scalable full-stack project for hackathon and event management. It demonstrates backend architecture, frontend development, authentication, database design, background processing, and intelligent automation.
+>>>>>>> c7cbba4 (Update HackSmart branding and configuration)
 
 ---
 

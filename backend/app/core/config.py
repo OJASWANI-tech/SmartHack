@@ -5,7 +5,11 @@ import os
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent  # points to backend/
-load_dotenv(str(BASE_DIR / ".env"), override=True)  # force load .env
+backend_env = BASE_DIR / ".env"
+root_env = BASE_DIR.parent / ".env"
+for env_path in (backend_env, root_env):
+    if env_path.exists():
+        load_dotenv(str(env_path), override=True)
 
 class Settings(BaseSettings):
     DATABASE_URL: str

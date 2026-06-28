@@ -1,13 +1,13 @@
-"""
-config_agent.py — Universal AI Event Architect
+﻿"""
+config_agent.py â€” Universal AI Event Architect
 
 Architecture:
-  1. EXTRACTOR LLM    — converts raw user text -> Universal Event Model JSON
-  2. DEFAULTS ENGINE   — fills in optional fields per event_type, records what it filled
-  3. STAGE TEMPLATES   — deterministic per-event-type workflow (Registration -> ... -> Results)
-  4. CONVERSATION LLM  — natural dialog, asks only for missing CRITICAL fields
-  5. VALIDATOR         — blueprint_validator.py checks model + generated stage pipeline
-  6. COMMIT            — writes Event + Stages + JudgingCriteria + config tables atomically
+  1. EXTRACTOR LLM    â€” converts raw user text -> Universal Event Model JSON
+  2. DEFAULTS ENGINE   â€” fills in optional fields per event_type, records what it filled
+  3. STAGE TEMPLATES   â€” deterministic per-event-type workflow (Registration -> ... -> Results)
+  4. CONVERSATION LLM  â€” natural dialog, asks only for missing CRITICAL fields
+  5. VALIDATOR         â€” blueprint_validator.py checks model + generated stage pipeline
+  6. COMMIT            â€” writes Event + Stages + JudgingCriteria + config tables atomically
 
 Universal Event Model is the ONLY config format. Supports any event type: coding contests,
 hackathons, case competitions, MUNs, debates, sports tournaments, workshops, conferences,
@@ -16,7 +16,7 @@ custom event.
 
 CRITICAL RULE: activities / tracks / committees / competition_categories are content
 groupings, never workflow stages. A sports tournament with cricket/football/badminton
-gets the SAME 7-stage sports workflow regardless of how many sports are named — the
+gets the SAME 7-stage sports workflow regardless of how many sports are named â€” the
 sports themselves are just data attached to the relevant stage's engine_config.
 """
 
@@ -72,9 +72,9 @@ def _make_llm():
 _llm = _make_llm()
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Universal Event Model — schema, type normalization
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Universal Event Model â€” schema, type normalization
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 UNIVERSAL_EVENT_SCHEMA = """
 {
@@ -99,8 +99,8 @@ UNIVERSAL_EVENT_SCHEMA = """
 
   "resources": {
     "budget": {
-      "total": float | null,             // parse out of currency text, e.g. "₹8,00,000" -> 800000
-      "currency": "string",              // infer: ₹/rupees -> INR, $/dollars -> USD, €/euros -> EUR
+      "total": float | null,             // parse out of currency text, e.g. "â‚¹8,00,000" -> 800000
+      "currency": "string",              // infer: â‚¹/rupees -> INR, $/dollars -> USD, â‚¬/euros -> EUR
       "sponsorship_target": float | null,
       "track_expenses": bool,
       "track_sponsorship": bool
@@ -134,7 +134,7 @@ UNIVERSAL_EVENT_SCHEMA = """
     "score_range": [float, float],
     "aggregation": "average" | "weighted_average" | "trimmed_mean",
     "blind_judging": bool,
-    "judge_role_label": "string"   // "Judge" | "Referee" | "Evaluator" — infer from event type
+    "judge_role_label": "string"   // "Judge" | "Referee" | "Evaluator" â€” infer from event type
   },
 
   "special_requirements": ["string"],  // free text, e.g. "needs livestream", "anti-cheat plugin"
@@ -144,7 +144,7 @@ UNIVERSAL_EVENT_SCHEMA = """
   ] | null   // the organizer's own complete ordered stage plan, ONLY when they explicitly
              // describe their own stage-by-stage workflow. Otherwise leave null/empty.
 
-  // "feature_flags" is NOT extracted by the LLM — apply_defaults() fills it in below,
+  // "feature_flags" is NOT extracted by the LLM â€” apply_defaults() fills it in below,
   // e.g. {"anti_cheat_enabled": true, "leaderboard_enabled": true}.
 }
 """
@@ -189,18 +189,18 @@ def normalize_event_type(raw: Optional[str]) -> str:
     return "custom"
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Prompts
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 EXTRACTOR_SYSTEM = f"""You are a structured data extraction engine for a universal event
 configuration system. You receive (1) the current Event Model JSON, possibly partially
 filled or empty {{}}, and (2) the latest user message. Update the model with anything new
 inferable from the message.
 
-CRITICAL RULE — READ THIS FIRST:
+CRITICAL RULE â€” READ THIS FIRST:
 Never put a named activity, track, committee, or competition category into a "stage" or
-"phase" concept — THIS SYSTEM HAS NO PER-ITEM STAGES. Workflow stages (Registration, Judging,
+"phase" concept â€” THIS SYSTEM HAS NO PER-ITEM STAGES. Workflow stages (Registration, Judging,
 Results, etc.) are generated separately, automatically, from event_type alone. Your only job
 for named items is to sort each one into exactly ONE of these flat lists:
   - "activities"             -> sports, games, individual contests run in parallel
@@ -209,36 +209,36 @@ for named items is to sort each one into exactly ONE of these flat lists:
   - "committees"              -> MUN-style committees (e.g. "UNGA", "WHO", "UNSC")
   - "competition_categories" -> case-competition categories (e.g. "Marketing", "Finance", "Strategy")
 Use event_type to decide which list applies. Never invent a stage per item. Never drop an
-item: if the user names 5 sports, all 5 must appear in "activities" — never merge or summarize.
+item: if the user names 5 sports, all 5 must appear in "activities" â€” never merge or summarize.
 
-CUSTOM WORKFLOW STAGES — only when the user explicitly lays out their OWN stage-by-stage
+CUSTOM WORKFLOW STAGES â€” only when the user explicitly lays out their OWN stage-by-stage
 plan (numbered stages, or a clearly named phase breakdown):
-- Extract the user's COMPLETE intended ordered workflow into custom_workflow_stages —
+- Extract the user's COMPLETE intended ordered workflow into custom_workflow_stages â€”
   not just the stages they named, but the full pipeline a committee would run, by mixing:
   (a) standard building blocks, included only when relevant to what's described:
-        Participant Intake          (SUBMISSION) — importing the roster/teams
-        Registration                 (SUBMISSION) — only if intake alone isn't already covering signup
-        Team Formation               (AUTOMATED)  — only if teams must be algorithmically grouped
-        Team Approval                (ASSESSMENT, gate_after=true) — committee sign-off on teams/rosters
-        Referee/Official Assignment (SUBMISSION) — only if referees/judges/officials are mentioned
-        Scoring                      (ASSESSMENT) — live or per-match scoring
-        Standings                    (AUTOMATED)  — automatic leaderboard/table calculation
+        Participant Intake          (SUBMISSION) â€” importing the roster/teams
+        Registration                 (SUBMISSION) â€” only if intake alone isn't already covering signup
+        Team Formation               (AUTOMATED)  â€” only if teams must be algorithmically grouped
+        Team Approval                (ASSESSMENT, gate_after=true) â€” committee sign-off on teams/rosters
+        Referee/Official Assignment (SUBMISSION) â€” only if referees/judges/officials are mentioned
+        Scoring                      (ASSESSMENT) â€” live or per-match scoring
+        Standings                    (AUTOMATED)  â€” automatic leaderboard/table calculation
   (b) the user's own named stages verbatim, in the order given (e.g. "Quarter Finals",
-      "Semi Finals", "Final Match", "Prize Distribution") — these represent actual rounds
+      "Semi Finals", "Final Match", "Prize Distribution") â€” these represent actual rounds
       or ceremonies; use engine_hint MATCHUP for head-to-head rounds, SUBMISSION for
       ceremonies/results.
   Skip any building block the user's description doesn't need (e.g. don't add a separate
   "Registration" stage if "Participant Intake" already covers signup; don't add "Referee
   Assignment" if no officials are mentioned).
-- Order matters — preserve the sequence the user implies or states.
+- Order matters â€” preserve the sequence the user implies or states.
 - Mark gate_after=true on at least one stage representing a final decision point (e.g.
   Team Approval, Final Match, Prize Distribution, Results).
 - If the user does NOT explicitly describe their own stage breakdown, leave
-  custom_workflow_stages null/empty — a deterministic per-event-type default is used instead.
+  custom_workflow_stages null/empty â€” a deterministic per-event-type default is used instead.
 - Never duplicate an activities/tracks/committees/competition_categories item as a stage name.
 
 OTHER RULES:
-- Return ONLY valid JSON matching the schema below — no markdown, no explanation.
+- Return ONLY valid JSON matching the schema below â€” no markdown, no explanation.
 - Never remove a field that already has a value unless the user explicitly changes it.
 - event_type: pick the closest match from coding_contest | hackathon | case_competition | mun |
   debate | sports_tournament | workshop | conference | cultural_festival | technical_festival |
@@ -250,12 +250,12 @@ OTHER RULES:
   sports -> skill_level, availability). Include any factor the user explicitly names too.
 - judging: only populate if the event type has a judging/scoring component (hackathon, case
   competition, startup competition, debate, research symposium, cultural/technical festival
-  competitions). criteria weights must sum to 100 — distribute evenly if unspecified, but the
+  competitions). criteria weights must sum to 100 â€” distribute evenly if unspecified, but the
   conversation agent should still confirm them with the user.
 - judge_role_label: cooking/creative/business judging -> "Judge"; sports -> "Referee"; generic -> "Evaluator".
 - resources: only populate fields the user actually mentioned (budget, staffing, venues,
   equipment, medical/emergency support). Leave the whole block absent otherwise.
-  - resources.budget.total: parse the number out of currency text, e.g. "₹8,00,000" -> 800000.
+  - resources.budget.total: parse the number out of currency text, e.g. "â‚¹8,00,000" -> 800000.
   - resources.requirements: one entry per distinct staffing/venue/equipment/medical need.
 - roles: list every named department/role verbatim (e.g. "Event Director", "Sponsorship Team").
 - deliverables: list anything the participants must produce/submit (e.g. "Pitch Deck",
@@ -269,7 +269,7 @@ SCHEMA:
 {UNIVERSAL_EVENT_SCHEMA}
 """
 
-CONVERSATION_SYSTEM = """You are EventFlow's AI Event Architect — you can configure ANY kind of
+CONVERSATION_SYSTEM = """You are HackSmart's AI Event Architect â€” you can configure ANY kind of
 event: coding contests, hackathons, case competitions, MUNs, debates, sports tournaments,
 workshops, conferences, cultural/technical festivals, startup competitions, research
 symposiums, or anything else an organizer describes.
@@ -277,50 +277,50 @@ symposiums, or anything else an organizer describes.
 YOUR PROCESS, every turn:
 1. Understand what the organizer just told you.
 2. Figure out (or confirm) the event_type.
-3. Sort anything they named into activities / tracks / committees / competition_categories —
+3. Sort anything they named into activities / tracks / committees / competition_categories â€”
    correctly, per event_type (sports -> activities, hackathon -> tracks, MUN -> committees,
    case competition -> competition_categories). NEVER treat a named item as a workflow stage.
 4. Identify what's still CRITICALLY missing (see below) vs. what can be defaulted.
 5. Ask exactly ONE focused question about the single most critical missing piece. Never ask
-   more than one question in a single reply — wait for the answer before asking the next.
+   more than one question in a single reply â€” wait for the answer before asking the next.
 6. Everything else gets a sensible default automatically (you'll see {defaults_applied} once
-   the model has enough to default from) — mention defaults briefly, don't ask permission for them.
+   the model has enough to default from) â€” mention defaults briefly, don't ask permission for them.
 
 CRITICAL FIELDS TO GATHER (ask if missing):
-✓ Event name, event type, one-line description
-✓ Solo or team event
-✓ Expected count: team count (team mode) or participant count (solo mode)
-✓ For team events: team size range (min/max) if not obviously implied by event type defaults
-✓ The relevant content list for this event type (activities/tracks/committees/categories) —
-  confirm you got everyone named, e.g. "Got it — football, basketball, badminton, table tennis,
+âœ“ Event name, event type, one-line description
+âœ“ Solo or team event
+âœ“ Expected count: team count (team mode) or participant count (solo mode)
+âœ“ For team events: team size range (min/max) if not obviously implied by event type defaults
+âœ“ The relevant content list for this event type (activities/tracks/committees/categories) â€”
+  confirm you got everyone named, e.g. "Got it â€” football, basketball, badminton, table tennis,
   chess, and athletics" so nothing looks dropped.
-✓ If the event type has judging (hackathon, case competition, startup competition, debate,
-  research symposium, competitive festival): judging criteria + weights (must sum to 100%) —
+âœ“ If the event type has judging (hackathon, case competition, startup competition, debate,
+  research symposium, competitive festival): judging criteria + weights (must sum to 100%) â€”
   ask only if not already inferable from a generic event-type default.
 
-EVERYTHING ELSE IS OPTIONAL — do not ask unprompted:
-- Resources (budget, staffing, venue, equipment, medical) — only confirm if the user already
+EVERYTHING ELSE IS OPTIONAL â€” do not ask unprompted:
+- Resources (budget, staffing, venue, equipment, medical) â€” only confirm if the user already
   brought it up.
-- Mentors, blind judging, announcement channels, committee approval gates — these get sensible
+- Mentors, blind judging, announcement channels, committee approval gates â€” these get sensible
   defaults per event type; mention them, don't interrogate the user about them.
 
 CONVERSATION RULES:
 - Read the full conversation before every reply. Never re-ask what's been answered.
 - Be conversational, warm, and efficient. Don't sound like a form.
-- Extract aggressively — infer from context rather than asking.
+- Extract aggressively â€” infer from context rather than asking.
 
-VALIDATION ERRORS — HIGHEST PRIORITY:
+VALIDATION ERRORS â€” HIGHEST PRIORITY:
 If {validation_errors} is non-empty, your ENTIRE reply must be about resolving them. Restate
 each error in one plain-language sentence (no raw field names) and ask exactly what's needed.
 Only once {validation_errors} is empty should you move on to anything still missing.
 
-WHEN COMPLETE — output this block immediately (no extra questions):
+WHEN COMPLETE â€” output this block immediately (no extra questions):
 
 ---BLUEPRINT_SUMMARY---
 ## {Event Name}
 **Type:** {event_type} | **Mode:** {solo/team} | **Expected:** {count} | **Timezone:** {tz}
 **Description:** {description}
-**Event Dates:** {start_date} – {end_date} (or TBD) | **Registration Deadline:** {date or TBD}
+**Event Dates:** {start_date} â€“ {end_date} (or TBD) | **Registration Deadline:** {date or TBD}
 
 ---
 
@@ -330,7 +330,7 @@ this section.
 
 ### Workflow Stages
 List every stage in {stage_preview}, in sequence order, one line each:
-`[SEQ]. [Stage Name]` — [Engine type] — [Audience]  {show 🔒 if approval_required}
+`[SEQ]. [Stage Name]` â€” [Engine type] â€” [Audience]  {show ðŸ”’ if approval_required}
 
 ### Participants & Team Formation
 Expected count, team size range (if team mode), matching factors.
@@ -354,7 +354,7 @@ what to change, or click **Regenerate** to rebuild the workflow and defaults."
 CURRENT EVENT MODEL:
 {blueprint}
 
-GENERATED WORKFLOW STAGES (for this event_type, already deterministic — do not invent your own):
+GENERATED WORKFLOW STAGES (for this event_type, already deterministic â€” do not invent your own):
 {stage_preview}
 
 DEFAULTS APPLIED SO FAR:
@@ -365,9 +365,9 @@ VALIDATION ERRORS (if any):
 """
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Pydantic schemas
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class Message(BaseModel):
     role: str   # "user" | "assistant"
     content: str
@@ -411,11 +411,11 @@ class RegenerateRequest(BaseModel):
     draft_id: str
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Stage templates — deterministic per-event-type workflow.
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Stage templates â€” deterministic per-event-type workflow.
 # Activities/tracks/committees/categories are NEVER turned into stages here;
 # they're injected as data into the relevant stage's engine_config instead.
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 class StageSpec(dict):
     """Plain dict subclass for readability: {key, name, engine, audience,
@@ -442,10 +442,10 @@ def _unique_slug(name: str, used: set[str]) -> str:
 
 
 # Each template is an ordered list of stage specs for the ORGANISER portion of the
-# pipeline (system stages — Participant Intake / Team Formation / Team Approval —
+# pipeline (system stages â€” Participant Intake / Team Formation / Team Approval â€”
 # are prepended separately in build_stage_pipeline). `content_field`, if set, means
 # that stage's engine_config gets the named top-level list (activities/tracks/
-# committees/competition_categories) injected — the list itself never becomes stages.
+# committees/competition_categories) injected â€” the list itself never becomes stages.
 STAGE_TEMPLATES: dict[str, list[dict]] = {
     "coding_contest": [
         _stage("dashboard", "Dashboard", "SUBMISSION", audience="both"),
@@ -569,9 +569,9 @@ def required_stage_names(event_type: str) -> list[str]:
     return [s["name"] for s in STAGE_TEMPLATES.get(event_type, STAGE_TEMPLATES["custom"])]
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Defaults engine
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 DEFAULTS_BY_TYPE: dict[str, dict] = {
     "coding_contest": {
@@ -664,13 +664,13 @@ def _set_path(model: dict, path: str, value) -> None:
 
 def apply_defaults(model: dict) -> tuple[dict, dict]:
     """Fills in missing optional fields from DEFAULTS_BY_TYPE[event_type].
-    Returns (updated_model, defaults_applied) — defaults_applied records exactly
+    Returns (updated_model, defaults_applied) â€” defaults_applied records exactly
     which fields were filled and with what value, for the review summary."""
     event_type = normalize_event_type(model.get("event_type"))
     model["event_type"] = event_type
     defaults_applied: dict = {}
 
-    # 🏢 1. Ensure 'participants' exists and handle 'expected_count' default fallback
+    # ðŸ¢ 1. Ensure 'participants' exists and handle 'expected_count' default fallback
     participants = model.get("participants")
     if not isinstance(participants, dict):
         participants = {}
@@ -681,14 +681,14 @@ def apply_defaults(model: dict) -> tuple[dict, dict]:
         participants["expected_count"] = 100  # <--- Change this to any fallback number you prefer
         defaults_applied["participants.expected_count"] = 100
 
-    # 🔄 2. Dynamic schema traversal for paths in DEFAULTS_BY_TYPE
+    # ðŸ”„ 2. Dynamic schema traversal for paths in DEFAULTS_BY_TYPE
     for path, value in DEFAULTS_BY_TYPE.get(event_type, {}).items():
         existing = _get_path(model, path)
         if existing in (None, "", [], {}):
             _set_path(model, path, value)
             defaults_applied[path] = value
 
-    # ⚖️ 3. Judging defaults, only if criteria were given.
+    # âš–ï¸ 3. Judging defaults, only if criteria were given.
     judging = model.get("judging")
     if isinstance(judging, dict) and judging.get("criteria"):
         if not judging.get("score_range"):
@@ -703,9 +703,9 @@ def apply_defaults(model: dict) -> tuple[dict, dict]:
 
     return model, defaults_applied
 
-# ─────────────────────────────────────────────────────────────────────────────
-# build_stage_pipeline — deterministic workflow generation (preview + commit share this)
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# build_stage_pipeline â€” deterministic workflow generation (preview + commit share this)
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def _build_custom_stage_specs(custom_stages: list[dict]) -> list[dict]:
     """Builds StageSpec dicts straight from the organizer's own ordered stage plan
@@ -741,11 +741,11 @@ def _build_custom_stage_specs(custom_stages: list[dict]) -> list[dict]:
 
 def build_stage_pipeline(model: dict) -> list[dict]:
     """Returns ordered StageSpec dicts: {key, name, sequence, engine, audience,
-    approval_required, engine_config, system}. Pure function — no DB, no LLM —
+    approval_required, engine_config, system}. Pure function â€” no DB, no LLM â€”
     so it can be used for both the pre-commit preview and the actual commit.
 
     When the organizer explicitly described their own stage-by-stage workflow
-    (custom_workflow_stages), that ordered list is used as-is — it already
+    (custom_workflow_stages), that ordered list is used as-is â€” it already
     decides for itself which standard building blocks (Participant Intake, Team
     Formation, Team Approval, etc.) to include or skip. Otherwise, falls back to
     the original deterministic system-prefix + per-event-type template, unchanged."""
@@ -800,9 +800,9 @@ def build_stage_pipeline(model: dict) -> list[dict]:
     return specs
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # LLM helpers
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async def _extract_model_llm(user_text: str, current_model: dict) -> dict:
     """Run the extractor LLM to merge user message into the Universal Event Model."""
     if _llm is None:
@@ -822,7 +822,7 @@ async def _extract_model_llm(user_text: str, current_model: dict) -> dict:
         try:
             updated = json.loads(raw)
         except Exception:
-            # Model added stray text around the JSON object — salvage the
+            # Model added stray text around the JSON object â€” salvage the
             # {...} block instead of discarding the whole extraction.
             start, end = raw.find("{"), raw.rfind("}")
             if start == -1 or end == -1 or end <= start:
@@ -855,7 +855,7 @@ def _build_conversation_messages(req_messages: list[Message], model: dict,
         from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
         system = (
             CONVERSATION_SYSTEM
-            .replace("{blueprint}", json.dumps(model, indent=2) if model else "Empty — nothing collected yet.")
+            .replace("{blueprint}", json.dumps(model, indent=2) if model else "Empty â€” nothing collected yet.")
             .replace("{stage_preview}", json.dumps(stage_preview, indent=2) if stage_preview else "None yet.")
             .replace("{defaults_applied}", json.dumps(defaults_applied, indent=2) if defaults_applied else "None yet.")
             .replace("{validation_errors}", "\n".join(validation_errors) if validation_errors else "None")
@@ -878,9 +878,9 @@ def _is_approval(text: str) -> bool:
     return t in keywords or any(kw in t for kw in keywords)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # File processing helpers
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 def _extract_pdf_text(file_content: str) -> str:
     """Extract text from PDF file (base64 encoded)."""
     try:
@@ -936,9 +936,9 @@ def _process_file_message(message: Message) -> str:
     return text.strip()
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Universal-model decomposition — entities / event_details, for persistence + preview
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Universal-model decomposition â€” entities / event_details, for persistence + preview
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def build_entities(model: dict) -> dict:
     return {
@@ -963,9 +963,9 @@ def build_event_details(model: dict) -> dict:
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # DB helpers
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async def _upsert_draft(
     db: AsyncSession,
     draft_id: Optional[str],
@@ -1044,19 +1044,19 @@ def _build_event_from_blueprint(model: dict, committee_member_id: Optional[int],
         configured_at=datetime.now(timezone.utc),
         created_by=committee_member_id,
         # Normalized config lives in Stage/JudgingCriterion/EventScoringConfig/etc,
-        # but the /dynamic-test/* sandbox pages still read stage_config.stages directly —
+        # but the /dynamic-test/* sandbox pages still read stage_config.stages directly â€”
         # build that view too so the chatbot's output actually renders there.
         stage_config=stage_config,
     )
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Dynamic-sandbox bridge — translates the generated stage pipeline into the
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Dynamic-sandbox bridge â€” translates the generated stage pipeline into the
 # stage_config.stages shape the /dynamic-test/* pages (DynamicTestLayout nav,
 # DynamicSandboxCaseConfig form) read. The sandbox form only understands two
 # visual tracks (case-competition, coding-contest); other event types still get
 # a real nav built from their own stage pipeline, just without that form.
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 DEFAULT_TEST_CASES = [
     {"id": 1, "input": "5\n1 2 3 4 5", "output": "15", "weight": 50, "visibility": "public"},
@@ -1130,7 +1130,7 @@ def _build_shared_rules(model: dict) -> dict:
 
 
 # Fixed nav for the /dynamic-test/* sandbox (DynamicTestLayout + its child routes in
-# App.jsx) — that route tree only ever registered these 9 paths, regardless of event
+# App.jsx) â€” that route tree only ever registered these 9 paths, regardless of event
 # type, so this list must stay exactly what it was; it is NOT where the new per-event-type
 # workflow lives (that's build_stage_pipeline -> the real Stage DB rows below). This is
 # purely the legacy bridge for the one case/coding-contest tester UI.
@@ -1159,7 +1159,7 @@ def _build_dynamic_stage_config(model: dict, stage_specs: list[dict]) -> dict:
         "shared_rules": _build_shared_rules(model),
     }
 
-    # 🔄 DYNAMIC NAVBAR: Build layout navigation directly out of the real stage pipeline specs
+    # ðŸ”„ DYNAMIC NAVBAR: Build layout navigation directly out of the real stage pipeline specs
     stages = []
     
     # Always keep an overview dashboard or core entry point at the top of the nav
@@ -1175,7 +1175,7 @@ def _build_dynamic_stage_config(model: dict, stage_specs: list[dict]) -> dict:
     for spec in stage_specs:
         stage_key = spec["key"]  # e.g., 'registration', 'participant_intake', 'peer_review'
 
-        # ✅ Skip duplicate dashboard — the template's "dashboard" stage IS the dashboard
+        # âœ… Skip duplicate dashboard â€” the template's "dashboard" stage IS the dashboard
         # Rename it to "dynamic-dashboard" so DynamicComponentSelector maps it correctly
         if stage_key == "dashboard":
             stage_key = "dynamic-dashboard"
@@ -1210,13 +1210,13 @@ def _build_dynamic_stage_config(model: dict, stage_specs: list[dict]) -> dict:
         "sandbox_track": "coding-contest" if is_coding else ("case-competition" if is_case else "generic"),
         "shared_rules": _build_shared_rules(model),
         "stage_pipeline": stage_specs,
-        "stages": stages,  # ✅ Your sidebar layout will now dynamically loop through these values
+        "stages": stages,  # âœ… Your sidebar layout will now dynamically loop through these values
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Stage row builder — converts the deterministic StageSpec dicts into Stage ORM rows
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Stage row builder â€” converts the deterministic StageSpec dicts into Stage ORM rows
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 ENGINE_TO_STAGE_TYPE = {
     "SUBMISSION": "submission",
@@ -1378,9 +1378,9 @@ def _build_resource_requirements(model: dict, event_id, stages: list[Stage]) -> 
     return rows
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Shared turn processing — defaults + stage preview + validation
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Shared turn processing â€” defaults + stage preview + validation
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def _process_turn(model: dict) -> tuple[dict, dict, list[dict], list[str]]:
     """Runs apply_defaults -> build_stage_pipeline -> validation. Returns
@@ -1396,15 +1396,15 @@ def _process_turn(model: dict) -> tuple[dict, dict, list[dict], list[str]]:
     return model, defaults_applied, stage_specs, errors
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Routes
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @router.post("/init", response_model=ChatResponse)
 async def init_chat(db: AsyncSession = Depends(get_db)):
     """Return the agent's opening greeting."""
     greeting = (
-        "Hi! I'm EventFlow's AI Event Architect. I can configure any kind of event — "
+        "Hi! I'm HackSmart's AI Event Architect. I can configure any kind of event â€” "
         "a coding contest, hackathon, case competition, MUN, debate, sports tournament, "
         "workshop, conference, festival, startup competition, research symposium, or anything "
         "else you have in mind. Just describe the event and I'll ask only what's critical; "
@@ -1464,7 +1464,7 @@ async def chat(req: ChatRequest, db: AsyncSession = Depends(get_db)):
             reply = response.content
         else:
             reply = (
-                "I'm running in offline mode — no LLM API key configured. "
+                "I'm running in offline mode â€” no LLM API key configured. "
                 "Set GROQ_API_KEY to enable the agent."
             )
 
@@ -1505,7 +1505,7 @@ async def chat(req: ChatRequest, db: AsyncSession = Depends(get_db)):
 @router.post("/regenerate", response_model=ChatResponse)
 async def regenerate(req: RegenerateRequest, db: AsyncSession = Depends(get_db)):
     """Re-run defaults + stage-template generation against the draft's current
-    extracted model — no LLM call. Lets the committee rebuild the workflow/defaults
+    extracted model â€” no LLM call. Lets the committee rebuild the workflow/defaults
     preview cheaply after editing fields, without re-describing the whole event."""
     result = await db.execute(select(EventDraft).where(EventDraft.id == uuid.UUID(req.draft_id)))
     draft = result.scalar_one_or_none()
@@ -1548,7 +1548,7 @@ async def commit_event(req: CommitRequest, db: AsyncSession = Depends(get_db)):
 
     model = draft.collected_fields or {}
 
-        # ── Auto-normalize judging weights before validation ───────────────
+        # â”€â”€ Auto-normalize judging weights before validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     # Fixes LLM output where too many criteria were generated and weights
     # don't sum to 1.0 (decimal) or 100.0 (percentage). Normalizes them
     # proportionally so the validator always passes on weight-sum checks.
@@ -1563,7 +1563,7 @@ async def commit_event(req: CommitRequest, db: AsyncSession = Depends(get_db)):
             total_pct = total * 100 if max_w <= 1.0 else total
             if total > 0 and abs(total_pct - 100.0) > 2.0:
                 print(f"[commit] Auto-normalizing {len(criteria)} judging criteria "
-                      f"(weights summed to {total_pct:.1f}% → normalizing to 100%)")
+                      f"(weights summed to {total_pct:.1f}% â†’ normalizing to 100%)")
                 for c in criteria:
                     if c.get("weight") is not None:
                         c["weight"] = round(float(c["weight"]) / total, 4)
@@ -1580,14 +1580,14 @@ async def commit_event(req: CommitRequest, db: AsyncSession = Depends(get_db)):
     if errors:
         print(f"[commit] VALIDATION ERRORS for draft {req.draft_id}:")
         for e in errors:
-            print(f"  ✗ {e}")
+            print(f"  âœ— {e}")
         print(f"[commit] MODEL SNAPSHOT: {json.dumps(model.get('judging'), indent=2)}")  # judging is the usual culprit
         raise HTTPException(
             status_code=422,
             detail={"message": "Event model has validation errors", "errors": errors},
         )
 
-    # ── 1. Stage config (sandbox bridge) + Event ──────────────────────
+    # â”€â”€ 1. Stage config (sandbox bridge) + Event â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     stage_config = _build_dynamic_stage_config(model, stage_specs)
     event = _build_event_from_blueprint(model, req.committee_member_id, stage_config)
     event.event_details = build_event_details(model)
@@ -1596,30 +1596,30 @@ async def commit_event(req: CommitRequest, db: AsyncSession = Depends(get_db)):
     db.add(event)
     await db.flush()
 
-    # ── 2. Stages ───────────────────────────────────────────────────────
+    # â”€â”€ 2. Stages â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     stages = build_stage_rows(stage_specs, event.id)
     for s in stages:
         db.add(s)
     await db.flush()
 
-    # ── 3. Judging Criteria ────────────────────────────────────────────
+    # â”€â”€ 3. Judging Criteria â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     for c in _build_criteria_from_model(model, event.id, stages):
         db.add(c)
 
-    # ── 4. Scoring Config ──────────────────────────────────────────────
+    # â”€â”€ 4. Scoring Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     scoring = _build_scoring_config(model, event.id)
     if scoring:
         db.add(scoring)
 
-    # ── 5. Team Formation Config ───────────────────────────────────────
+    # â”€â”€ 5. Team Formation Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     team_formation = _build_team_formation_config(model, event.id)
     if team_formation:
         db.add(team_formation)
 
-    # ── 6. Portal Config ───────────────────────────────────────────────
+    # â”€â”€ 6. Portal Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     db.add(_build_portal_config(model, event.id, stages))
 
-    # ── 7. Budget / Committee Roles / Resource Requirements ─────────────
+    # â”€â”€ 7. Budget / Committee Roles / Resource Requirements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     budget = _build_event_budget(model, event.id)
     if budget:
         db.add(budget)
@@ -1628,7 +1628,7 @@ async def commit_event(req: CommitRequest, db: AsyncSession = Depends(get_db)):
     for requirement in _build_resource_requirements(model, event.id, stages):
         db.add(requirement)
 
-    # ── 8. EventBlueprint (full model snapshot) ──────────────────────────
+    # â”€â”€ 8. EventBlueprint (full model snapshot) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     blueprint_row = EventBlueprint(
         id=uuid.uuid4(),
         event_id=event.id,
@@ -1639,7 +1639,7 @@ async def commit_event(req: CommitRequest, db: AsyncSession = Depends(get_db)):
     )
     db.add(blueprint_row)
 
-    # ── 9. Mark draft committed ────────────────────────────────────────
+    # â”€â”€ 9. Mark draft committed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     draft.event_id = event.id
     draft.status = "committed"
     draft.approved_at = datetime.now(timezone.utc)

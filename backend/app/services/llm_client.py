@@ -1,4 +1,4 @@
-import json
+﻿import json
 import logging
 from typing import Optional, Dict, Any
 
@@ -158,24 +158,24 @@ class LLMClient:
         else:
             # Plain text cases
 
-            # Chatbot / participant assistant questions — parse context from system_prompt
+            # Chatbot / participant assistant questions â€” parse context from system_prompt
             chatbot_keywords = ["submitted", "submission", "team", "mentor", "stage", "challenge", "evaluation", "announce", "criteria", "rules", "member", "schedule", "upload", "github", "ppt", "video", "session"]
             if any(kw in prompt_lower for kw in chatbot_keywords):
                 # Try to extract and echo back structured submission info from system prompt
                 if "submission" in prompt_lower or "submitted" in prompt_lower or "upload" in prompt_lower:
                     import re
-                    ppt = "Uploaded ✓" if "PPT: Uploaded" in system_prompt else ("Not uploaded ✗" if "PPT:" in system_prompt else "Unknown")
-                    github = "Provided ✓" if "GitHub: Provided" in system_prompt else ("Not provided ✗" if "GitHub:" in system_prompt else "Unknown")
-                    video = "Uploaded ✓" if "Demo Video: Uploaded" in system_prompt else ("Not uploaded ✗" if "Demo Video:" in system_prompt else "Unknown")
+                    ppt = "Uploaded âœ“" if "PPT: Uploaded" in system_prompt else ("Not uploaded âœ—" if "PPT:" in system_prompt else "Unknown")
+                    github = "Provided âœ“" if "GitHub: Provided" in system_prompt else ("Not provided âœ—" if "GitHub:" in system_prompt else "Unknown")
+                    video = "Uploaded âœ“" if "Demo Video: Uploaded" in system_prompt else ("Not uploaded âœ—" if "Demo Video:" in system_prompt else "Unknown")
                     status_match = re.search(r"Status: (\w+)", system_prompt)
                     status = status_match.group(1) if status_match else "unknown"
                     if ppt == "Unknown" and github == "Unknown":
                         return "I don't have a submission record for your team yet. If you've already submitted, please contact the organizers to confirm it was received."
                     return (
                         f"Here's your team's current submission status (status: {status}):\n\n"
-                        f"• Presentation (PPT): {ppt}\n"
-                        f"• GitHub Repository: {github}\n"
-                        f"• Demo Video: {video}\n\n"
+                        f"â€¢ Presentation (PPT): {ppt}\n"
+                        f"â€¢ GitHub Repository: {github}\n"
+                        f"â€¢ Demo Video: {video}\n\n"
                         "If anything is missing, make sure to upload it before the deadline!"
                     )
                 if "mentor" in prompt_lower or "session" in prompt_lower:
@@ -202,9 +202,9 @@ class LLMClient:
                     name = name_match.group(1).strip() if name_match else "your team"
                     members = re.findall(r"- (.+?) \(", system_prompt)
                     if members:
-                        member_list = "\n".join(f"• {m}" for m in members)
+                        member_list = "\n".join(f"â€¢ {m}" for m in members)
                         return f"Your team is **{name}**. Members:\n{member_list}"
-                    return f"Your team is {name}. Member details aren't fully loaded — check the Team section of the portal."
+                    return f"Your team is {name}. Member details aren't fully loaded â€” check the Team section of the portal."
                 return "I found your event context but couldn't parse a specific answer. Please check the portal directly or ask a more specific question."
 
             if "welcome" in prompt_lower:
@@ -214,7 +214,7 @@ class LLMClient:
             if "summary" in prompt_lower or "readme" in prompt_lower:
                 return (
                     "### Project Summary & Analysis\n\n"
-                    "**EventFlow** is an intelligent orchestration platform that utilizes CP-SAT constraint programming for judge-to-team matching. "
+                    "**HackSmart** is an intelligent orchestration platform that utilizes CP-SAT constraint programming for judge-to-team matching. "
                     "The architecture includes a React dashboard connected to a Python backend, and uses PostgreSQL for analytics state storage.\n\n"
                     "#### Strengths:\n"
                     "- Highly robust database design with optimized junction indexes.\n"

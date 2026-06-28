@@ -1,4 +1,4 @@
-import uuid
+﻿import uuid
 import logging
 import json
 from typing import List, Dict, Any, Optional
@@ -99,7 +99,7 @@ async def update_profile(
     await db.commit()
     await db.refresh(evaluator)
     
-    # ─── REGENERATE SCHEDULE TIMETABLES ON AVAILABILITY UPDATE ───
+    # â”€â”€â”€ REGENERATE SCHEDULE TIMETABLES ON AVAILABILITY UPDATE â”€â”€â”€
     try:
         from app.models.evaluation_schedule import EvaluationSchedule
         from app.engines import scheduler
@@ -415,7 +415,7 @@ async def get_assignment_detail(
             team_id=team_id,
             participant_id=uploader_id,
             ppt_url="https://docs.google.com/presentation/d/1t0P7-T4-mock-slide-deck/edit",
-            github_url=f"https://github.com/eventflow-hack/{team.name.lower().replace(' ', '-')}-repo",
+            github_url=f"https://github.com/HackSmart-hack/{team.name.lower().replace(' ', '-')}-repo",
             demo_video_url="https://www.youtube.com/watch?v=mock-pitch-video",
             notes=f"### {team.name} Project Overview\n\nThis project addresses the challenges of tracking event telemetry, scheduling algorithms, and AI calibration metrics in real-time.\n\n**Tech Stack:**\n- Frontend: React, Vite, Vanilla CSS\n- Backend: FastAPI, SQLAlchemy, PostgreSQL\n- Engines: Google OR-Tools CP-SAT Optimizer"
         )
@@ -648,7 +648,7 @@ async def submit_score(
         staging_team.final_score = team.final_calculated_total
         staging_team.evaluation_status = "in_progress"
 
-    # ─── AUTOMATIC SCORE ANOMALY DETECTION ───
+    # â”€â”€â”€ AUTOMATIC SCORE ANOMALY DETECTION â”€â”€â”€
     # Fetch all scores for this team
     scores_res = await db.execute(
         select(Score)
@@ -1051,7 +1051,7 @@ async def get_consensus_deviation(
     Checks if there is a pending or escalated score anomaly in the database for this team.
     Only shows the alert if the evaluator has actually submitted a score for this team.
     """
-    # ⚡ Check if this evaluator has submitted a score for this team before
+    # âš¡ Check if this evaluator has submitted a score for this team before
     score = (await db.execute(
         select(Score).where(
             Score.evaluator_id == evaluator.id,

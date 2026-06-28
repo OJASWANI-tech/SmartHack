@@ -135,7 +135,7 @@ from app.core.limiter import limiter
 from slowapi.errors import RateLimitExceeded
 
 app = FastAPI(
-    title="EventWiSE Backend",
+    title="HackSmart Backend",
     description="Intelligent Event Orchestration System",
     version="1.0.0",
     lifespan=lifespan,
@@ -247,7 +247,7 @@ app.include_router(google_auth_router)
 
 @app.get("/")
 async def root():
-    return {"message": "EventWiSE Backend is running!"}
+    return {"message": "HackSmart Backend is running!"}
 
 @app.get("/health")
 async def health():

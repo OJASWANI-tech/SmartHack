@@ -1,11 +1,11 @@
-"""
-config_agent.py — Event-Agnostic Execution Engine: Config Agent
+﻿"""
+config_agent.py â€” Event-Agnostic Execution Engine: Config Agent
 
 Architecture:
-  1. EXTRACTOR LLM  — converts raw user text → structured Blueprint JSON
-  2. CONVERSATION LLM — natural dialog, validates incrementally, asks clarifying Qs
-  3. VALIDATOR  — blueprint_validator.py checks structural/logical correctness
-  4. COMMIT  — writes Event + Stages + JudgingCriteria + Blueprint to DB atomically
+  1. EXTRACTOR LLM  â€” converts raw user text â†’ structured Blueprint JSON
+  2. CONVERSATION LLM â€” natural dialog, validates incrementally, asks clarifying Qs
+  3. VALIDATOR  â€” blueprint_validator.py checks structural/logical correctness
+  4. COMMIT  â€” writes Event + Stages + JudgingCriteria + Blueprint to DB atomically
 
 Blueprint is the ONLY config format. No fixed 17-field form.
 Supports any event: hackathon, tournament, quiz, cooking showdown, etc.
@@ -56,9 +56,9 @@ def _make_llm():
 _llm = _make_llm()
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Prompts
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 BLUEPRINT_SCHEMA = """
 {
@@ -67,7 +67,7 @@ BLUEPRINT_SCHEMA = """
     "type": "string",         // hackathon | tournament | quiz | cooking_showdown | debate | esports | ...anything
     "description": "string",
     "mode": "solo" | "team",
-    "entity_constraints": {   // OPTIONAL — can be set during CSV intake phase
+    "entity_constraints": {   // OPTIONAL â€” can be set during CSV intake phase
       "min_size": int | null,
       "max_size": int | null,
       "required_roles": ["string"] | null
@@ -114,7 +114,7 @@ BLUEPRINT_SCHEMA = """
       "qualifier_count": int | null,    // how many advance to next phase (infer from context e.g. "top 8 qualify")
       "start_date": "ISO date | null",
       "end_date": "ISO date | null",
-      "config": { /* engine-specific — see below */ }
+      "config": { /* engine-specific â€” see below */ }
     }
   ]
 }
@@ -170,24 +170,24 @@ You receive:
 Your job: update the Blueprint with any new info inferred from the message.
 
 RULES:
-- Return ONLY valid JSON matching this schema — no markdown, no explanation.
+- Return ONLY valid JSON matching this schema â€” no markdown, no explanation.
 - Never remove a field that already has a value unless the user explicitly changes it.
 - For phases: build structured objects. Choose the best engine type:
-    SUBMISSION  → "submit your project", "upload files", "send link", "turn in work"
-    MATCHUP     → "bracket", "tournament", "versus", "1v1", "fixtures", "knockout"
-    ASSESSMENT  → "judging", "scoring", "rubric", "evaluate", "jury", "panel"
-    AUTOMATED   → "quiz", "test", "MCQ", "code challenge", "API test", "online assessment"
+    SUBMISSION  â†’ "submit your project", "upload files", "send link", "turn in work"
+    MATCHUP     â†’ "bracket", "tournament", "versus", "1v1", "fixtures", "knockout"
+    ASSESSMENT  â†’ "judging", "scoring", "rubric", "evaluate", "jury", "panel"
+    AUTOMATED   â†’ "quiz", "test", "MCQ", "code challenge", "API test", "online assessment"
 - ASSESSMENT criteria weights must sum to 100. Distribute evenly if not specified but do ask for them if not provided.
 - If a field cannot be inferred, leave it null or omit it.
-- entity_constraints (min_size, max_size) are OPTIONAL — do NOT set them unless user explicitly states team size.
+- entity_constraints (min_size, max_size) are OPTIONAL â€” do NOT set them unless user explicitly states team size.
 - For team events: store team count in expected_teams, NOT expected_participants.
-  e.g. "16 teams compete" → expected_teams: 16, expected_participants: null
+  e.g. "16 teams compete" â†’ expected_teams: 16, expected_participants: null
 - Infer portal/config fields aggressively from context:
-  - Tournaments → show_leaderboard: true, show_other_teams: true, allow_team_self_form: false
-  - Hackathons → allow_team_self_form: true, blind_judging: false
-  - Cooking/creative → role_label: "Judge", blind_judging: true
-  - Any phase with dates → show_schedule: true
-  - Any MATCHUP or ASSESSMENT phase → approval_gates: true, can_override_scores: true
+  - Tournaments â†’ show_leaderboard: true, show_other_teams: true, allow_team_self_form: false
+  - Hackathons â†’ allow_team_self_form: true, blind_judging: false
+  - Cooking/creative â†’ role_label: "Judge", blind_judging: true
+  - Any phase with dates â†’ show_schedule: true
+  - Any MATCHUP or ASSESSMENT phase â†’ approval_gates: true, can_override_scores: true
 - qualifier_count: if user says "top 8 qualify for next round", set qualifier_count: 8 on the GROUP STAGE phase.
 - MATCHUP phases: set teams_count from qualifier_count of the previous phase if not stated.
 
@@ -195,49 +195,49 @@ SCHEMA:
 {BLUEPRINT_SCHEMA}
 """
 
-CONVERSATION_SYSTEM = """You are EventFlow's intelligent event configuration assistant.
+CONVERSATION_SYSTEM = """You are HackSmart's intelligent event configuration assistant.
 Your goal: gather everything needed to build a complete event blueprint through natural conversation.
 
-THE 4 EXECUTION ENGINES — understand these so you can configure phases correctly:
+THE 4 EXECUTION ENGINES â€” understand these so you can configure phases correctly:
 - SUBMISSION  : collects files, links, or text from participants (e.g. project submissions)
 - MATCHUP     : creates brackets/fixtures (e.g. tournament rounds, 1v1s)
 - ASSESSMENT  : jury/rubric scoring by judges (e.g. judging panels, evaluation rounds)
 - AUTOMATED   : system-run tests (e.g. online quizzes, coding challenges, API tests)
 
-WHAT YOU MUST GATHER (adapt to event type — not all apply):
-✓ Event name, type, description
-✓ Solo or team event
-✓ Expected team count (for team events) OR participant count (for solo events)
-  — Do NOT ask for team size (min/max players per team); that's configured during CSV intake.
-✓ Each phase: name, engine, dates, engine-specific config
+WHAT YOU MUST GATHER (adapt to event type â€” not all apply):
+âœ“ Event name, type, description
+âœ“ Solo or team event
+âœ“ Expected team count (for team events) OR participant count (for solo events)
+  â€” Do NOT ask for team size (min/max players per team); that's configured during CSV intake.
+âœ“ Each phase: name, engine, dates, engine-specific config
   - SUBMISSION: what to accept (file/link/text), required fields, submission window
   - MATCHUP: bracket format, seeding method, how many teams advance from prior phase
   - ASSESSMENT: scoring criteria + % weights (must sum 100%), judges per team, score scale
   - AUTOMATED: type, time limit, pass score
-✓ Registration deadline, key dates
-✓ Portal preferences (only ask if not obvious from context):
+âœ“ Registration deadline, key dates
+âœ“ Portal preferences (only ask if not obvious from context):
   - Should participants see a leaderboard?
   - Should judging be blind (evaluators can't see team names)?
-  - How will participants register — self-registration or CSV upload by committee?
+  - How will participants register â€” self-registration or CSV upload by committee?
 
-INFERRABLE — do NOT ask about these, just infer:
-- Tournaments → leaderboard on, can see other teams, committee approval gates on
-- Any phase with dates → schedule visible to participants
-- MATCHUP/ASSESSMENT phases → committee approval gates enabled
-- Hackathons → teams self-form, leaderboard optional
+INFERRABLE â€” do NOT ask about these, just infer:
+- Tournaments â†’ leaderboard on, can see other teams, committee approval gates on
+- Any phase with dates â†’ schedule visible to participants
+- MATCHUP/ASSESSMENT phases â†’ committee approval gates enabled
+- Hackathons â†’ teams self-form, leaderboard optional
 
 CONVERSATION RULES:
 - Read the full conversation before every reply. Never re-ask what's been answered.
-- Extract aggressively — infer from context.
+- Extract aggressively â€” infer from context.
 - After each message: briefly confirm what you've understood (1 sentence), then ask only what's missing.
 - Ask at most 2-3 missing things per reply, as a natural paragraph (not a bullet list).
 - If organizer says "16 teams", store that as expected_teams = 16, not participants.
 - Be conversational, warm, and efficient. Don't sound like a form.
 
 VALIDATION ERRORS (if any are in {validation_errors}):
-Address them conversationally — explain in plain language and ask for the missing info.
+Address them conversationally â€” explain in plain language and ask for the missing info.
 
-WHEN COMPLETE — output this block immediately (no extra Qs):
+WHEN COMPLETE â€” output this block immediately (no extra Qs):
 
 ---BLUEPRINT_SUMMARY---
 [A clean human-readable summary of the entire event blueprint]
@@ -253,9 +253,9 @@ VALIDATION ERRORS (if any):
 """
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Pydantic schemas
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class Message(BaseModel):
     role: str   # "user" | "assistant"
     content: str
@@ -290,9 +290,9 @@ class CommitResponse(BaseModel):
     message: str
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # LLM helpers
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async def _extract_blueprint_llm(user_text: str, current_blueprint: dict) -> dict:
     """Run the extractor LLM to merge user message into the blueprint."""
     if _llm is None:
@@ -335,7 +335,7 @@ def _build_conversation_messages(req_messages: list[Message], blueprint: dict, v
         from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
         system = (
             CONVERSATION_SYSTEM
-            .replace("{blueprint}", json.dumps(blueprint, indent=2) if blueprint else "Empty — nothing collected yet.")
+            .replace("{blueprint}", json.dumps(blueprint, indent=2) if blueprint else "Empty â€” nothing collected yet.")
             .replace("{validation_errors}", "\n".join(validation_errors) if validation_errors else "None")
         )
         lc = [SystemMessage(content=system)]
@@ -356,9 +356,9 @@ def _is_approval(text: str) -> bool:
     return t in keywords or any(kw in t for kw in keywords)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # DB helpers
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async def _upsert_draft(
     db: AsyncSession,
     draft_id: Optional[str],
@@ -397,9 +397,9 @@ async def _upsert_draft(
     return draft
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Commit helpers — build DB rows from blueprint
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Commit helpers â€” build DB rows from blueprint
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 ENGINE_TO_STAGE_TYPE = {
     "SUBMISSION": "submission",
@@ -558,17 +558,17 @@ def _build_scoring_config(bp: dict, event_id) -> Optional[EventScoringConfig]:
     return None
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # Routes
-# ─────────────────────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @router.post("/init", response_model=ChatResponse)
 async def init_chat(db: AsyncSession = Depends(get_db)):
     """Return the agent's opening greeting."""
     greeting = (
-        "Hi! I'm EventFlow's configuration assistant. I can set up any kind of event — "
+        "Hi! I'm HackSmart's configuration assistant. I can set up any kind of event â€” "
         "a hackathon, sports tournament, cooking showdown, quiz competition, debate, esports bracket, "
-        "case competition — anything. Just describe the event you have in mind and I'll ask "
+        "case competition â€” anything. Just describe the event you have in mind and I'll ask "
         "whatever I need to configure it completely. What are you running?"
     )
     if _llm:
@@ -616,7 +616,7 @@ async def chat(req: ChatRequest, db: AsyncSession = Depends(get_db)):
             reply = response.content
         else:
             reply = (
-                "I'm running in offline mode — no LLM API key configured. "
+                "I'm running in offline mode â€” no LLM API key configured. "
                 "Set ANTHROPIC_API_KEY or GROQ_API_KEY to enable the agent."
             )
 
@@ -675,28 +675,28 @@ async def commit_event(req: CommitRequest, db: AsyncSession = Depends(get_db)):
             detail={"message": "Blueprint has validation errors", "errors": errors},
         )
 
-    # ── 1. Event ─────────────────────────────────────────────────────
+    # â”€â”€ 1. Event â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     event = _build_event_from_blueprint(bp, req.committee_member_id)
     db.add(event)
     await db.flush()
 
-    # ── 2. Stages ─────────────────────────────────────────────────────
+    # â”€â”€ 2. Stages â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     stages = _build_stages_from_blueprint(bp, event.id)
     for s in stages:
         db.add(s)
     await db.flush()
 
-    # ── 3. Judging Criteria ───────────────────────────────────────────
+    # â”€â”€ 3. Judging Criteria â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     criteria = _build_criteria_from_blueprint(bp, event.id, stages)
     for c in criteria:
         db.add(c)
 
-    # ── 4. Scoring Config ─────────────────────────────────────────────
+    # â”€â”€ 4. Scoring Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     scoring = _build_scoring_config(bp, event.id)
     if scoring:
         db.add(scoring)
 
-    # ── 5. EventBlueprint ─────────────────────────────────────────────
+    # â”€â”€ 5. EventBlueprint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     blueprint_row = EventBlueprint(
         id=uuid.uuid4(),
         event_id=event.id,
@@ -707,7 +707,7 @@ async def commit_event(req: CommitRequest, db: AsyncSession = Depends(get_db)):
     )
     db.add(blueprint_row)
 
-    # ── 6. Mark draft committed ───────────────────────────────────────
+    # â”€â”€ 6. Mark draft committed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     draft.event_id = event.id
     draft.status = "committed"
     draft.approved_at = datetime.now(timezone.utc)

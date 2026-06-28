@@ -1,4 +1,4 @@
-import json
+﻿import json
 import logging
 from typing import Optional, List, Dict, Any
 from app.services.llm_client import llm_client
@@ -32,15 +32,15 @@ async def draft_welcome_email(participant: Dict[str, Any], team: Dict[str, Any])
         f"who has been algorithmically placed into team '{team.get('name')}' based on synergistic profiles.\n\n"
         f"Provide the output as a JSON object with 'subject' and 'body' keys."
     )
-    system_prompt = "You are an automated communication assistant for EventFlow hackathons. Keep it inspiring, structured, and helpful."
+    system_prompt = "You are an automated communication assistant for HackSmart hackathons. Keep it inspiring, structured, and helpful."
     try:
         response_text = await llm_client.complete(prompt, system_prompt, json_mode=True)
         return json.loads(response_text)
     except Exception as e:
         logger.error(f"Error parsing welcome email: {e}")
         return {
-            "subject": f"Welcome to your team {team.get('name')} — EventFlow",
-            "body": f"Dear {participant.get('first_name')},\n\nYou have been placed in team {team.get('name')}. Connect with your teammates in the portal!\n\nBest,\nEventFlow Orchestrator"
+            "subject": f"Welcome to your team {team.get('name')} â€” HackSmart",
+            "body": f"Dear {participant.get('first_name')},\n\nYou have been placed in team {team.get('name')}. Connect with your teammates in the portal!\n\nBest,\nHackSmart Orchestrator"
         }
 
 
@@ -83,7 +83,7 @@ async def draft_progression_email(participant: Dict[str, Any], team: Dict[str, A
         f"whose team '{team.get('name')}' placed #{rank} on the leaderboard, qualifying them for the next round of funding/acceleration.\n\n"
         f"Return a JSON object with 'subject' and 'body' keys."
     )
-    system_prompt = "You are the EventFlow director. Keep it extremely formal, congratulatory, and clear on next steps."
+    system_prompt = "You are the HackSmart director. Keep it extremely formal, congratulatory, and clear on next steps."
     try:
         response_text = await llm_client.complete(prompt, system_prompt, json_mode=True)
         return json.loads(response_text)
@@ -91,7 +91,7 @@ async def draft_progression_email(participant: Dict[str, Any], team: Dict[str, A
         logger.error(f"Error parsing progression email: {e}")
         return {
             "subject": f"Congratulations! {team.get('name')} has advanced!",
-            "body": f"Dear {participant.get('first_name')},\n\nYour team placed #{rank} and advances to the next stage. See details in portal.\n\nBest,\nEventFlow Committee"
+            "body": f"Dear {participant.get('first_name')},\n\nYour team placed #{rank} and advances to the next stage. See details in portal.\n\nBest,\nHackSmart Committee"
         }
 
 

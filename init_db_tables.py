@@ -10,7 +10,7 @@ from app.db.base import Base
 from app.models.finalized_team import FinalizedTeam 
 
 # 🔌 Update this connection string if your local PostgreSQL details are different!
-DATABASE_URL = "postgresql+asyncpg://postgres:postgres123@db:5432/EventWiSE"
+DATABASE_URL = "postgresql+asyncpg://postgres:postgres123@db:5432/HackSmart"
 
 
 async def init_models():
