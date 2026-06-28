@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 // Unified icon dictionary matching the Case Competition workspace guidelines
 const STAGE_ICON_MAP = {
-  dashboard: '📊',
-  intake: '📥',
-  teams: '🗂️',
-  mentor: '⏱️',
-  alert: '🚨',
-  results: '🏆',
-  config: '⚙️',
-  judge: '⚖️',
-  live: '📡',
-  gavel: '⚖️',
-  medical: '🩺',
-  waiver: '📄',
+  dashboard: 'ðŸ“Š',
+  intake: 'ðŸ“¥',
+  teams: 'ðŸ—‚ï¸',
+  mentor: 'â±ï¸',
+  alert: 'ðŸš¨',
+  results: 'ðŸ†',
+  config: 'âš™ï¸',
+  judge: 'âš–ï¸',
+  live: 'ðŸ“¡',
+  gavel: 'âš–ï¸',
+  medical: 'ðŸ©º',
+  waiver: 'ðŸ“„',
 }
 
 export default function DynamicCommitteeSidebar() {
@@ -76,8 +76,8 @@ export default function DynamicCommitteeSidebar() {
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem('eventflow_token')
-    localStorage.removeItem('eventflow_mock_role')
+    localStorage.removeItem('HackSmart_token')
+    localStorage.removeItem('HackSmart_mock_role')
     localStorage.removeItem('committee_user')
     navigate('/', { replace: true })
   }
@@ -92,7 +92,7 @@ export default function DynamicCommitteeSidebar() {
           <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <span style={styles.profileName}>ADMIN</span>
             <span style={styles.activeEventLabel} title={eventName}>
-              ● {eventName}
+              â— {eventName}
             </span>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function DynamicCommitteeSidebar() {
         {isLoading ? (
           <div style={styles.loader}>Parsing stage matrix...</div>
         ) : hasError ? (
-          <div style={styles.errorAlert}>⚠️ Config sync failed.</div>
+          <div style={styles.errorAlert}>âš ï¸ Config sync failed.</div>
         ) : stages.length === 0 ? (
           <div style={styles.loader}>No stages found in config.</div>
         ) : (
@@ -124,7 +124,7 @@ export default function DynamicCommitteeSidebar() {
                   }}
                 >
                   <span style={styles.iconSlot}>
-                    {STAGE_ICON_MAP[stage.icon] || '📋'}
+                    {STAGE_ICON_MAP[stage.icon] || 'ðŸ“‹'}
                   </span>
                   <span style={styles.linkLabel}>{stage.display_name}</span>
                 </Link>

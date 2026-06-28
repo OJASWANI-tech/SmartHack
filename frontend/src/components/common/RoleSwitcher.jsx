@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { dashboardByRole } from '../../navigation'
 import { getCurrentRole, setMockRole, VALID_ROLES } from '../../services/auth'
@@ -31,7 +31,7 @@ function RoleSwitcher() {
             const data = await response.json()
             setEvaluators(data || [])
             if (data && data.length > 0) {
-              const currentToken = localStorage.getItem('evaluator_token') || localStorage.getItem('eventflow_token')
+              const currentToken = localStorage.getItem('evaluator_token') || localStorage.getItem('HackSmart_token')
               
               let evaluatorId = null
               if (currentToken && currentToken.split('.').length === 3) {
@@ -201,7 +201,7 @@ function RoleSwitcher() {
       {currentRole === 'evaluator' && evaluators.length > 0 && (
         <select value={activeEvaluatorToken} onChange={handleEvaluatorChange} style={{ background: '#1e293b', color: '#fff', padding: '4px', borderRadius: '6px' }}>
           {evaluators.map(ev => (
-            <option key={ev.id} value={ev.access_token}>{ev.name} ({ev.is_calibrated ? '📊 Calibrated' : '⏳ Pending'})</option>
+            <option key={ev.id} value={ev.access_token}>{ev.name} ({ev.is_calibrated ? 'ðŸ“Š Calibrated' : 'â³ Pending'})</option>
           ))}
         </select>
       )}

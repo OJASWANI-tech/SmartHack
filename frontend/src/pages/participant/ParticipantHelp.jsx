@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+﻿import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ParticipantLayout from '../../components/layout/ParticipantLayout'
 
@@ -15,7 +15,7 @@ export default function ParticipantHelp() {
   
   const getParticipantId = () => {
     try {
-      const token = localStorage.getItem('eventflow_token')
+      const token = localStorage.getItem('HackSmart_token')
       if (token) {
         const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
         if (payload.participant_id) return payload.participant_id
@@ -140,12 +140,12 @@ export default function ParticipantHelp() {
 
   const getSeverityBadge = (sev) => {
     if (sev === 'high') {
-      return <span className="badge" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>🔴 High Severity</span>
+      return <span className="badge" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>ðŸ”´ High Severity</span>
     }
     if (sev === 'medium') {
-      return <span className="badge" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b' }}>🟡 Medium</span>
+      return <span className="badge" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b' }}>ðŸŸ¡ Medium</span>
     }
-    return <span className="badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>🟢 Low</span>
+    return <span className="badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>ðŸŸ¢ Low</span>
   }
 
   const getStatusBadge = (stat) => {
@@ -237,7 +237,7 @@ export default function ParticipantHelp() {
                     }
                   `}</style>
                   <span style={{ fontSize: '12px', color: 'var(--text-primary)', lineHeight: '1.45' }}>
-                    💡 <strong>Get Instant Answers!</strong> For platform queries, schedules, room assignments, or rules, our AI assistant can answer you instantly.
+                    ðŸ’¡ <strong>Get Instant Answers!</strong> For platform queries, schedules, room assignments, or rules, our AI assistant can answer you instantly.
                   </span>
                   <button
                     type="button"
@@ -266,7 +266,7 @@ export default function ParticipantHelp() {
                       e.currentTarget.style.color = '#a78bfa'
                     }}
                   >
-                    🤖 Chat with Ask AI
+                    ðŸ¤– Chat with Ask AI
                   </button>
                 </div>
               )}
@@ -320,7 +320,7 @@ export default function ParticipantHelp() {
                   e.currentTarget.style.color = '#a78bfa'
                 }}
               >
-                {submitting ? 'Submitting...' : '🚀 Submit Grievance'}
+                {submitting ? 'Submitting...' : 'ðŸš€ Submit Grievance'}
               </button>
             </form>
           </section>
@@ -401,7 +401,7 @@ export default function ParticipantHelp() {
                               marginTop: '4px'
                             }}
                           >
-                            🔓 Reopen Grievance
+                            ðŸ”“ Reopen Grievance
                           </button>
                         )}
                       </div>
@@ -417,3 +417,4 @@ export default function ParticipantHelp() {
     </ParticipantLayout>
   )
 }
+

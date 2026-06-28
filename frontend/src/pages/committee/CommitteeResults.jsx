@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, Fragment } from 'react'
+﻿import { useMemo, useState, useEffect, Fragment } from 'react'
 import CommitteeLayout from '../../components/layout/CommitteeLayout'
 import { getFinalizedTeams, sendTargetedAnnouncements } from '../../services/committee'
 
@@ -77,18 +77,18 @@ export default function CommitteeResults() {
 
   const getCustomBody = (teamName, rank) => {
     if (rank === 1) {
-      return `Phenomenal job ${teamName}! Your team dominated the metrics and has officially secured 1st Place on the leaderboard! 🏆 Incredible work building the winning solution. Please check your dashboard for the next milestone steps.`
+      return `Phenomenal job ${teamName}! Your team dominated the metrics and has officially secured 1st Place on the leaderboard! ðŸ† Incredible work building the winning solution. Please check your dashboard for the next milestone steps.`
     }
     if (rank === 2) {
-      return `Outstanding work ${teamName}! You fought hard and officially locked in 2nd Place on the leaderboard! 🥈 The judging panel was thoroughly impressed. Head over to your dashboard to see your phase transition steps.`
+      return `Outstanding work ${teamName}! You fought hard and officially locked in 2nd Place on the leaderboard! ðŸ¥ˆ The judging panel was thoroughly impressed. Head over to your dashboard to see your phase transition steps.`
     }
     if (rank === 3) {
-      return `Huge congratulations ${teamName}! Your team has successfully locked in 3rd Place on the final leaderboard! 🥉 An amazing showing across all evaluation categories. Review your dashboard details for what comes next.`
+      return `Huge congratulations ${teamName}! Your team has successfully locked in 3rd Place on the final leaderboard! ðŸ¥‰ An amazing showing across all evaluation categories. Review your dashboard details for what comes next.`
     }
     return `Great work ${teamName}! The standings are finalized, and your team officially placed at rank #${rank}. Thank you for your incredible effort and contribution to this phase!`
   }
 
-  // ✉️ Progression Invitation Pipeline Handler
+  // âœ‰ï¸ Progression Invitation Pipeline Handler
   async function sendInvitation(teamId, teamName) {
     if (!teamId) return alert("Error: Could not resolve a valid target identity UUID.");
     if (sendingInviteFor !== null) return 
@@ -99,7 +99,7 @@ export default function CommitteeResults() {
     setSendingInviteFor(teamName)
     try {
       await sendTargetedAnnouncements(activeEventId, {
-        subject: `🎉 Official Progression Invitation: ${teamName}`,
+        subject: `ðŸŽ‰ Official Progression Invitation: ${teamName}`,
         body: getCustomBody(teamName, rank), 
         teamId: teamId, 
         includeLeaderboardContext: true 
@@ -108,7 +108,7 @@ export default function CommitteeResults() {
       setInvitations((items) => 
         items.map((item) => item.team === teamName ? { ...item, status: 'Sent' } : item)
       )
-      alert(`🎉 Progression invitation sent cleanly to ${teamName}!`)
+      alert(`ðŸŽ‰ Progression invitation sent cleanly to ${teamName}!`)
     } catch (err) {
      
       alert(err.message || "Failed dispatching targeted announcement pipeline.")
@@ -117,7 +117,7 @@ export default function CommitteeResults() {
     }
   }
 
-  // 📢 Individual Team Urgent Announcement / Broadcast Handler
+  // ðŸ“¢ Individual Team Urgent Announcement / Broadcast Handler
   async function handleIndividualBroadcast(teamId, teamName) {
     if (!teamId) return alert("Error: Missing valid target team identity UUID.");
     
@@ -132,11 +132,11 @@ export default function CommitteeResults() {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('eventflow_token') || ''}`
+          'Authorization': `Bearer ${localStorage.getItem('HackSmart_token') || ''}`
         },
         body: JSON.stringify({
-          title: `🏆 Standings Update for ${teamName}!`,
-          body: `✨ Attention team members! Your final metrics are calculated. You have officially secured Rank #${rank} on the Leaderboard. Check your performance dashboard panel for breakdown parameters!`,
+          title: `ðŸ† Standings Update for ${teamName}!`,
+          body: `âœ¨ Attention team members! Your final metrics are calculated. You have officially secured Rank #${rank} on the Leaderboard. Check your performance dashboard panel for breakdown parameters!`,
           type: "urgent", 
           scope: "Targeted Team",
           teamId: teamId
@@ -144,7 +144,7 @@ export default function CommitteeResults() {
       })
 
       if (response.ok) {
-        alert(`🎉 Standing updates successfully broadcasted to ${teamName}'s dashboard!`)
+        alert(`ðŸŽ‰ Standing updates successfully broadcasted to ${teamName}'s dashboard!`)
         setChecks(prev => ({ ...prev, resultsEmail: true }))
       } else {
         const errData = await response.json()
@@ -209,10 +209,10 @@ export default function CommitteeResults() {
 
     setBroadcasting(true)
 
-    // 🎯 FIX: Remove the hardcoded ASCII line borders that blowout the frontend container width.
+    // ðŸŽ¯ FIX: Remove the hardcoded ASCII line borders that blowout the frontend container width.
     // Use natural spacing and distinct emojis instead for clean vertical flow.
-    let rankingsText = "🏆 OFFICIAL EVENT LEADERBOARD 🏆\n\n" +
-                       `🌟 Top ${selectedTeams.length} Teams 🌟\n\n`;
+    let rankingsText = "ðŸ† OFFICIAL EVENT LEADERBOARD ðŸ†\n\n" +
+                       `ðŸŒŸ Top ${selectedTeams.length} Teams ðŸŒŸ\n\n`;
 
     const getOrdinalLabel = (n) => {
       if (n === 1) return "1st Place";
@@ -221,28 +221,28 @@ export default function CommitteeResults() {
       return `${n}th Place`;
     };
 
-    const medals = ["🥇", "🥈", "🥉", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅", "🏅"];
+    const medals = ["ðŸ¥‡", "ðŸ¥ˆ", "ðŸ¥‰", "ðŸ…", "ðŸ…", "ðŸ…", "ðŸ…", "ðŸ…", "ðŸ…", "ðŸ…"];
 
     selectedTeams.forEach((team, idx) => {
       const rankLabel = getOrdinalLabel(idx + 1);
-      const medal = medals[idx] || "🏅";
-      rankingsText += `${medal} ${rankLabel} ➤ ${team.name}\n`;
+      const medal = medals[idx] || "ðŸ…";
+      rankingsText += `${medal} ${rankLabel} âž¤ ${team.name}\n`;
     });
 
-    rankingsText += "\n🎉 Congratulations to all participating teams!\n\n" +
+    rankingsText += "\nðŸŽ‰ Congratulations to all participating teams!\n\n" +
                     "Your dedication, creativity, and hard work made this event a huge success. Every team brought something valuable to the competition, and these rankings reflect an outstanding performance by our top contenders.\n\n" +
-                    "👏 Keep innovating, keep building, and keep striving for excellence!\n" +
-                    "🚀 See you at the next challenge!";
+                    "ðŸ‘ Keep innovating, keep building, and keep striving for excellence!\n" +
+                    "ðŸš€ See you at the next challenge!";
 
     try {
       const response = await fetch(`http://localhost:8000/api/v1/events/${activeEventId}/broadcasts`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('eventflow_token') || ''}`
+          'Authorization': `Bearer ${localStorage.getItem('HackSmart_token') || ''}`
         },
         body: JSON.stringify({
-          title: `📢 Leaderboard Top ${selectedTeams.length} Announcement!`,
+          title: `ðŸ“¢ Leaderboard Top ${selectedTeams.length} Announcement!`,
           body: rankingsText,
           type: "urgent", 
           scope: "All Participants"
@@ -250,7 +250,7 @@ export default function CommitteeResults() {
       })
 
       if (response.ok) {
-        alert(`🎉 Top ${selectedTeams.length} standings broadcasted cleanly to all dashboards!`)
+        alert(`ðŸŽ‰ Top ${selectedTeams.length} standings broadcasted cleanly to all dashboards!`)
         setChecks(prev => ({ ...prev, leaderboard: true }))
       } else {
         const errData = await response.json()
@@ -321,7 +321,7 @@ export default function CommitteeResults() {
                       }}
                     >
                       <div style={{ fontSize: '36px', marginBottom: '10px' }}>
-                        {rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉'}
+                        {rank === 1 ? 'ðŸ¥‡' : rank === 2 ? 'ðŸ¥ˆ' : 'ðŸ¥‰'}
                       </div>
                       <h3 style={{ margin: '0 0 6px 0', fontSize: '18px', fontWeight: '700', color: 'var(--text-primary)' }}>{team.name}</h3>
                       <strong style={{ fontSize: '20px', color: 'var(--accent-color)', display: 'block', marginBottom: '12px' }}>
@@ -340,7 +340,7 @@ export default function CommitteeResults() {
               </section>
             )}
 
-            {/* 🏆 FULL LEADERBOARD - NO NOTIFY BUTTON HERE */}
+            {/* ðŸ† FULL LEADERBOARD - NO NOTIFY BUTTON HERE */}
             <section className="ref-card full-leaderboard-card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '24px', marginBottom: '32px' }}>
               <div className="ref-section-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '600', color: 'var(--text-primary)' }}>Full Leaderboard</h3>
@@ -361,7 +361,7 @@ export default function CommitteeResults() {
                   </div>
 
                   <button className="action-button-hover" style={{ padding: '6px 14px', border: '1px solid var(--accent-color)', borderRadius: '6px', background: 'var(--accent-color)', color: '#fff', cursor: broadcasting ? 'not-allowed' : 'pointer', fontSize: '13px', fontWeight: '600' }} type="button" disabled={broadcasting} onClick={handleDynamicBroadcast}>
-                    {broadcasting ? 'Broadcasting...' : `📢 Broadcast Top ${topTeamsCount}`}
+                    {broadcasting ? 'Broadcasting...' : `ðŸ“¢ Broadcast Top ${topTeamsCount}`}
                   </button>
                 </div>
               </div>
@@ -399,7 +399,7 @@ export default function CommitteeResults() {
                             <td style={{ padding: '14px 16px', color: 'var(--text-secondary)' }}>{Number(row.panel_average_code || 0).toFixed(1)}</td>
                             <td style={{ padding: '14px 16px', color: 'var(--text-secondary)' }}>{Number(row.panel_average_presentation || 0).toFixed(1)}</td>
                             <td style={{ padding: '14px 16px', color: 'var(--text-secondary)' }}>{Number(row.panel_average_impact || 0).toFixed(1)}</td>
-                            <td style={{ padding: '14px 16px' }}>{row.has_active_anomaly ? <span style={{ color: 'var(--status-warning)', fontWeight: '600' }}>⚠️ Flagged</span> : <span style={{ color: 'var(--text-secondary)' }}>-</span>}</td>
+                            <td style={{ padding: '14px 16px' }}>{row.has_active_anomaly ? <span style={{ color: 'var(--status-warning)', fontWeight: '600' }}>âš ï¸ Flagged</span> : <span style={{ color: 'var(--text-secondary)' }}>-</span>}</td>
                             <td style={{ padding: '14px 16px' }}>
                               <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '12px', fontWeight: '500', background: row.is_corrected ? 'rgba(52, 211, 153, 0.15)' : 'rgba(56, 189, 248, 0.15)', color: row.is_corrected ? 'var(--status-success)' : 'var(--accent-color)', border: `1px solid ${row.is_corrected ? 'rgba(52, 211, 153, 0.2)' : 'rgba(56, 189, 248, 0.2)'}` }}>{row.is_corrected ? 'Resolved' : 'Finalized'}</span>
                             </td>
@@ -443,7 +443,7 @@ export default function CommitteeResults() {
           )}
         </section>
 
-        {/* 🏆 PROGRESSION INVITATIONS SECTION (CLEAN & COHESIVE STYLES) */}
+        {/* ðŸ† PROGRESSION INVITATIONS SECTION (CLEAN & COHESIVE STYLES) */}
         <section className="ref-card invitations-card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '24px', marginBottom: '32px' }}>
           <div className="ref-section-title" style={{ marginBottom: '20px' }}>
             <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '600', color: 'var(--text-primary)' }}>Progression Invitations</h3>
@@ -456,17 +456,17 @@ export default function CommitteeResults() {
               </div>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                {/* 📢 Notify Team Button (Individual Dashboard Broadcast Hook) */}
+                {/* ðŸ“¢ Notify Team Button (Individual Dashboard Broadcast Hook) */}
                 <button 
                   type="button" 
                   className="action-button-hover" 
                   onClick={() => handleIndividualBroadcast(invite.id, invite.team)} 
                   style={{ padding: '8px 14px', border: '1px solid var(--border-color)', borderRadius: '6px', background: 'var(--bg-card)', color: 'var(--text-primary)', cursor: 'pointer', fontSize: '13px', fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                 >
-                  📢 Notify Team
+                  ðŸ“¢ Notify Team
                 </button>
 
-                {/* ✉️ Send Progression Invitation Button (Uniform, Clickable styling) */}
+                {/* âœ‰ï¸ Send Progression Invitation Button (Uniform, Clickable styling) */}
                 <button 
                   className="action-button-hover" 
                   type="button" 
@@ -483,7 +483,7 @@ export default function CommitteeResults() {
                     color: 'var(--text-primary)' 
                   }}
                 >
-                  {sendingInviteFor === invite.team ? 'Sending Invite...' : invite.status !== 'Not Sent' ? '✉️ Resend Invitation' : '✉️ Send Invitation'}
+                  {sendingInviteFor === invite.team ? 'Sending Invite...' : invite.status !== 'Not Sent' ? 'âœ‰ï¸ Resend Invitation' : 'âœ‰ï¸ Send Invitation'}
                 </button>
               </div>
             </div>
@@ -515,7 +515,7 @@ export default function CommitteeResults() {
       {completeModal && (
         <div className="modal-backdrop" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <section className="ref-card confirm-modal" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', padding: '32px', borderRadius: '12px', textAlign: 'center', maxWidth: '420px', width: '100%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.15)' }}>
-            <h3 style={{ marginTop: 0, marginBottom: '12px', fontSize: '20px', fontWeight: '600', color: 'var(--text-primary)' }}>EventFlow Completed 🎉</h3>
+            <h3 style={{ marginTop: 0, marginBottom: '12px', fontSize: '20px', fontWeight: '600', color: 'var(--text-primary)' }}>HackSmart Completed ðŸŽ‰</h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '24px', lineHeight: '1.6' }}>All ranking matrices published successfully. Automated notification worker distributions are locked.</p>
             <button className="action-button-hover modal-action-btn" type="button" onClick={() => setCompleteModal(false)} style={{ width: '100%', padding: '10px', border: '1px solid var(--accent-color)', background: 'var(--accent-color)', color: '#fff', borderRadius: '6px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>Dismiss</button>
           </section>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import ParticipantLayout from '../../components/layout/ParticipantLayout'
 import { fetchDashboard } from '../../api/participant'
 
@@ -48,7 +48,7 @@ function ParticipantProfile() {
     localStorage.setItem('theme', nextTheme)
     document.documentElement.setAttribute('data-theme', nextTheme)
     // Dispatch event so layout top-right toggle updates too
-    window.dispatchEvent(new CustomEvent('eventflow-theme-change', { detail: nextTheme }))
+    window.dispatchEvent(new CustomEvent('HackSmart-theme-change', { detail: nextTheme }))
   };
 
   // Listen to external theme changes (like top-right toggle)
@@ -58,8 +58,8 @@ function ParticipantProfile() {
         setThemeState(e.detail)
       }
     }
-    window.addEventListener('eventflow-theme-change', handleExternalTheme)
-    return () => window.removeEventListener('eventflow-theme-change', handleExternalTheme)
+    window.addEventListener('HackSmart-theme-change', handleExternalTheme)
+    return () => window.removeEventListener('HackSmart-theme-change', handleExternalTheme)
   }, [])
 
   const qStatus = profile?.qualification_status || 'pending'
@@ -86,7 +86,7 @@ function ParticipantProfile() {
 
         {error && (
           <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', color: '#f87171', marginBottom: '20px', fontSize: '13px' }}>
-            ⚠️ Could not load profile: {error}. Make sure your event_id and participant_id are set correctly.
+            âš ï¸ Could not load profile: {error}. Make sure your event_id and participant_id are set correctly.
           </div>
         )}
 
@@ -118,7 +118,7 @@ function ParticipantProfile() {
                 )}
               </div>
               <div style={{ margin: '4px 0 0 0', fontSize: '12px', color: 'var(--text-secondary)' }}>
-                {loading ? <Skeleton width="220px" height="14px" style={{ marginTop: '4px' }} /> : `${profile?.email} • ${profile?.phone || 'No phone number'}`}
+                {loading ? <Skeleton width="220px" height="14px" style={{ marginTop: '4px' }} /> : `${profile?.email} â€¢ ${profile?.phone || 'No phone number'}`}
               </div>
               <small style={{ color: 'var(--text-secondary)', fontSize: '10px' }}>
                 {loading ? <Skeleton width="100px" height="10px" style={{ marginTop: '4px' }} /> : 'Member since 10 May 2024'}
@@ -244,3 +244,4 @@ function ParticipantProfile() {
 }
 
 export default ParticipantProfile
+

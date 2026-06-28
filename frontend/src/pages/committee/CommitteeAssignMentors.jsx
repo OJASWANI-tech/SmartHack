@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+﻿import { useEffect, useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import CommitteeLayout from '../../components/layout/CommitteeLayout'
 import Skeleton from '../../components/common/Skeleton'
@@ -25,15 +25,15 @@ function CommitteeAssignMentors() {
   const [uniqueMentorsPool, setUniqueMentorsPool] = useState([])
 
   // Add this line near the top of your component (after the state declarations)
- // 🎯 FIXED: Button displays if the user is an admin, a sandbox member, OR a standard committee account
+ // ðŸŽ¯ FIXED: Button displays if the user is an admin, a sandbox member, OR a standard committee account
 const isAdmin = 
   getCommitteeRole() === 'admin' || 
-  localStorage.getItem('eventflow_mock_role') === 'dynamic-committee' ||
+  localStorage.getItem('HackSmart_mock_role') === 'dynamic-committee' ||
   getCommitteeRole() === 'committee';
-  // 🔔 Elegant In-App Toast Notification Banner State (Replaces native window.alert)
+  // ðŸ”” Elegant In-App Toast Notification Banner State (Replaces native window.alert)
   const [toast, setToast] = useState({ message: '', type: '' })
 
-  // 📋 Modal confirmation state for unassigned layouts
+  // ðŸ“‹ Modal confirmation state for unassigned layouts
   const [confirmModal, setConfirmModal] = useState({ show: false, unassignedCount: 0 })
 
   // Context-aware notification trigger
@@ -106,7 +106,7 @@ const isAdmin =
         headers: { 'Content-Type': 'multipart/form-data' }
       })
 
-      triggerNotification("🚀 Successfully parsed CSV and distributed mentors evenly across approved structures!", "success")
+      triggerNotification("ðŸš€ Successfully parsed CSV and distributed mentors evenly across approved structures!", "success")
       await loadAllocationData()
     } catch (err) {
       const errorMessage = err.response?.data?.detail || "Failed to process mentor allocation matrix upload."
@@ -170,7 +170,7 @@ const isAdmin =
     try {
       setIsLocking(true)
       await finalizeMentorAllocations(activeEventId)
-      triggerNotification("🏆 Mentor allocations locked successfully! Redirecting dashboard...", "success")
+      triggerNotification("ðŸ† Mentor allocations locked successfully! Redirecting dashboard...", "success")
       setTimeout(() => {
         navigate('/committee/dashboard')
       }, 1500)
@@ -241,7 +241,7 @@ const isAdmin =
 
       <div className="committee-mentor-assignment-view" style={{ padding: '1.5rem', color: 'var(--text-primary)' }}>
         
-        {/* 🔔 ELEGANT TOAST BANNER CONTAINER */}
+        {/* ðŸ”” ELEGANT TOAST BANNER CONTAINER */}
         {toast.message && (
           <div style={{
             background: toast.type === 'success' ? '#e8f5e9' : '#ffebee',
@@ -263,7 +263,7 @@ const isAdmin =
               style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold' }} 
               onClick={() => setToast({ message: '', type: '' })}
             >
-              ×
+              Ã—
             </button>
           </div>
         )}
@@ -300,7 +300,7 @@ const isAdmin =
                   fontSize: '0.85rem'
                 }}
               >
-                {uploadingCsv ? 'Distributing Mentors...' : '📤 Upload Mentors CSV'}
+                {uploadingCsv ? 'Distributing Mentors...' : 'ðŸ“¤ Upload Mentors CSV'}
               </button>
             </>
           )}
@@ -326,7 +326,7 @@ const isAdmin =
         {/* Empty State Guard */}
         {teams.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '4rem 2rem', background: '#1e293b', borderRadius: '8px', border: '1px dashed #334155' }}>
-            <span style={{ fontSize: '2.5rem' }}>👥</span>
+            <span style={{ fontSize: '2.5rem' }}>ðŸ‘¥</span>
             <h3 style={{ margin: '1rem 0 0.5rem 0', color: '#f8fafc' }}>No Finalized Teams Found</h3>
             <p style={{ color: '#94a3b8' }}>Please finalize the team generation step before attempting to allocate mentors.</p>
           </div>
@@ -371,7 +371,7 @@ const isAdmin =
 
                   {team.mentor_email && (
                     <div style={{ background: 'var(--bg-card)', padding: '0.6rem 0.85rem', borderRadius: '6px', marginBottom: '1rem', borderLeft: '3px solid var(--primary)', fontSize: '0.8rem' }}>
-                      👨‍🏫 <strong style={{ color: 'var(--text-primary)' }}>{team.mentor_name}</strong> <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>({team.mentor_company})</span>
+                      ðŸ‘¨â€ðŸ« <strong style={{ color: 'var(--text-primary)' }}>{team.mentor_name}</strong> <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>({team.mentor_company})</span>
                       <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginTop: '0.15rem', marginLeft: '1.4rem' }}>{team.mentor_email}</div>
                     </div>
                   )}
@@ -432,11 +432,11 @@ const isAdmin =
         )}
       </div>
 
-      {/* 📥 IN-APP MODAL INJECTION (Replaces disruptive window.confirm popup) */}
+      {/* ðŸ“¥ IN-APP MODAL INJECTION (Replaces disruptive window.confirm popup) */}
       {confirmModal.show && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1100 }}>
           <section style={{ maxWidth: '440px', width: '90%', background: 'var(--bg-card)', border: '1px solid var(--border-color)', padding: '24px', borderRadius: '12px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.2)' }}>
-            <h3 style={{ margin: '0 0 10px 0', fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>⚠️ Incomplete Mentor Allocation</h3>
+            <h3 style={{ margin: '0 0 10px 0', fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>âš ï¸ Incomplete Mentor Allocation</h3>
             <p style={{ margin: '0 0 20px 0', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
               There are still <strong>{confirmModal.unassignedCount} teams</strong> without an assigned mentor. Do you want to proceed with freezing the configuration matrices anyway?
             </p>

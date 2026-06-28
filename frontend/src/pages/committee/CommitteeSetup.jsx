@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
@@ -30,7 +30,7 @@ useEffect(() => {
   const params = new URLSearchParams(window.location.search)
   const googleToken = params.get('google_token')
   const googleRefresh = params.get('google_refresh')
-  const dbRole = params.get('db_role')   // ✅ ADD THIS LINE
+  const dbRole = params.get('db_role')   // âœ… ADD THIS LINE
   const error = params.get('error')
 
   if (error) {
@@ -40,20 +40,20 @@ useEffect(() => {
 
   if (googleToken) {
     const payload = JSON.parse(atob(googleToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
-    localStorage.setItem('eventflow_token', googleToken)
-    if (googleRefresh) localStorage.setItem('eventflow_refresh_token', googleRefresh)
+    localStorage.setItem('HackSmart_token', googleToken)
+    if (googleRefresh) localStorage.setItem('HackSmart_refresh_token', googleRefresh)
 
-    // ✅ ADD THIS
+    // âœ… ADD THIS
     localStorage.setItem('committee_user', JSON.stringify({
       id: payload.sub,
       email: payload.email,
       role: dbRole || 'member'
     }))
-    localStorage.setItem('eventflow_mock_role', 'committee')
+    localStorage.setItem('HackSmart_mock_role', 'committee')
     setSuccess(true)
     setTimeout(() => navigate('/login', { 
         replace: true,
-        state: { showMemberLogin: true }  // ← add this
+        state: { showMemberLogin: true }  // â† add this
     }), 1800)
   }
 }, [])
@@ -141,13 +141,13 @@ useEffect(() => {
         return
       }
 
-      // Store tokens and role — matches the pattern in auth.js
-      localStorage.setItem('eventflow_token', data.access_token)
-      localStorage.setItem('eventflow_refresh_token', data.refresh_token)
-      localStorage.setItem('eventflow_mock_role', 'committee')
+      // Store tokens and role â€” matches the pattern in auth.js
+      localStorage.setItem('HackSmart_token', data.access_token)
+      localStorage.setItem('HackSmart_refresh_token', data.refresh_token)
+      localStorage.setItem('HackSmart_mock_role', 'committee')
       localStorage.setItem('committee_user', JSON.stringify(data.user))
 
-      // ← ADD THESE to prevent auto-redirect on login page
+      // â† ADD THESE to prevent auto-redirect on login page
       localStorage.removeItem('current_event_id')
       localStorage.removeItem('event_id')
 
@@ -188,13 +188,13 @@ useEffect(() => {
     <main className="access-page">
       <section className="card" style={{ width: 'min(480px, calc(100vw - 40px))' }}>
 
-        {/* ── Header ── */}
-        <p className="eyebrow">EventFlow · Committee Invite</p>
+        {/* â”€â”€ Header â”€â”€ */}
+        <p className="eyebrow">HackSmart Â· Committee Invite</p>
 
         {success ? (
-          /* ── Success state ── */
+          /* â”€â”€ Success state â”€â”€ */
           <div style={{ textAlign: 'center', padding: '24px 0' }}>
-            <div style={{ fontSize: '40px', marginBottom: '12px' }}>✅</div>
+            <div style={{ fontSize: '40px', marginBottom: '12px' }}>âœ…</div>
             <h2 style={{ margin: '0 0 8px' }}>Account Created!</h2>
             <p className="login-copy">
               Your committee account is ready. Redirecting you to login...
@@ -208,7 +208,7 @@ useEffect(() => {
               You've been invited to join the committee. Set your name and password to get started.
             </p>
 
-            {/* ── Error banner ── */}
+            {/* â”€â”€ Error banner â”€â”€ */}
             {error && (
               <div style={{
                 background: 'rgba(248, 113, 113, 0.1)',
@@ -228,14 +228,14 @@ useEffect(() => {
                       onClick={() => navigate('/login')}
                       style={{ background: 'none', border: 'none', color: '#7dbbff', cursor: 'pointer', fontSize: '13px', fontWeight: '600', padding: 0 }}
                     >
-                      Go to Login →
+                      Go to Login â†’
                     </button>
                   </div>
                 ) : error}
               </div>
             )}
 
-            {/* ── Form ── */}
+            {/* â”€â”€ Form â”€â”€ */}
             {token && (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
@@ -319,7 +319,7 @@ useEffect(() => {
                     className="btn-glass-sm-submit"
                     style={{ width: '60%' }}
                   >
-                    {loading ? 'Creating Account...' : 'Create My Account →'}
+                    {loading ? 'Creating Account...' : 'Create My Account â†’'}
                   </button>
 
                   {/* OR divider */}
@@ -379,3 +379,4 @@ useEffect(() => {
     </main>
   )
 }
+

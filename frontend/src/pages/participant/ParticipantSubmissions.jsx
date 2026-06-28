@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import ParticipantLayout from '../../components/layout/ParticipantLayout'
 import { fetchSubmissions, uploadSubmission, updateGithubUrl } from '../../api/participant'
 
@@ -52,12 +52,12 @@ function ParticipantSubmissions() {
     setSubmitting(true)
     setMessage(null)
 
-    // We need a stage_id — fetch it from the journey if not cached
+    // We need a stage_id â€” fetch it from the journey if not cached
     let sid = stageId
     if (!sid) {
       try {
           const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-          const token = localStorage.getItem('eventflow_token')
+          const token = localStorage.getItem('HackSmart_token')
           const payload = token ? JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))) : {}
           const eventId = payload.event_id || localStorage.getItem('current_event_id')
           const participantId = payload.participant_id || localStorage.getItem('participant_id')
@@ -83,9 +83,9 @@ function ParticipantSubmissions() {
         await updateGithubUrl(githubUrl)
       }
       setSubmitted(true)
-      setMessage({ text: '✅ Submission saved successfully!', type: 'success' })
+      setMessage({ text: 'âœ… Submission saved successfully!', type: 'success' })
     } catch (err) {
-      setMessage({ text: `❌ Submission failed: ${err.message}`, type: 'error' })
+      setMessage({ text: `âŒ Submission failed: ${err.message}`, type: 'error' })
     } finally {
       setSubmitting(false)
     }
@@ -97,9 +97,9 @@ function ParticipantSubmissions() {
     setMessage(null)
     try {
       await updateGithubUrl(githubUrl)
-      setMessage({ text: '✅ GitHub URL saved!', type: 'success' })
+      setMessage({ text: 'âœ… GitHub URL saved!', type: 'success' })
     } catch (err) {
-      setMessage({ text: `❌ GitHub save failed: ${err.message}`, type: 'error' })
+      setMessage({ text: `âŒ GitHub save failed: ${err.message}`, type: 'error' })
     } finally {
       setGithubSaving(false)
     }
@@ -123,7 +123,7 @@ function ParticipantSubmissions() {
         <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '20px' }}>
           <article className="ref-mini-card">
             <span className="ref-icon" style={{ background: submitted ? 'rgba(74, 222, 128, 0.1)' : 'rgba(251, 191, 36, 0.1)', color: submitted ? '#4ade80' : '#fbbf24' }}>
-              {submitted ? '✓' : '⏱'}
+              {submitted ? 'âœ“' : 'â±'}
             </span>
             <div>
               <strong>{submitted ? 'Submitted' : 'Pending'}</strong>
@@ -132,11 +132,11 @@ function ParticipantSubmissions() {
             </div>
           </article>
           <article className="ref-mini-card">
-            <span className="ref-icon">📅</span>
+            <span className="ref-icon">ðŸ“…</span>
             <div><strong>Active Stage</strong><p>Deadline</p><small>Submit before stage closes</small></div>
           </article>
           <article className="ref-mini-card">
-            <span className="ref-icon">⚡</span>
+            <span className="ref-icon">âš¡</span>
             <div>
               <strong>{submitted ? '1' : '0'} / 1</strong>
               <p>Limit</p>
@@ -227,3 +227,4 @@ function ParticipantSubmissions() {
 }
 
 export default ParticipantSubmissions
+

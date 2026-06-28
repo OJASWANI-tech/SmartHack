@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from 'react'
+﻿import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import PortalLayout from '../../components/layout/PortalLayout'
 
-// ⚡ ROOT ROUTE WRAPPER — mirrors the Committee Portal's shared shell (PortalLayout)
+// âš¡ ROOT ROUTE WRAPPER â€” mirrors the Committee Portal's shared shell (PortalLayout)
 // so the Dynamic Sandbox Track gets the same glass sidebar, theme toggle, and topbar.
 export default function DynamicTestLayout() {
   const navigate = useNavigate()
@@ -97,7 +97,7 @@ export default function DynamicTestLayout() {
   }, [location.pathname])
 
   const navItems = useMemo(() => {
-    if (isLoading) return [{ type: 'group', label: 'Syncing pipeline…' }]
+    if (isLoading) return [{ type: 'group', label: 'Syncing pipelineâ€¦' }]
     if (hasError) return [{ type: 'group', label: 'Stage sync failed' }]
     if (stages.length === 0) return [{ type: 'group', label: 'No stages configured' }]
 
@@ -130,7 +130,7 @@ export default function DynamicTestLayout() {
 
     const tail = []
     if (eventSubtitle === 'SPORTS TOURNAMENT') {
-      // Sports events don't (yet) carry a dedicated stage_id for this tool —
+      // Sports events don't (yet) carry a dedicated stage_id for this tool â€”
       // surface it unconditionally so it stays reachable regardless of pipeline.
       tail.push({ type: 'group', label: 'SPORTS TOOLS' })
       tail.push({ to: '/dynamic-test/event-initialization', label: 'Event Initialization', icon: 'intake' })
@@ -145,9 +145,9 @@ export default function DynamicTestLayout() {
   }, [isLoading, hasError, stages, eventSubtitle])
 
   const handleLogout = () => {
-    localStorage.removeItem('eventflow_token')
-    localStorage.removeItem('eventflow_refresh_token')
-    localStorage.removeItem('eventflow_mock_role')
+    localStorage.removeItem('HackSmart_token')
+    localStorage.removeItem('HackSmart_refresh_token')
+    localStorage.removeItem('HackSmart_mock_role')
     localStorage.removeItem('committee_user')
     navigate('/login', { replace: true })
   }
@@ -186,7 +186,7 @@ export default function DynamicTestLayout() {
             e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.25)'
           }}
         >
-          🚪 <span className="nav-label">Leave Workspace</span>
+          ðŸšª <span className="nav-label">Leave Workspace</span>
         </button>
       }
     >

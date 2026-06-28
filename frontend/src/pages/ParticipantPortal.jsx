@@ -1,5 +1,5 @@
-/**
- * EventFlow — Participant Portal
+﻿/**
+ * HackSmart â€” Participant Portal
  * Drop this file into: frontend/src/pages/ParticipantPortal.jsx
  *
  * Features:
@@ -17,18 +17,18 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-// ─── HACKATHON KNOWLEDGE BASE (fed to Groq as RAG context) ─────────────────
+// â”€â”€â”€ HACKATHON KNOWLEDGE BASE (fed to Groq as RAG context) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // In production this comes from your backend's vector store / document retrieval.
 // For MVP, this static string covers 95% of participant questions.
 
 const HACKATHON_KB = `
-EVENTFLOW HACKATHON 2025 — RULES & GUIDELINES
+HackSmart HACKATHON 2025 â€” RULES & GUIDELINES
 
 EVENT TIMELINE:
 - May 14: Participant intake and roster finalisation
 - May 15: Algorithmic team formation, committee approval
 - May 16: Teams announced, build phase begins, submission portal opens
-- May 17–18: Active development period
+- May 17â€“18: Active development period
 - May 19: Score consolidation, anomaly review
 - May 20: Progression invitations sent to top 8 teams
 - May 21: Finals
@@ -41,13 +41,13 @@ SUBMISSION REQUIREMENTS:
 - No extensions will be granted
 
 JUDGING CRITERIA (weighted):
-- Innovation: 40% — originality, problem-solving approach
-- Execution: 35% — technical implementation quality, working demo
-- Presentation: 25% — clarity, storytelling, visual design
+- Innovation: 40% â€” originality, problem-solving approach
+- Execution: 35% â€” technical implementation quality, working demo
+- Presentation: 25% â€” clarity, storytelling, visual design
 - Scores are out of 10 per criterion; weighted average gives final score
 
 TEAM RULES:
-- Team size: 3–5 members
+- Team size: 3â€“5 members
 - Maximum 1 member from the same institution per team
 - Mixed skill levels required (beginner + intermediate + advanced)
 - Teams are final; reassignments only via committee decision
@@ -65,12 +65,12 @@ PROGRESSION:
 - Unconfirmed invitations are offered to the next team
 
 SUPPORT:
-- Email: support@eventflow.in
+- Email: support@HackSmart.in
 - Mentor access: via your mentor's email shown in the Team section
 - Response time during event: within 2 hours
 `;
 
-// ─── MOCK DATA ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ MOCK DATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const MOCK_PARTICIPANT = {
   name: "Aryan Mehta",
   first_name: "Aryan",
@@ -94,9 +94,9 @@ const MOCK_PARTICIPANT = {
     mentor: {
       name: "Dr. Priya Nair",
       title: "Principal Engineer, Google DeepMind",
-      email: "mentor7@eventflow.in",
+      email: "mentor7@HackSmart.in",
       initials: "PN",
-      next_session: "Today · 3:00 – 4:00 PM",
+      next_session: "Today Â· 3:00 â€“ 4:00 PM",
     },
   },
   current_stage_index: 2,
@@ -104,7 +104,7 @@ const MOCK_PARTICIPANT = {
     { label: "Intake",       status: "complete", date: "May 14",    desc: "Roster imported, skills tagged." },
     { label: "Teams Formed", status: "complete", date: "May 15",    desc: "Placed in Team Nexus. Committee approved." },
     { label: "Announced",    status: "active",   date: "May 16",    desc: "Build phase active. Submit by 11:59 PM." },
-    { label: "Evaluate",     status: "upcoming", date: "May 17–18", desc: "Judges score on 3 criteria. Anomaly detection runs." },
+    { label: "Evaluate",     status: "upcoming", date: "May 17â€“18", desc: "Judges score on 3 criteria. Anomaly detection runs." },
     { label: "Scores",       status: "upcoming", date: "May 19",    desc: "Results held until committee approves." },
     { label: "Progression",  status: "upcoming", date: "May 20",    desc: "Top 8 teams receive invitations." },
     { label: "Finals",       status: "upcoming", date: "May 21",    desc: "Final presentation round." },
@@ -114,24 +114,24 @@ const MOCK_PARTICIPANT = {
   total_teams: 24,
   qualification_status: "qualified",
   deadlines: [
-    { label: "Code + PPT submission", due: "Today · 11:59 PM", done: false, urgent: true  },
-    { label: "Demo video upload",     due: "Tomorrow · 10 AM", done: false, urgent: false },
+    { label: "Code + PPT submission", due: "Today Â· 11:59 PM", done: false, urgent: true  },
+    { label: "Demo video upload",     due: "Tomorrow Â· 10 AM", done: false, urgent: false },
     { label: "Team registration",     due: "May 15",           done: true,  urgent: false },
   ],
   announcements: [
     { id: 1, title: "Evaluation window open",   body: "Judges are actively reviewing all submissions. Results expected by 6 PM today. Committee will review before publishing.",  time: "2h ago",  type: "urgent" },
     { id: 2, title: "Submission portal closes", body: "Final code + PPT must be submitted before 11:59 PM tonight. Portal locks automatically. No extensions granted.",           time: "5h ago",  type: "urgent" },
-    { id: 3, title: "Mentor session scheduled", body: "Dr. Priya Nair available 3–4 PM today for live review. Use this time before final submission.",                          time: "8h ago",  type: "info"   },
+    { id: 3, title: "Mentor session scheduled", body: "Dr. Priya Nair available 3â€“4 PM today for live review. Use this time before final submission.",                          time: "8h ago",  type: "info"   },
     { id: 4, title: "Teams announced",          body: "All assignments reviewed and approved by committee. Team details, mentor, and challenge description now visible.",         time: "1d ago",  type: "update" },
   ],
   submissions: {
-    ppt:    { status: "pending",   url: null,                                          label: "Presentation (PPT/PDF)",  meta: "Max 20 slides · PDF preferred" },
+    ppt:    { status: "pending",   url: null,                                          label: "Presentation (PPT/PDF)",  meta: "Max 20 slides Â· PDF preferred" },
     github: { status: "submitted", url: "https://github.com/team-nexus/supply-ai",     label: "GitHub repository",       meta: "github.com/team-nexus/supply-ai" },
-    demo:   { status: "pending",   url: null,                                          label: "Demo video",              meta: "Max 5 min · MP4 or YouTube link" },
+    demo:   { status: "pending",   url: null,                                          label: "Demo video",              meta: "Max 5 min Â· MP4 or YouTube link" },
   },
 };
 
-// ─── RAG CHATBOT — calls Groq API via your FastAPI backend ─────────────────
+// â”€â”€â”€ RAG CHATBOT â€” calls Groq API via your FastAPI backend â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function askRAG(question, history) {
   // In production: POST to your FastAPI /chat endpoint which calls Groq
   // For MVP demo with no backend: set import.meta.env.VITE_USE_MOCK_CHAT = "true"
@@ -159,21 +159,21 @@ async function askRAG(question, history) {
 function mockChatResponse(q) {
   const lower = q.toLowerCase();
   if (lower.includes("ppt") || lower.includes("presentation") || lower.includes("format"))
-    return "Submit as **PDF or PPTX** — PDF is strongly preferred to avoid font issues. Maximum 20 slides. Upload via the Submissions tab. Deadline is tonight at 11:59 PM.";
+    return "Submit as **PDF or PPTX** â€” PDF is strongly preferred to avoid font issues. Maximum 20 slides. Upload via the Submissions tab. Deadline is tonight at 11:59 PM.";
   if (lower.includes("scor") || lower.includes("judg") || lower.includes("criteria") || lower.includes("weight"))
-    return "Judging is weighted across 3 criteria:\n\n• **Innovation** — 40%\n• **Execution** — 35%\n• **Presentation** — 25%\n\nEach criterion is scored 0–10 by each judge independently.";
+    return "Judging is weighted across 3 criteria:\n\nâ€¢ **Innovation** â€” 40%\nâ€¢ **Execution** â€” 35%\nâ€¢ **Presentation** â€” 25%\n\nEach criterion is scored 0â€“10 by each judge independently.";
   if (lower.includes("qualif") || lower.includes("progress") || lower.includes("finals") || lower.includes("advance"))
-    return "Top 8 teams (of 24) advance to finals on May 21. You'll receive a progression invitation in this portal and by email. You must confirm within **2 hours** — unconfirmed invitations go to the next team.";
+    return "Top 8 teams (of 24) advance to finals on May 21. You'll receive a progression invitation in this portal and by email. You must confirm within **2 hours** â€” unconfirmed invitations go to the next team.";
   if (lower.includes("anomaly") || lower.includes("flag") || lower.includes("diverge"))
-    return "If two judges differ by more than 2 points on any criterion, the system flags it as an anomaly. Results are held until the committee resolves the flag — they may override, request re-evaluation, or exclude an outlier score.";
+    return "If two judges differ by more than 2 points on any criterion, the system flags it as an anomaly. Results are held until the committee resolves the flag â€” they may override, request re-evaluation, or exclude an outlier score.";
   if (lower.includes("deadline") || lower.includes("when") || lower.includes("due") || lower.includes("submit"))
     return "All submissions (code, PPT, demo video) are due **tonight at 11:59 PM**. The portal locks automatically. No extensions are granted under any circumstances.";
   if (lower.includes("team") && (lower.includes("size") || lower.includes("rule") || lower.includes("how many")))
-    return "Teams are 3–5 members. A maximum of 1 member from the same institution per team. Skill mix must span beginner + intermediate + advanced levels. Teams are final after committee approval.";
-  return "Based on the hackathon guidelines, I'd recommend checking the Submissions tab for deadlines and the Journey tab for your event stage. For anything else, email **support@eventflow.in** — response time is within 2 hours during the event.";
+    return "Teams are 3â€“5 members. A maximum of 1 member from the same institution per team. Skill mix must span beginner + intermediate + advanced levels. Teams are final after committee approval.";
+  return "Based on the hackathon guidelines, I'd recommend checking the Submissions tab for deadlines and the Journey tab for your event stage. For anything else, email **support@HackSmart.in** â€” response time is within 2 hours during the event.";
 }
 
-// ─── FASTAPI BACKEND STUB (add this to your backend/routes/chat.py) ───────────
+// â”€â”€â”€ FASTAPI BACKEND STUB (add this to your backend/routes/chat.py) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 /*
 from fastapi import APIRouter
 from groq import Groq
@@ -197,9 +197,9 @@ async def chat(req: ChatRequest):
     response = client.messages.create(
         model="llama-3.1-8b-instant",
         max_tokens=500,
-        system=f"""You are the EventFlow hackathon assistant.
+        system=f"""You are the HackSmart hackathon assistant.
 Answer questions using ONLY the information in this knowledge base.
-If something isn't covered, say so and direct them to support@eventflow.in.
+If something isn't covered, say so and direct them to support@HackSmart.in.
 Be concise, friendly, and helpful.
 
 KNOWLEDGE BASE:
@@ -209,7 +209,7 @@ KNOWLEDGE BASE:
     return {"answer": response.content[0].text}
 */
 
-// ─── COLOUR TOKENS ────────────────────────────────────────────────────────────
+// â”€â”€â”€ COLOUR TOKENS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const C = {
   bg:     "#0d0d14", bg2: "#13131e", bg3: "#1a1a28",
   border: "#ffffff12", border2: "#ffffff22",
@@ -221,7 +221,7 @@ const C = {
   blue:   "#4fa8e8",  blueDim:   "#4fa8e818",
 };
 
-// ─── TINY SHARED COMPONENTS ───────────────────────────────────────────────────
+// â”€â”€â”€ TINY SHARED COMPONENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Pill({ color, children }) {
   const map = {
     green:  { bg: C.greenDim,  fg: C.green  },
@@ -273,7 +273,7 @@ function Btn({ children, primary, onClick, style }) {
   );
 }
 
-// ─── PARTICIPANT IDENTITY HEADER ──────────────────────────────────────────────
+// â”€â”€â”€ PARTICIPANT IDENTITY HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function IdentityHeader({ participant }) {
   const statusColor = participant.qualification_status === "qualified" ? C.green : C.amber;
   const statusDim   = participant.qualification_status === "qualified" ? C.greenDim : C.amberDim;
@@ -307,7 +307,7 @@ function IdentityHeader({ participant }) {
             fontSize:10, fontWeight:600, padding:"2px 8px", borderRadius:20,
             background:statusDim, color:statusColor,
           }}>
-            ✓ {statusLabel}
+            âœ“ {statusLabel}
           </span>
           <span style={{
             fontSize:10, padding:"2px 8px", borderRadius:20,
@@ -344,7 +344,7 @@ function IdentityHeader({ participant }) {
               {participant.team.name}
             </div>
             <div style={{ fontSize:10, color:C.text3 }}>
-              Rank #{participant.rank} · Score {participant.score}
+              Rank #{participant.rank} Â· Score {participant.score}
             </div>
           </div>
         </div>
@@ -365,7 +365,7 @@ function IdentityHeader({ participant }) {
   );
 }
 
-// ─── TOP NAV ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ TOP NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const NAV_ITEMS = [
   { id:"home",        label:"Home",          icon:"ti-home"      },
   { id:"journey",     label:"Journey",       icon:"ti-timeline"  },
@@ -392,7 +392,7 @@ function TopNav({ active, onNavigate }) {
           fontSize:12, fontWeight:700, color:"#fff",
         }}>EF</div>
         <div>
-          <div style={{ fontSize:13, fontWeight:600, color:C.text }}>EventFlow</div>
+          <div style={{ fontSize:13, fontWeight:600, color:C.text }}>HackSmart</div>
           <div style={{ fontSize:10, color:C.text3 }}>Hackathon 2025</div>
         </div>
       </div>
@@ -424,7 +424,7 @@ function TopNav({ active, onNavigate }) {
   );
 }
 
-// ─── STAGE STRIP ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ STAGE STRIP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function StageStrip({ stages, currentIndex }) {
   const active = stages[currentIndex];
   return (
@@ -437,11 +437,11 @@ function StageStrip({ stages, currentIndex }) {
         <span style={{ width:8, height:8, borderRadius:"50%", background:C.purple, flexShrink:0,
           boxShadow:`0 0 8px ${C.purple}` }} />
         <span style={{ fontSize:11, fontWeight:600, color:C.purpleLight, textTransform:"uppercase",
-          letterSpacing:".04em" }}>Stage {currentIndex+1} · {active.label}</span>
+          letterSpacing:".04em" }}>Stage {currentIndex+1} Â· {active.label}</span>
         <span style={{ width:1, height:14, background:C.border2 }} />
         <span style={{ fontSize:11, color:C.text2 }}>{active.desc}</span>
         <span style={{ width:1, height:14, background:C.border2 }} />
-        <span style={{ fontSize:11, color:C.amber, fontWeight:500 }}>⏱ 16h remaining</span>
+        <span style={{ fontSize:11, color:C.amber, fontWeight:500 }}>â± 16h remaining</span>
       </div>
       {/* Mini progress dots */}
       <div style={{ display:"flex", alignItems:"center", gap:0, flexShrink:0 }}>
@@ -458,7 +458,7 @@ function StageStrip({ stages, currentIndex }) {
                       : s.status==="active"   ? C.purpleLight : C.text3,
               boxShadow: s.status==="active" ? `0 0 10px ${C.purpleDim}` : "none",
             }}>
-              {s.status==="complete" ? "✓" : i+1}
+              {s.status==="complete" ? "âœ“" : i+1}
             </div>
             {i < stages.length-1 && (
               <div style={{ width:20, height:1.5,
@@ -471,7 +471,7 @@ function StageStrip({ stages, currentIndex }) {
   );
 }
 
-// ─── HOME VIEW ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ HOME VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function HomeView({ participant }) {
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
@@ -503,7 +503,7 @@ function HomeView({ participant }) {
                 <div style={{ fontSize:10, color:C.text3, marginTop:1 }}>{d.due}</div>
               </div>
               <Pill color={d.done?"green":d.urgent?"red":"amber"}>
-                {d.done?"✓ Done":d.urgent?"Urgent":"Pending"}
+                {d.done?"âœ“ Done":d.urgent?"Urgent":"Pending"}
               </Pill>
             </div>
           ))}
@@ -531,11 +531,11 @@ function HomeView({ participant }) {
   );
 }
 
-// ─── JOURNEY VIEW ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ JOURNEY VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function JourneyView({ participant }) {
   return (
     <Card style={{ maxWidth:580 }}>
-      <CardTitle>Event lifecycle · your position</CardTitle>
+      <CardTitle>Event lifecycle Â· your position</CardTitle>
       {participant.stages.map((s,i) => {
         const isLast = i === participant.stages.length - 1;
         const isDone = s.status === "complete";
@@ -552,7 +552,7 @@ function JourneyView({ participant }) {
                 color: isDone?"#fff": isActive?C.purpleLight : C.text3,
                 boxShadow: isActive ? `0 0 10px ${C.purpleDim}` : "none",
               }}>
-                {isDone ? "✓" : i+1}
+                {isDone ? "âœ“" : i+1}
               </div>
               {!isLast && (
                 <div style={{ width:1.5, flex:1, marginTop:4,
@@ -562,10 +562,10 @@ function JourneyView({ participant }) {
             <div style={{ paddingTop:2, paddingBottom: isLast?0:4, flex:1 }}>
               <div style={{ fontSize:12, fontWeight: isActive?600:isDone?500:400,
                 color: isActive ? C.purpleLight : isDone ? C.text : C.text3 }}>
-                {s.label}{isActive && " — you are here"}
+                {s.label}{isActive && " â€” you are here"}
               </div>
               <div style={{ fontSize:11, color:C.text3, marginTop:2, lineHeight:1.5 }}>{s.desc}</div>
-              <div style={{ fontSize:10, color:C.text3, marginTop:3 }}>{s.date} · {
+              <div style={{ fontSize:10, color:C.text3, marginTop:3 }}>{s.date} Â· {
                 isDone?"Completed": isActive?"Active":  "Upcoming"
               }</div>
             </div>
@@ -576,14 +576,14 @@ function JourneyView({ participant }) {
   );
 }
 
-// ─── TEAM VIEW ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ TEAM VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function TeamView({ participant }) {
   const { team } = participant;
   return (
     <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
       <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
         <Card>
-          <CardTitle>{team.name} · Challenge</CardTitle>
+          <CardTitle>{team.name} Â· Challenge</CardTitle>
           <div style={{ fontSize:12, color:C.text2, lineHeight:1.6, marginBottom:10 }}>{team.challenge}</div>
           <div style={{ background:C.bg3, border:`1px solid ${C.border}`,
             borderLeft:`2px solid ${C.purple}`, borderRadius:8, padding:"10px 12px" }}>
@@ -606,7 +606,7 @@ function TeamView({ participant }) {
                   {m.name}
                   {m.is_self && <Pill color="purple">you</Pill>}
                 </div>
-                <div style={{ fontSize:10, color:C.text3, marginTop:1 }}>{m.institution} · {m.skills}</div>
+                <div style={{ fontSize:10, color:C.text3, marginTop:1 }}>{m.institution} Â· {m.skills}</div>
               </div>
             </div>
           ))}
@@ -639,19 +639,19 @@ function TeamView({ participant }) {
   );
 }
 
-// ─── SUBMISSIONS VIEW ─────────────────────────────────────────────────────────
+// â”€â”€â”€ SUBMISSIONS VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function SubmissionsView({ participant }) {
   const subs = participant.submissions;
   const items = [
-    { key:"ppt",    icon:"📄", ...subs.ppt    },
-    { key:"github", icon:"🐙", ...subs.github },
-    { key:"demo",   icon:"🎬", ...subs.demo   },
+    { key:"ppt",    icon:"ðŸ“„", ...subs.ppt    },
+    { key:"github", icon:"ðŸ™", ...subs.github },
+    { key:"demo",   icon:"ðŸŽ¬", ...subs.demo   },
   ];
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
       <div style={{ background:C.redDim, border:`1px solid ${C.red}`,
         borderRadius:10, padding:"10px 14px", display:"flex", alignItems:"center", gap:10 }}>
-        <span style={{ fontSize:16, flexShrink:0 }}>⚠️</span>
+        <span style={{ fontSize:16, flexShrink:0 }}>âš ï¸</span>
         <div>
           <div style={{ fontSize:12, fontWeight:600, color:C.red }}>Submission deadline: Today 11:59 PM</div>
           <div style={{ fontSize:11, color:`${C.red}90`, marginTop:1 }}>PPT and demo video still pending. GitHub already submitted.</div>
@@ -672,7 +672,7 @@ function SubmissionsView({ participant }) {
                 <div style={{ fontSize:10, color:C.text3, marginTop:1 }}>{s.meta}</div>
               </div>
               <Pill color={s.status==="submitted"?"green":"amber"}>
-                {s.status==="submitted"?"✓ Done":"Pending"}
+                {s.status==="submitted"?"âœ“ Done":"Pending"}
               </Pill>
               {s.status!=="submitted" && <Btn primary>Upload</Btn>}
             </div>
@@ -711,7 +711,7 @@ function SubmissionsView({ participant }) {
   );
 }
 
-// ─── ANNOUNCEMENTS VIEW ───────────────────────────────────────────────────────
+// â”€â”€â”€ ANNOUNCEMENTS VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function AnnouncementsView({ participant }) {
   const typeColor = { urgent:"red", info:"blue", update:"green" };
   return (
@@ -730,17 +730,17 @@ function AnnouncementsView({ participant }) {
             <span style={{ fontSize:12, fontWeight:600, color:C.text }}>{a.title}</span>
           </div>
           <div style={{ fontSize:11, color:C.text2, lineHeight:1.6 }}>{a.body}</div>
-          <div style={{ fontSize:10, color:C.text3, marginTop:4 }}>{a.time} · Sent by EventFlow system</div>
+          <div style={{ fontSize:10, color:C.text3, marginTop:4 }}>{a.time} Â· Sent by HackSmart system</div>
         </div>
       ))}
     </Card>
   );
 }
 
-// ─── RAG CHATBOT VIEW ─────────────────────────────────────────────────────────
+// â”€â”€â”€ RAG CHATBOT VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function ChatView({ participant }) {
   const [messages, setMessages] = useState([
-    { role:"assistant", content:`Hi ${participant.first_name}! I'm your EventFlow AI assistant, trained on all the hackathon rules, judging criteria, submission guidelines, and FAQs.\n\nWhat do you need help with?` },
+    { role:"assistant", content:`Hi ${participant.first_name}! I'm your HackSmart AI assistant, trained on all the hackathon rules, judging criteria, submission guidelines, and FAQs.\n\nWhat do you need help with?` },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -761,7 +761,7 @@ function ChatView({ participant }) {
       const answer = await askRAG(q, newMsgs);
       setMessages(m => [...m, { role:"assistant", content:answer }]);
     } catch {
-      setError("Chat service unavailable. Email support@eventflow.in for help.");
+      setError("Chat service unavailable. Email support@HackSmart.in for help.");
     } finally {
       setLoading(false);
     }
@@ -784,7 +784,7 @@ function ChatView({ participant }) {
         <span style={{ width:8, height:8, borderRadius:"50%",
           background:C.green, boxShadow:`0 0 6px ${C.green}`, flexShrink:0 }} />
         <span style={{ fontSize:11, color:C.text2 }}>
-          <strong style={{ color:C.text }}>EventFlow AI</strong> · Powered by Groq · Trained on hackathon rules, judging guidelines, and FAQs
+          <strong style={{ color:C.text }}>HackSmart AI</strong> Â· Powered by Groq Â· Trained on hackathon rules, judging guidelines, and FAQs
         </span>
         <span style={{ marginLeft:"auto", fontSize:10, color:C.text3 }}>RAG model</span>
       </div>
@@ -802,7 +802,7 @@ function ChatView({ participant }) {
                   <div style={{ width:16, height:16, borderRadius:"50%", background:C.purple,
                     display:"flex", alignItems:"center", justifyContent:"center",
                     fontSize:8, fontWeight:700, color:"#fff" }}>AI</div>
-                  <span style={{ fontSize:10, color:C.text3 }}>EventFlow AI</span>
+                  <span style={{ fontSize:10, color:C.text3 }}>HackSmart AI</span>
                 </div>
               )}
               <div style={{
@@ -822,7 +822,7 @@ function ChatView({ participant }) {
                 display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, color:"#fff" }}>AI</div>
               <div style={{ background:C.bg3, border:`1px solid ${C.border}`,
                 borderRadius:10, padding:"8px 12px", fontSize:11, color:C.text3 }}>
-                Thinking…
+                Thinkingâ€¦
               </div>
             </div>
           )}
@@ -849,7 +849,7 @@ function ChatView({ participant }) {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key==="Enter" && !e.shiftKey && send()}
-              placeholder="Ask anything about the hackathon…"
+              placeholder="Ask anything about the hackathonâ€¦"
               style={{ flex:1, background:C.bg3, border:`1px solid ${C.border2}`,
                 borderRadius:8, padding:"7px 11px", fontSize:11, color:C.text,
                 outline:"none", boxSizing:"border-box" }}
@@ -861,20 +861,20 @@ function ChatView({ participant }) {
                 border:"none", color:"#fff", cursor:loading?"not-allowed":"pointer",
                 display:"flex", alignItems:"center", justifyContent:"center",
                 fontSize:14, opacity:loading?0.5:1, flexShrink:0 }}>
-              ➤
+              âž¤
             </button>
           </div>
         </div>
       </div>
 
       <div style={{ marginTop:8, fontSize:10, color:C.text3, textAlign:"center" }}>
-        AI responses are based on the hackathon knowledge base. For official rulings, contact support@eventflow.in
+        AI responses are based on the hackathon knowledge base. For official rulings, contact support@HackSmart.in
       </div>
     </div>
   );
 }
 
-// ─── ROOT COMPONENT ───────────────────────────────────────────────────────────
+// â”€â”€â”€ ROOT COMPONENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function ParticipantPortal({ participant = MOCK_PARTICIPANT }) {
   const [activeView, setActiveView] = useState("home");
 
@@ -938,3 +938,4 @@ export default function ParticipantPortal({ participant = MOCK_PARTICIPANT }) {
     </div>
   );
 }
+

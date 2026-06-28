@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Evaluator Portal API Service
  * Manages magic-link authentication, dashboard telemetry, scoreboards, and AI tools.
  */
@@ -6,7 +6,7 @@
 const BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 function getToken() {
-  return localStorage.getItem('evaluator_token') || localStorage.getItem('eventflow_token') || ''
+  return localStorage.getItem('evaluator_token') || localStorage.getItem('HackSmart_token') || ''
 }
 
 async function request(path, options = {}) {
@@ -38,7 +38,7 @@ async function request(path, options = {}) {
   }
 }
 
-// ── GET PROFILE ──
+// â”€â”€ GET PROFILE â”€â”€
 export async function getProfile() {
   try {
     return await request('/api/v1/evaluator/profile')
@@ -48,7 +48,7 @@ export async function getProfile() {
     return {
       id: 'mock-eval-1',
       name: 'Dr. Anand Krishnan',
-      email: 'anand.k@eval.eventflow.in',
+      email: 'anand.k@eval.HackSmart.in',
       weight: 1.20,
       institution: 'IIT Madras',
       domain: 'AI/ML',
@@ -61,7 +61,7 @@ export async function getProfile() {
   }
 }
 
-// ── UPDATE PROFILE ──
+// â”€â”€ UPDATE PROFILE â”€â”€
 export async function updateProfile(profileData) {
   return await request('/api/v1/evaluator/profile', {
     method: 'PUT',
@@ -69,7 +69,7 @@ export async function updateProfile(profileData) {
   })
 }
 
-// ── GET DASHBOARD SUMMARY ──
+// â”€â”€ GET DASHBOARD SUMMARY â”€â”€
 export async function getDashboardSummary() {
   try {
     return await request('/api/v1/evaluator/dashboard')
@@ -84,7 +84,7 @@ export async function getDashboardSummary() {
   }
 }
 
-// ── LIST ASSIGNMENTS ──
+// â”€â”€ LIST ASSIGNMENTS â”€â”€
 export async function getAssignments() {
   try {
     return await request('/api/v1/evaluator/assignments')
@@ -130,7 +130,7 @@ export async function getAssignments() {
   }
 }
 
-// ── GET ASSIGNMENT DETAIL (WORKSPACE DATASET) ──
+// â”€â”€ GET ASSIGNMENT DETAIL (WORKSPACE DATASET) â”€â”€
 export async function getAssignmentDetail(teamId) {
   try {
     return await request(`/api/v1/evaluator/assignments/${teamId}`)
@@ -147,7 +147,7 @@ export async function getAssignmentDetail(teamId) {
       },
       submission: {
         ppt_url: 'https://docs.google.com/presentation/d/mock-deck/edit',
-        github_url: 'https://github.com/eventflow-hack/team-nexus-repo',
+        github_url: 'https://github.com/HackSmart-hack/team-nexus-repo',
         demo_video_url: 'https://youtube.com/watch?v=mock_video',
         notes: '### Team Nexus Submission\n\nThis application is a highly scalable, enterprise orchestration solution built for the hackathon event.',
         submitted_at: new Date().toISOString()
@@ -178,7 +178,7 @@ export async function getAssignmentDetail(teamId) {
   }
 }
 
-// ── SUBMIT SCORE CARD ──
+// â”€â”€ SUBMIT SCORE CARD â”€â”€
 export async function submitScore(scoreData) {
   return await request('/api/v1/evaluator/scores', {
     method: 'POST',
@@ -186,7 +186,7 @@ export async function submitScore(scoreData) {
   })
 }
 
-// ── GET SCORE HISTORY ──
+// â”€â”€ GET SCORE HISTORY â”€â”€
 export async function getScoreHistory() {
   try {
     return await request('/api/v1/evaluator/history')
@@ -216,7 +216,7 @@ export async function getScoreHistory() {
   }
 }
 
-// ── REQUEST RE-EVALUATION / RESCORE ──
+// â”€â”€ REQUEST RE-EVALUATION / RESCORE â”€â”€
 export async function requestRescore(teamId, reason) {
   try {
     return await request('/api/v1/evaluator/request-rescore', {
@@ -228,7 +228,7 @@ export async function requestRescore(teamId, reason) {
   }
 }
 
-// ── AI PROJECT SUMMARY ──
+// â”€â”€ AI PROJECT SUMMARY â”€â”€
 export async function fetchAIProjectSummary(teamId) {
   try {
     return await request(`/api/v1/evaluator/ai/summary/${teamId}`)
@@ -239,7 +239,7 @@ export async function fetchAIProjectSummary(teamId) {
   }
 }
 
-// ── AI RUBRIC HINTS ──
+// â”€â”€ AI RUBRIC HINTS â”€â”€
 export async function fetchAIRubricHints(teamId) {
   try {
     return await request(`/api/v1/evaluator/ai/rubric-hints/${teamId}`)
@@ -250,7 +250,7 @@ export async function fetchAIRubricHints(teamId) {
   }
 }
 
-// ── AI STRUCTURE FEEDBACK ──
+// â”€â”€ AI STRUCTURE FEEDBACK â”€â”€
 export async function structureFeedback(rawNotes, criteriaScores) {
   try {
     return await request(`/api/v1/evaluator/ai/structure-feedback?raw_notes=${encodeURIComponent(rawNotes)}&criteria_scores=${encodeURIComponent(JSON.stringify(criteriaScores))}`, {
@@ -265,7 +265,7 @@ export async function structureFeedback(rawNotes, criteriaScores) {
   }
 }
 
-// ── BIAS CALIBRATION ──
+// â”€â”€ BIAS CALIBRATION â”€â”€
 export async function getBiasCalibration() {
   try {
     return await request('/api/v1/evaluator/bias-calibration')
@@ -278,7 +278,7 @@ export async function getBiasCalibration() {
   }
 }
 
-// ── AI DEVIL'S ADVOCATE QUESTIONS ──
+// â”€â”€ AI DEVIL'S ADVOCATE QUESTIONS â”€â”€
 export async function getDevilsAdvocate(teamId) {
   try {
     return await request(`/api/v1/evaluator/devils-advocate/${teamId}`)
@@ -293,7 +293,7 @@ export async function getDevilsAdvocate(teamId) {
   }
 }
 
-// ── GITHUB FOOTPRINT HEATMAP ──
+// â”€â”€ GITHUB FOOTPRINT HEATMAP â”€â”€
 export async function getGithubHeatmap(teamId) {
   try {
     return await request(`/api/v1/evaluator/github-heatmap/${teamId}`)
@@ -318,7 +318,7 @@ export async function getGithubHeatmap(teamId) {
   }
 }
 
-// ── BLIND CONSENSUS DEVIATION WARNING ──
+// â”€â”€ BLIND CONSENSUS DEVIATION WARNING â”€â”€
 export async function getConsensus(teamId) {
   try {
     return await request(`/api/v1/evaluator/consensus/${teamId}`)
@@ -329,3 +329,4 @@ export async function getConsensus(teamId) {
     }
   }
 }
+

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, useRef } from "react";
+﻿import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import CommitteeLayout from "../../components/layout/CommitteeLayout";
 import Skeleton from "../../components/common/Skeleton";
@@ -281,7 +281,7 @@ export default function CommitteeDashboard() {
 
       const baseURL = import.meta.env.VITE_API_URL || "http://localhost:8000";
       const adminToken =
-        localStorage.getItem("eventflow_token") ||
+        localStorage.getItem("HackSmart_token") ||
         localStorage.getItem("token");
 
       if (!activeEventId) {
@@ -629,9 +629,9 @@ export default function CommitteeDashboard() {
                   >
                     <span className={`workflow-dot ${stage.tone}`}>
                       {stage.tone === "green"
-                        ? "✓"
+                        ? "âœ“"
                         : stage.tone === "purple"
-                          ? "●"
+                          ? "â—"
                           : index + 1}
                     </span>
                     <strong
@@ -973,7 +973,7 @@ export default function CommitteeDashboard() {
                               <td className="p-3">
                                 {flagged ? (
                                   <span className="text-amber-400 font-semibold text-[10px] flex items-center gap-1">
-                                    ⚠️ Flagged
+                                    âš ï¸ Flagged
                                   </span>
                                 ) : (
                                   <span className="text-slate-500 text-[10px]">
@@ -999,7 +999,7 @@ export default function CommitteeDashboard() {
                 </div>
               </section>
 
-              {/* 🔑 FIXED: ADDED PENDING ACTIONS & APPROVALS PANEL */}
+              {/* ðŸ”‘ FIXED: ADDED PENDING ACTIONS & APPROVALS PANEL */}
               <section className="committee-card committee-light-panel p-5 flex flex-col col-span-12 xl:col-span-6">
                 <SectionTitle
                   title="Pending Commitee Actions Queue"
@@ -1041,7 +1041,7 @@ export default function CommitteeDashboard() {
 
                       {/* Score Anomalies Loop */}
                       {pendingAnomalies.slice(0, 2).map((item, i) => {
-  // 🔍 Extract true team name from the backend's reasoning payload if available
+  // ðŸ” Extract true team name from the backend's reasoning payload if available
   let displayTeamName = item.team_name;
   if ((!displayTeamName || displayTeamName === "Unknown Team" || displayTeamName === "Team Delta") && item.ai_reasoning) {
     const parsedMatch = item.ai_reasoning.match(/Divergence detected for (.*?):/);
@@ -1057,7 +1057,7 @@ export default function CommitteeDashboard() {
     >
       <div className="flex flex-col gap-0.5 truncate mr-2">
         <strong className="text-amber-300 truncate">
-          ⚠️ Delta Breach: {displayTeamName || `Team ID: ${String(item.team_id).slice(0, 6)}`}
+          âš ï¸ Delta Breach: {displayTeamName || `Team ID: ${String(item.team_id).slice(0, 6)}`}
         </strong>
         <span className="text-[10px] text-amber-400/80">
           Conflicting scores submitted by judges
@@ -1084,3 +1084,4 @@ export default function CommitteeDashboard() {
     </CommitteeLayout>
   );
 }
+

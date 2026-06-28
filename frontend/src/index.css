@@ -13,7 +13,7 @@
   --action-primary: #1F5738; /* Deep Forest for primary actions (white text) */
   --border-subtle: #E2DDD0;  /* Muted Sand for crisp borders and dividers */
 
-  /* EventWiSE light palette: alabaster cream surfaces over a soft mint background */
+  /* HackSmart light palette: alabaster cream surfaces over a soft mint background */
   --bg-primary: var(--bg-surface); /* Alabaster Cream */
   --bg-secondary: rgba(226, 221, 208, 0.45); /* Muted Sand tint */
   --bg-muted: rgba(226, 221, 208, 0.35); /* Muted Sand tint */

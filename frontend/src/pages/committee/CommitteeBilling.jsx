@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import CommitteeLayout from '../../components/layout/CommitteeLayout'
 
 export default function CommitteeBilling() {
@@ -39,7 +39,7 @@ export default function CommitteeBilling() {
         'Standard evaluations leaderboard',
         'Basic support ticket submission',
         'Standard email notifications',
-        'EventFlow branding in portals'
+        'HackSmart branding in portals'
       ],
       actionText: 'Your Current Plan',
       color: '#9ca3af',
@@ -85,7 +85,7 @@ export default function CommitteeBilling() {
   ]
 
   return (
-    <CommitteeLayout pageTitle="Plans & Billing" pageSubtitle="Scale EventFlow with constraint-solving matches, judge scheduling, and AI-assisted workflows.">
+    <CommitteeLayout pageTitle="Plans & Billing" pageSubtitle="Scale HackSmart with constraint-solving matches, judge scheduling, and AI-assisted workflows.">
       <div className="committee-reference-dashboard" style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: '40px' }}>
         
         {toast.show && (
@@ -113,7 +113,7 @@ export default function CommitteeBilling() {
           </div>
         )}
 
-        {/* ─── Top Usage Quota Alert Strip ─── */}
+        {/* â”€â”€â”€ Top Usage Quota Alert Strip â”€â”€â”€ */}
         {activePlan === 'free' && (
           <section className="committee-card" style={{
             padding: '20px',
@@ -129,7 +129,7 @@ export default function CommitteeBilling() {
           }}>
             <div style={{ flex: 1, minWidth: '280px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                <span style={{ fontSize: '16px' }}>⚠️</span>
+                <span style={{ fontSize: '16px' }}>âš ï¸</span>
                 <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 'bold', color: '#fbbf24' }}>
                   AI Token Credits Running Low
                 </h4>
@@ -164,13 +164,13 @@ export default function CommitteeBilling() {
                 onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(251, 191, 36, 0.2)' }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(251, 191, 36, 0.1)' }}
               >
-                ⚡ Fast Upgrade
+                âš¡ Fast Upgrade
               </button>
             </div>
           </section>
         )}
 
-        {/* ─── Billing Period Switcher ─── */}
+        {/* â”€â”€â”€ Billing Period Switcher â”€â”€â”€ */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '40px', gap: '12px' }}>
           <div style={{
             background: 'var(--bg-secondary)',
@@ -221,7 +221,7 @@ export default function CommitteeBilling() {
           </div>
         </div>
 
-        {/* ─── Pricing Card Grid ─── */}
+        {/* â”€â”€â”€ Pricing Card Grid â”€â”€â”€ */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px', alignItems: 'stretch' }}>
           {plans.map((plan) => {
             const isCurrent = activePlan === plan.id
@@ -263,7 +263,7 @@ export default function CommitteeBilling() {
                     borderRadius: '999px',
                     boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
                   }}>
-                    ✨ Recommended
+                    âœ¨ Recommended
                   </div>
                 )}
 
@@ -339,7 +339,7 @@ export default function CommitteeBilling() {
                     e.currentTarget.style.boxShadow = 'none'
                   }}
                 >
-                  {isUpgrading ? 'Upgrading Plan...' : isCurrent ? '✓ Active Plan' : plan.actionText}
+                  {isUpgrading ? 'Upgrading Plan...' : isCurrent ? 'âœ“ Active Plan' : plan.actionText}
                 </button>
 
                 {/* Divider */}
@@ -377,7 +377,7 @@ export default function CommitteeBilling() {
           })}
         </div>
 
-        {/* ─── Footer Comparison Callout ─── */}
+        {/* â”€â”€â”€ Footer Comparison Callout â”€â”€â”€ */}
         <section className="committee-card" style={{
           marginTop: '40px',
           padding: '24px',
@@ -397,7 +397,7 @@ export default function CommitteeBilling() {
             We provide customized deployment services, localized hosting parameters (e.g. EU data residency), dedicated hardware solvers, and hands-on integration consultation.
           </p>
           <a
-            href="mailto:sales@eventflow.ai"
+            href="mailto:sales@HackSmart.ai"
             style={{
               marginTop: '6px',
               fontSize: '12px',
@@ -406,7 +406,7 @@ export default function CommitteeBilling() {
               textDecoration: 'underline'
             }}
           >
-            📧 Reach out to support & sales
+            ðŸ“§ Reach out to support & sales
           </a>
         </section>
 
@@ -414,3 +414,4 @@ export default function CommitteeBilling() {
     </CommitteeLayout>
   )
 }
+

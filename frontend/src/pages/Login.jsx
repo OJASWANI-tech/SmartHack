@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+﻿import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { dashboardByRole } from '../navigation'
 import { getCurrentRole, setMockRole, VALID_ROLES } from '../services/auth'
@@ -24,7 +24,7 @@ function MicIcon({ size = 16, color = "#6B7280", isRecording = false }) {
   );
 }
 
-// ─── Seeded IDs (updated by seed_data.py output) ───────────────────────────
+// â”€â”€â”€ Seeded IDs (updated by seed_data.py output) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const SEED = {
   event_id: 'd9914688-e56e-455b-a634-ef3b6b9c96e3',
   participant_id: '19a3e182-ed5a-429c-9ddd-0203aa4f264d', // Aryan Mehta
@@ -38,9 +38,9 @@ const roleCopy = {
   evaluator: 'Review assigned submissions and submit scorecards.',
 }
 
-const roleIcons = { committee: '🏛️', participant: '🎓', evaluator: '⚖️' }
+const roleIcons = { committee: 'ðŸ›ï¸', participant: 'ðŸŽ“', evaluator: 'âš–ï¸' }
 
-// ─── Blueprint helpers — everything is derived from the stored blueprint ─────
+// â”€â”€â”€ Blueprint helpers â€” everything is derived from the stored blueprint â”€â”€â”€â”€â”€
 function g(obj, path) {
   if (!obj) return undefined;
   return path.split(".").reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj);
@@ -88,7 +88,7 @@ function parseStagesPreview(stagePreview) {
       label: s.name || `Stage ${i + 1}`,
       badge: meta.badge,
       dot: meta.dot,
-      sub: [meta.sub, s.approval_required ? "🔒 Approval gate" : null].filter(Boolean).join(" • "),
+      sub: [meta.sub, s.approval_required ? "ðŸ”’ Approval gate" : null].filter(Boolean).join(" â€¢ "),
     };
   });
 }
@@ -143,7 +143,7 @@ function Placeholder({ children = "Not set yet" }) {
   return <span style={{ color: "#9CA3AF", fontStyle: "italic", fontWeight: 400 }}>{children}</span>;
 }
 
-// ─── Live Preview — fully driven by the stored blueprint ─────────────────────
+// â”€â”€â”€ Live Preview â€” fully driven by the stored blueprint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function LivePreview({ blueprint, stagePreview, summary, onApprove, approveLoading }) {
   const total = 10;
   const completed = Math.min(countCompleted(blueprint, stagePreview), total);
@@ -162,7 +162,7 @@ function LivePreview({ blueprint, stagePreview, summary, onApprove, approveLoadi
     <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: "Inter, system-ui, sans-serif" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: 'space-between' }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ color: "#4F46E5", fontSize: 18 }}>✦</span>
+          <span style={{ color: "#4F46E5", fontSize: 18 }}>âœ¦</span>
           <span style={{ fontWeight: 700, fontSize: 15, color: "#1F2937" }}>Live Configuration Preview</span>
         </div>
         <span style={{ fontSize: 12, fontWeight: 600, background: "#E8F8EE", color: "#15803D", borderRadius: 6, padding: "4px 12px" }}>{completed}/{total} Completed</span>
@@ -171,10 +171,10 @@ function LivePreview({ blueprint, stagePreview, summary, onApprove, approveLoadi
       <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 12, padding: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ fontSize: 16, color: "#4F46E5" }}>📋</span>
+            <span style={{ fontSize: 16, color: "#4F46E5" }}>ðŸ“‹</span>
             <span style={{ fontWeight: 700, fontSize: 14, color: "#1F2937" }}>Event Overview</span>
           </div>
-          <button type="button" style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 6, padding: "4px 12px", fontSize: 12, cursor: "pointer", color: "#4B5563", fontWeight: 500 }}>✎ Edit</button>
+          <button type="button" style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 6, padding: "4px 12px", fontSize: 12, cursor: "pointer", color: "#4B5563", fontWeight: 500 }}>âœŽ Edit</button>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
           <div>
@@ -203,10 +203,10 @@ function LivePreview({ blueprint, stagePreview, summary, onApprove, approveLoadi
       <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 12, padding: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ fontSize: 16, color: "#10B981" }}>🌿</span>
+            <span style={{ fontSize: 16, color: "#10B981" }}>ðŸŒ¿</span>
             <span style={{ fontWeight: 700, fontSize: 14, color: "#1F2937" }}>Event Workflow <span style={{ color: "#6B7280", fontWeight: 400 }}>({rounds.length} Stage{rounds.length !== 1 ? "s" : ""})</span></span>
           </div>
-          <button type="button" style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 6, padding: "4px 12px", fontSize: 12, cursor: "pointer", color: "#4B5563", fontWeight: 500 }}>✎ Edit</button>
+          <button type="button" style={{ background: "none", border: "1px solid #E5E7EB", borderRadius: 6, padding: "4px 12px", fontSize: 12, cursor: "pointer", color: "#4B5563", fontWeight: 500 }}>âœŽ Edit</button>
         </div>
         {rounds.length === 0 ? (
           <div style={{ fontSize: 13, color: "#9CA3AF", fontStyle: "italic", padding: "8px 0" }}>
@@ -232,7 +232,7 @@ function LivePreview({ blueprint, stagePreview, summary, onApprove, approveLoadi
 
       <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 12, padding: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
         <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 16, display: "flex", alignItems: "center", gap: 10, color: "#1F2937" }}>
-          <span style={{ color: "#3B82F6" }}>📊</span> Configuration Progress
+          <span style={{ color: "#3B82F6" }}>ðŸ“Š</span> Configuration Progress
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           {CONFIG_SECTIONS.map((s) => {
@@ -240,7 +240,7 @@ function LivePreview({ blueprint, stagePreview, summary, onApprove, approveLoadi
             const inProgress = !done && s.name === firstIncomplete;
             return (
               <div key={s.name} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 14 }}>{done ? "✅" : inProgress ? "🟡" : "⚪"}</span>
+                <span style={{ fontSize: 14 }}>{done ? "âœ…" : inProgress ? "ðŸŸ¡" : "âšª"}</span>
                 <span style={{ fontSize: 13, color: done ? "#111827" : inProgress ? "#D97706" : "#9CA3AF" }}>{s.name}</span>
               </div>
             );
@@ -260,7 +260,7 @@ function LivePreview({ blueprint, stagePreview, summary, onApprove, approveLoadi
           disabled={!readyToApprove || approveLoading}
           style={{ background: readyToApprove && !approveLoading ? "#7C3AED" : "#fff", border: "1px solid #DDD6FE", borderRadius: 8, padding: "8px 14px", fontSize: 12, fontWeight: 600, cursor: readyToApprove && !approveLoading ? "pointer" : "not-allowed", color: readyToApprove && !approveLoading ? "#fff" : "#7C3AED", whiteSpace: "nowrap" }}
         >
-          {approveLoading ? "Creating…" : readyToApprove ? "Approve & Create Event" : "Keep Describing Your Event"}
+          {approveLoading ? "Creatingâ€¦" : readyToApprove ? "Approve & Create Event" : "Keep Describing Your Event"}
         </button>
       </div>
     </div>
@@ -279,8 +279,8 @@ export default function Login() {
       return
     }
     if (location.state?.showMemberLogin) {
-      setShowLogin(true)        // ← show login form
-      setCommitteeRole('member') // ← pre-select member tab
+      setShowLogin(true)        // â† show login form
+      setCommitteeRole('member') // â† pre-select member tab
       return
     }
     if (location.state?.role) {
@@ -288,25 +288,25 @@ export default function Login() {
     }
   }, [location.state])
 
-  // 🔄 FIXED 1: Smart Auto-Redirect Check handles both Admin and Mock states cleanly
+  // ðŸ”„ FIXED 1: Smart Auto-Redirect Check handles both Admin and Mock states cleanly
   useEffect(() => {
     if (location.state?.googleAdmin) return
-    if (location.state?.showMemberLogin) return  // ← add this
+    if (location.state?.showMemberLogin) return  // â† add this
 
-    const token = localStorage.getItem('eventflow_token')
+    const token = localStorage.getItem('HackSmart_token')
     const eventId = localStorage.getItem('current_event_id')
     const currentRole = getCurrentRole()
-    const mockRole = localStorage.getItem('eventflow_mock_role')
+    const mockRole = localStorage.getItem('HackSmart_mock_role')
 
     // Combine structural roles to confirm permissions layout context
     const effectiveRole = mockRole || currentRole
 
     if (token) {
-      // 🎯 FIX: If user evaluates to 'admin' or 'dynamic-committee', route them to the playground
+      // ðŸŽ¯ FIX: If user evaluates to 'admin' or 'dynamic-committee', route them to the playground
       if (effectiveRole === 'dynamic-committee' || effectiveRole === 'admin') {
         // Automatically ensure your mock synchronization flag matches for sub-layouts
-        localStorage.setItem('eventflow_mock_role', 'dynamic-committee')
-        // ✅ Correct path (matches your App.jsx route)
+        localStorage.setItem('HackSmart_mock_role', 'dynamic-committee')
+        // âœ… Correct path (matches your App.jsx route)
         navigate('/dynamic-test/dynamic-dashboard', { replace: true })
       } else if (effectiveRole === 'committee' && eventId) {
         navigate('/committee/dashboard', { replace: true })
@@ -330,23 +330,23 @@ export default function Login() {
       try {
         const payload = JSON.parse(atob(googleToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
 
-        // ✅ Read db_role from URL params (sent by backend)
+        // âœ… Read db_role from URL params (sent by backend)
         const dbRole = params.get('db_role')
 
         // Clear stale session first
         localStorage.removeItem('current_event_id')
         localStorage.removeItem('event_id')
 
-        localStorage.setItem('eventflow_token', googleToken)
-        if (googleRefresh) localStorage.setItem('eventflow_refresh_token', googleRefresh)
+        localStorage.setItem('HackSmart_token', googleToken)
+        if (googleRefresh) localStorage.setItem('HackSmart_refresh_token', googleRefresh)
 
-        // ✅ ADD THIS — store user so select-workspace can read stored.id
+        // âœ… ADD THIS â€” store user so select-workspace can read stored.id
         localStorage.setItem('committee_user', JSON.stringify({
           id: payload.sub,        // sub contains member_id in your JWT
           email: payload.email,
-          role: dbRole || 'member'   // ✅ use DB role from URL, not JWT role
+          role: dbRole || 'member'   // âœ… use DB role from URL, not JWT role
         }))
-        localStorage.setItem('eventflow_mock_role', 'committee')
+        localStorage.setItem('HackSmart_mock_role', 'committee')
 
         if (payload.event_id) {
           localStorage.setItem('current_event_id', payload.event_id)
@@ -480,7 +480,7 @@ export default function Login() {
     try {
       const stored = JSON.parse(localStorage.getItem('committee_user') || '{}');
       let userId = stored.id;
-      const token = localStorage.getItem('eventflow_token');
+      const token = localStorage.getItem('HackSmart_token');
 
       // Reconstruct user ID if missing from localStorage but token is present
       if (!userId && token) {
@@ -513,9 +513,9 @@ export default function Login() {
         throw new Error(swapErr.detail || 'Failed to authorize workspace credentials.');
       }
       const swapData = await swapRes.json();
-      localStorage.setItem('eventflow_token', swapData.access_token);
-      localStorage.setItem('eventflow_refresh_token', swapData.refresh_token);
-      localStorage.setItem('eventflow_mock_role', workspace);
+      localStorage.setItem('HackSmart_token', swapData.access_token);
+      localStorage.setItem('HackSmart_refresh_token', swapData.refresh_token);
+      localStorage.setItem('HackSmart_mock_role', workspace);
 
       // 2. Create event
       const eventRes = await fetch(`${baseURL}/api/v1/events`, {
@@ -1104,7 +1104,7 @@ export default function Login() {
         console.error("JWT reading fault:", err)
       }
 
-      // ✅ Fix — DB role should be checked, JWT role is irrelevant here
+      // âœ… Fix â€” DB role should be checked, JWT role is irrelevant here
       actualRole = data.user?.role
 
       if (committeeRole === 'member' && actualRole === 'admin') {
@@ -1117,16 +1117,16 @@ export default function Login() {
         return
       }
 
-      // 🎯 FIXED: Do not blindly stomp mock role with 'committee' if logging in as Admin
+      // ðŸŽ¯ FIXED: Do not blindly stomp mock role with 'committee' if logging in as Admin
       if (actualRole === 'admin' || actualRole === 'dynamic-committee') {
-        localStorage.setItem('eventflow_mock_role', 'dynamic-committee')
+        localStorage.setItem('HackSmart_mock_role', 'dynamic-committee')
       } else {
-        localStorage.setItem('eventflow_mock_role', 'committee')
+        localStorage.setItem('HackSmart_mock_role', 'committee')
       }
 
       // Store standard access vectors
-      localStorage.setItem('eventflow_token', data.access_token)
-      localStorage.setItem('eventflow_refresh_token', data.refresh_token)
+      localStorage.setItem('HackSmart_token', data.access_token)
+      localStorage.setItem('HackSmart_refresh_token', data.refresh_token)
       localStorage.setItem('committee_user', JSON.stringify(data.user))
 
       if (decoded?.event_id) {
@@ -1167,15 +1167,15 @@ export default function Login() {
         return
       }
 
-      // 🎯 FIXED: Align registration mock roles for new workspace structures
+      // ðŸŽ¯ FIXED: Align registration mock roles for new workspace structures
       if (committeeRole === 'admin') {
-        localStorage.setItem('eventflow_mock_role', 'dynamic-committee')
+        localStorage.setItem('HackSmart_mock_role', 'dynamic-committee')
       } else {
-        localStorage.setItem('eventflow_mock_role', 'committee')
+        localStorage.setItem('HackSmart_mock_role', 'committee')
       }
 
-      localStorage.setItem('eventflow_token', data.access_token)
-      localStorage.setItem('eventflow_refresh_token', data.refresh_token)
+      localStorage.setItem('HackSmart_token', data.access_token)
+      localStorage.setItem('HackSmart_refresh_token', data.refresh_token)
       localStorage.setItem('committee_user', JSON.stringify(data.user))
       setShowSignup(false)
       setShowLogin(false)
@@ -1196,9 +1196,9 @@ export default function Login() {
   async function handleInitializeWorkspace(e) {
     e.preventDefault()
 
-    // 🎯 FIXED: Safely evaluate dynamic track routing variables here
+    // ðŸŽ¯ FIXED: Safely evaluate dynamic track routing variables here
     const currentRole = getCurrentRole()
-    const mockRole = localStorage.getItem('eventflow_mock_role')
+    const mockRole = localStorage.getItem('HackSmart_mock_role')
     const effectiveRole = mockRole || currentRole
 
     const targetDashboardPath = (effectiveRole === 'dynamic-committee' || effectiveRole === 'admin')
@@ -1485,7 +1485,7 @@ export default function Login() {
     // Hackathon: the standard event (fixed 13-stage committee pipeline) was already
     // created via POST /api/v1/events when "Configure Event via Agent" was clicked
     // (initializeWorkspace), and its id is already in current_event_id. Open THAT
-    // existing event in the committee admin — don't commit a second dynamic event.
+    // existing event in the committee admin â€” don't commit a second dynamic event.
     const isHackathon = (agentCollected?.event_type || '').toLowerCase().includes('hackathon')
     if (isHackathon) {
       const existingEventId = localStorage.getItem('current_event_id') || localStorage.getItem('event_id')
@@ -1507,7 +1507,7 @@ export default function Login() {
     setAgentApproveLoading(true)
 
     const currentRole = getCurrentRole()
-    const mockRole = localStorage.getItem('eventflow_mock_role')
+    const mockRole = localStorage.getItem('HackSmart_mock_role')
     const effectiveRole = mockRole || currentRole
 
     const targetDashboardPath = (effectiveRole === 'dynamic-committee' || effectiveRole === 'admin')
@@ -1531,7 +1531,7 @@ export default function Login() {
     } catch (e) {
       console.error('[v0] config-agent commit failed:', e)
       setAgentApproveLoading(false)
-      return // don't fall back to a fake event — let the committee fix the issue and retry
+      return // don't fall back to a fake event â€” let the committee fix the issue and retry
     }
 
     setAgentApproveLoading(false)
@@ -1604,7 +1604,7 @@ export default function Login() {
                   </strong>
                   <span className="role-description">{roleCopy[role]}</span>
                   <span className="role-action-link">
-                    Enter Portal <span>→</span>
+                    Enter Portal <span>â†’</span>
                   </span>
                 </div>
               ))}
@@ -1615,8 +1615,8 @@ export default function Login() {
                 className="seed-summary"
                 onClick={() => setShowSeedDetails(!showSeedDetails)}
               >
-                <span>🔑 Seeded IDs &amp; Reference Identifiers</span>
-                <span style={{ fontSize: '11px', opacity: 0.6 }}>{showSeedDetails ? '▲ Hide' : '▼ Show'}</span>
+                <span>ðŸ”‘ Seeded IDs &amp; Reference Identifiers</span>
+                <span style={{ fontSize: '11px', opacity: 0.6 }}>{showSeedDetails ? 'â–² Hide' : 'â–¼ Show'}</span>
               </div>
 
               {showSeedDetails && (
@@ -1690,7 +1690,7 @@ export default function Login() {
               boxShadow: '0 20px 40px rgba(26, 43, 32, 0.15)',
               border: '1px solid rgba(226, 221, 208, 0.60)',
             }}>
-              <p className="eyebrow" style={{ marginBottom: '8px' }}>EventFlow · Committee Portal</p>
+              <p className="eyebrow" style={{ marginBottom: '8px' }}>HackSmart Â· Committee Portal</p>
               <h2 style={{ margin: '0 0 8px', color: '#1A2B20' }}>
                 {showSignup ? 'Create Admin Account' : 'Committee Login'}
               </h2>
@@ -1729,7 +1729,7 @@ export default function Login() {
                         boxShadow: committeeRole === r ? '0 4px 12px rgba(31, 87, 56, 0.3)' : 'none',
                       }}
                     >
-                      {r === 'admin' ? '🏛 Admin' : '👤 Member'}
+                      {r === 'admin' ? 'ðŸ› Admin' : 'ðŸ‘¤ Member'}
                     </button>
                   ))}
                 </div>
@@ -1788,7 +1788,7 @@ export default function Login() {
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px', marginTop: '8px' }}>
                     <button type="submit" disabled={signupLoading} className="btn-glass-sm-submit" style={{ width: '55%' }}>
-                      {signupLoading ? 'Creating account...' : 'Create Account →'}
+                      {signupLoading ? 'Creating account...' : 'Create Account â†’'}
                     </button>
 
                     {/* Google Signup */}
@@ -1815,12 +1815,12 @@ export default function Login() {
                       style={{ background: 'none', border: 'none', color: '#7C8D80', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline', padding: '4px' }}
                       onClick={() => { setShowSignup(false); setSignupError(null) }}
                     >
-                      ← Back to Login
+                      â† Back to Login
                     </button>
                   </div>
                 </form>
               ) : (
-                /* ── Login Form ── */
+                /* â”€â”€ Login Form â”€â”€ */
                 <form onSubmit={handleCommitteeLogin} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left' }}>
                     <label style={{ fontSize: '13px', fontWeight: '600', color: '#526357' }}>Email</label>
@@ -1847,7 +1847,7 @@ export default function Login() {
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', marginTop: '5px' }}>
                     <button type="submit" disabled={loginLoading} className="btn-glass-sm-submit" style={{ width: '55%' }}>
-                      {loginLoading ? 'Signing in...' : 'Sign In →'}
+                      {loginLoading ? 'Signing in...' : 'Sign In â†’'}
                     </button>
 
                     {/* Google login*/}
@@ -1893,7 +1893,7 @@ export default function Login() {
                       style={{ background: 'none', border: 'none', color: '#7C8D80', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline', padding: '4px' }}
                       onClick={() => { navigate('/'); setLoginError(null); setShowSignup(false) }}
                     >
-                      ← Back to Home
+                      â† Back to Home
                     </button>
                   </div>
                 </form>
@@ -1970,21 +1970,21 @@ export default function Login() {
                       className="btn-glass-sm-submit"
                       style={{ flex: 1, opacity: newEventName.trim() ? 1 : 0.45 }}
                     >
-                      Continue →
+                      Continue â†’
                     </button>
                     <button
                       type="button"
                       style={{ background: 'none', border: 'none', color: '#526357', fontSize: '13.5px', cursor: 'pointer', textDecoration: 'underline', padding: '4px', whiteSpace: 'nowrap' }}
                       onClick={() => { setMode('select'); setShowNameInput(false); setNewEventName('') }}
                     >
-                      ← Back
+                      â† Back
                     </button>
                   </div>
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', background: 'rgba(31, 87, 56, 0.08)', border: '1px solid rgba(31, 87, 56, 0.25)', borderRadius: '10px' }}>
-                    <span>📌</span>
+                    <span>ðŸ“Œ</span>
                     <span style={{ fontSize: '13.5px', fontWeight: '700', color: '#1F5738' }}>{newEventName}</span>
                     <button type="button" onClick={() => setShowNameInput(true)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#526357', fontSize: '12.5px', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>edit</button>
                   </div>
@@ -1993,7 +1993,7 @@ export default function Login() {
 
 
 
-                  {/* ── OPTION B: Committee Dashboard Workspace ── */}
+                  {/* â”€â”€ OPTION B: Committee Dashboard Workspace â”€â”€ */}
                   <button
                     type="button"
                     onClick={async (e) => {
@@ -2007,7 +2007,7 @@ export default function Login() {
                     onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(31, 87, 56, 0.4)'; e.currentTarget.style.background = 'rgba(31, 87, 56, 0.06)'; e.currentTarget.style.boxShadow = '0 0 15px rgba(31, 87, 56, 0.10)' }}
                     onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(226, 221, 208, 0.60)'; e.currentTarget.style.background = 'rgba(251, 249, 244, 0.45)'; e.currentTarget.style.boxShadow = 'none' }}
                   >
-                    <div style={{ fontSize: '24px', lineHeight: 1 }}>🗂️</div>
+                    <div style={{ fontSize: '24px', lineHeight: 1 }}>ðŸ—‚ï¸</div>
                     <div>
                       <div style={{ fontSize: '14px', fontWeight: '750', color: '#1A2B20', marginBottom: '4px' }}>Open Committee Workspace</div>
                       <div style={{ fontSize: '12.5px', color: '#526357', lineHeight: 1.45 }}>Jump straight into the committee dashboard with default settings.</div>
@@ -2016,7 +2016,7 @@ export default function Login() {
 
 
 
-                  {/* ── OPTION C: AI Copilot Setup ── */}
+                  {/* â”€â”€ OPTION C: AI Copilot Setup â”€â”€ */}
                   <button
                     type="button"
                     onClick={async (e) => {
@@ -2032,7 +2032,7 @@ export default function Login() {
                     onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(61, 107, 87, 0.4)'; e.currentTarget.style.background = 'rgba(61, 107, 87, 0.06)'; e.currentTarget.style.boxShadow = '0 0 15px rgba(61, 107, 87, 0.10)' }}
                     onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(226, 221, 208, 0.60)'; e.currentTarget.style.background = 'rgba(251, 249, 244, 0.45)'; e.currentTarget.style.boxShadow = 'none' }}
                   >
-                    <div style={{ fontSize: '24px', lineHeight: 1 }}>🤖</div>
+                    <div style={{ fontSize: '24px', lineHeight: 1 }}>ðŸ¤–</div>
                     <div>
                       <div style={{ fontSize: '14px', fontWeight: '750', color: '#1A2B20', marginBottom: '4px' }}>Configure Event via Agent</div>
                       <div style={{ fontSize: '12.5px', color: '#526357', lineHeight: 1.45 }}>Chat with our AI assistant to configure your event step by step.</div>
@@ -2040,7 +2040,7 @@ export default function Login() {
                   </button>
 
                   {existingEvents.length > 0 && (
-                    <button type="button" style={{ background: 'none', border: 'none', color: '#526357', fontSize: '13px', cursor: 'pointer', textAlign: 'left', padding: 0, fontWeight: '700', marginTop: '6px' }} onClick={() => { setMode('select'); setShowNameInput(false); setNewEventName('') }}>← Select an Existing Event</button>
+                    <button type="button" style={{ background: 'none', border: 'none', color: '#526357', fontSize: '13px', cursor: 'pointer', textAlign: 'left', padding: 0, fontWeight: '700', marginTop: '6px' }} onClick={() => { setMode('select'); setShowNameInput(false); setNewEventName('') }}>â† Select an Existing Event</button>
                   )}
                 </div>
               )}
@@ -2054,7 +2054,7 @@ export default function Login() {
                     className="btn-glass-sm-submit"
                     style={{ width: '55%', fontWeight: '700' }}
                   >
-                    {isCreating ? 'Provisioning DB...' : 'Open Committee Workspace →'}
+                    {isCreating ? 'Provisioning DB...' : 'Open Committee Workspace â†’'}
                   </button>
                 </div>
               )}
@@ -2063,21 +2063,21 @@ export default function Login() {
         )}
       </section>
 
-      {/* ── Fixed Target UI Layout inside the Overlay Window ── */}
+      {/* â”€â”€ Fixed Target UI Layout inside the Overlay Window â”€â”€ */}
       {showConfigAgent && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#FBF9F4', display: 'flex', flexDirection: 'column', fontFamily: "Inter, system-ui, sans-serif" }}>
 
           {/* Header Row */}
           <div style={{ padding: "14px 24px", background: "#FBF9F4", borderBottom: "1px solid #E2DDD0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ color: "#1F5738", fontSize: 22, fontWeight: "bold" }}>✨</div>
+              <div style={{ color: "#1F5738", fontSize: 22, fontWeight: "bold" }}>âœ¨</div>
               <div>
                 <h1 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#1A2B20" }}>Event Configuration Assistant</h1>
                 <p style={{ fontSize: 12, color: "#526357", margin: 0 }}>Describe your event in natural language and I'll configure everything for you.</p>
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <button type="button" onClick={() => { setShowConfigAgent(false); setShowSetup(true); }} style={{ background: "#FBF9F4", border: "1px solid #E2DDD0", borderRadius: 8, padding: "8px 16px", fontSize: 13, cursor: "pointer", color: "#1A2B20", fontWeight: 500 }}>← Back to Dashboard</button>
+              <button type="button" onClick={() => { setShowConfigAgent(false); setShowSetup(true); }} style={{ background: "#FBF9F4", border: "1px solid #E2DDD0", borderRadius: 8, padding: "8px 16px", fontSize: 13, cursor: "pointer", color: "#1A2B20", fontWeight: 500 }}>â† Back to Dashboard</button>
               <button type="button" onClick={() => initAgentChat()} style={{ background: "#FBF9F4", border: "1px solid #1F5738", borderRadius: 8, padding: "8px 16px", fontSize: 13, cursor: "pointer", color: "#1F5738", fontWeight: 500 }}> New Conversation</button>
             </div>
           </div>
@@ -2098,7 +2098,7 @@ export default function Login() {
                       )}
                       <div style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start", alignItems: "flex-start", gap: 12 }}>
                         {msg.role === "assistant" && (
-                          <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#E5F0E9", border: "1px solid #BFE3C9", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>🤖</div>
+                          <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#E5F0E9", border: "1px solid #BFE3C9", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>ðŸ¤–</div>
                         )}
                         <div style={{ maxWidth: "75%", padding: "14px 18px", borderRadius: 16, background: msg.role === "user" ? "#E5F0E9" : "#FBF9F4", color: "#1A2B20", fontSize: 14, lineHeight: 1.6, boxShadow: "0 1px 2px rgba(26,43,32,0.04)", border: "1px solid #E2DDD0" }}>
                           {msg.role === "user" && <div style={{ fontSize: 10, color: "#7C8D80", textAlign: "right", marginBottom: 4 }}>11:32 AM</div>}
@@ -2200,13 +2200,13 @@ export default function Login() {
 
                   {/* Send button */}
                   <button type="button" onClick={() => sendAgentMessage()} disabled={!agentInput.trim() || agentApproved} style={{ position: "relative", width: 36, height: 36, borderRadius: 8, background: agentInput.trim() ? "#1F5738" : "#7C8D80", color: "#fff", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: agentInput.trim() ? "pointer" : "not-allowed", transition: "background 0.2s", flexShrink: 0 }}>
-                    ➔
+                    âž”
                   </button>
                 </div>
 
                 {/* Status text */}
                 <div style={{ fontSize: 11, color: "#7C8D80", marginTop: 8 }}>
-                  {agentUploadProgress ? `Uploading PDF... ${agentUploadProgress}%` : (agentIsRecording ? '🎙️ Recording...' : 'Press Enter to send • Shift + Enter for new line • Or upload PDF / record voice')}
+                  {agentUploadProgress ? `Uploading PDF... ${agentUploadProgress}%` : (agentIsRecording ? 'ðŸŽ™ï¸ Recording...' : 'Press Enter to send â€¢ Shift + Enter for new line â€¢ Or upload PDF / record voice')}
                 </div>
               </div>
             </div>
@@ -2221,7 +2221,7 @@ export default function Login() {
         </div>
       )}
 
-      {/* ── Creating Event Screen ── */}
+      {/* â”€â”€ Creating Event Screen â”€â”€ */}
       {showCreatingScreen && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#FBF9F4', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 28 }}>
           {!eventReady ? (
@@ -2229,7 +2229,7 @@ export default function Login() {
               <div style={{ width: 64, height: 64, borderRadius: '50%', border: '4px solid #1F5738', borderTopColor: 'transparent', animation: 'agentSpin 1s linear infinite' }} />
               <div style={{ textAlign: 'center' }}>
                 <h2 style={{ color: '#1A2B20', fontSize: 24, fontWeight: 700, margin: '0 0 8px' }}>Configuring Your Event</h2>
-                <p style={{ color: '#526357', fontSize: 15, margin: 0 }}>Setting up workspaces, pipelines, and team structures…</p>
+                <p style={{ color: '#526357', fontSize: 15, margin: 0 }}>Setting up workspaces, pipelines, and team structuresâ€¦</p>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
                 {['Intake forms', 'Team engine', 'Evaluation rubrics', 'Comms pipeline'].map((step, i) => (
@@ -2240,7 +2240,7 @@ export default function Login() {
           ) : (
             <>
               <div style={{ width: 64, height: 64, borderRadius: '50%', border: '4px solid #1F5738', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 28, color: '#1F5738' }}>✓</span>
+                <span style={{ fontSize: 28, color: '#1F5738' }}>âœ“</span>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <h2 style={{ color: '#1A2B20', fontSize: 24, fontWeight: 700, margin: '0 0 8px' }}>Your Event is Ready</h2>
@@ -2248,9 +2248,9 @@ export default function Login() {
               </div>
               <button
                 type="button"
-                // ✅ Respect the workspace role
+                // âœ… Respect the workspace role
                 onClick={() => {
-                  const mockRole = localStorage.getItem('eventflow_mock_role')
+                  const mockRole = localStorage.getItem('HackSmart_mock_role')
                   if (mockRole === 'dynamic-committee') {
                     navigate('/dynamic-test/dynamic-dashboard', { replace: true })
                   } else {
@@ -2259,7 +2259,7 @@ export default function Login() {
                 }}
                 style={{ padding: '12px 36px', background: '#1F5738', color: '#fff', border: 'none', borderRadius: 10, fontSize: 16, fontWeight: 700, cursor: 'pointer', letterSpacing: '0.3px' }}
               >
-                Open Dashboard →
+                Open Dashboard â†’
               </button>
             </>
           )}

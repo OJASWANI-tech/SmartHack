@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import EvaluatorLayout from '../../components/layout/EvaluatorLayout'
 import MascotEmptyState from '../../components/common/MascotEmptyState'
@@ -18,7 +18,7 @@ export default function EvaluatorDashboard() {
         // Recover event_id from token if missing from localStorage
         let eventId = localStorage.getItem('current_event_id') || localStorage.getItem('event_id')
         if (!eventId) {
-          const token = localStorage.getItem('eventflow_token')
+          const token = localStorage.getItem('HackSmart_token')
           if (token) {
             const parts = token.split('.')
             if (parts.length === 3) {
@@ -91,7 +91,7 @@ export default function EvaluatorDashboard() {
   }
   rescoreAssignments.forEach(a => {
     const teamNameStr = a.team_name.startsWith('Team') ? a.team_name : `Team ${a.team_name}`;
-    notificationList.push(`⚠️ Rescore Requested: The committee has requested you to revise your score for ${teamNameStr}.`)
+    notificationList.push(`âš ï¸ Rescore Requested: The committee has requested you to revise your score for ${teamNameStr}.`)
   })
 
   return (
@@ -127,7 +127,7 @@ export default function EvaluatorDashboard() {
               gap: '8px'
             }}>
               <h4 style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span>🚀</span> Judge Onboarding Checklist
+                <span>ðŸš€</span> Judge Onboarding Checklist
               </h4>
               <p style={{ margin: 0, fontSize: '12.5px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
                 Follow this quick flow to calibrate your credentials and complete assigned hackathon project evaluations:
@@ -143,7 +143,7 @@ export default function EvaluatorDashboard() {
                   lineHeight: '1.4'
                 }}>
                   <strong style={{ display: 'block', color: 'var(--text-primary)', marginBottom: '4px' }}>
-                    {profile?.availability ? '✅ 1. Calibrate Profile' : '⏳ 1. Calibrate Profile'}
+                    {profile?.availability ? 'âœ… 1. Calibrate Profile' : 'â³ 1. Calibrate Profile'}
                   </strong>
                   <span style={{ color: 'var(--text-secondary)' }}>
                     Confirm your expertise tracks and Morning/Afternoon blocks in <Link to="/evaluator/profile" style={{ color: 'var(--accent-color)', fontWeight: 'bold', textDecoration: 'none' }}>Profile Settings</Link>.
@@ -159,7 +159,7 @@ export default function EvaluatorDashboard() {
                   lineHeight: '1.4'
                 }}>
                   <strong style={{ display: 'block', color: 'var(--text-primary)', marginBottom: '4px' }}>
-                    {displaySchedule.length > 0 ? '✅ 2. Review Timetable' : '⏳ 2. Review Timetable'}
+                    {displaySchedule.length > 0 ? 'âœ… 2. Review Timetable' : 'â³ 2. Review Timetable'}
                   </strong>
                   <span style={{ color: 'var(--text-secondary)' }}>
                     Check <strong>Sessions Timeline</strong> on the right to see your assigned presentation rooms and slot times.
@@ -175,7 +175,7 @@ export default function EvaluatorDashboard() {
                   lineHeight: '1.4'
                 }}>
                   <strong style={{ display: 'block', color: 'var(--text-primary)', marginBottom: '4px' }}>
-                    ⏳ 3. Evaluate Projects
+                    â³ 3. Evaluate Projects
                   </strong>
                   <span style={{ color: 'var(--text-secondary)' }}>
                     Go to the <strong>Queue</strong> below and click <strong>Evaluate</strong> to grade submissions via the AI rubrics tool.
@@ -186,7 +186,7 @@ export default function EvaluatorDashboard() {
             {/* Top Metrics Row */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '16px', marginBottom: '24px' }}>
               <article className="ref-mini-card">
-                <span className="ref-icon">📋</span>
+                <span className="ref-icon">ðŸ“‹</span>
                 <div>
                   <strong>{totalAssigned}</strong>
                   <p>Assigned Teams</p>
@@ -194,7 +194,7 @@ export default function EvaluatorDashboard() {
                 </div>
               </article>
               <article className="ref-mini-card">
-                <span className="ref-icon">⏳</span>
+                <span className="ref-icon">â³</span>
                 <div>
                   <strong>{pendingCount}</strong>
                   <p>Pending Reviews</p>
@@ -202,7 +202,7 @@ export default function EvaluatorDashboard() {
                 </div>
               </article>
               <article className="ref-mini-card">
-                <span className="ref-icon">✅</span>
+                <span className="ref-icon">âœ…</span>
                 <div>
                   <strong>{completedCount}</strong>
                   <p>Completed</p>
@@ -390,7 +390,7 @@ export default function EvaluatorDashboard() {
                             <span style={{ fontSize: '11px', color: 'var(--accent-color)', fontWeight: 'bold' }}>{item.time_slot}</span>
                           </div>
                           <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-                            🏢 {item.room}
+                            ðŸ¢ {item.room}
                           </p>
                         </div>
                       </div>
@@ -411,7 +411,7 @@ export default function EvaluatorDashboard() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '16px' }}>
                 <Link to="/evaluator/assignments" className="ref-mini-card" style={{ textDecoration: 'none', cursor: 'pointer', transition: 'all 0.2s', padding: '16px' }}>
-                  <span className="ref-icon" style={{ fontSize: '20px', marginBottom: '8px' }}>📂</span>
+                  <span className="ref-icon" style={{ fontSize: '20px', marginBottom: '8px' }}>ðŸ“‚</span>
                   <div>
                     <strong style={{ fontSize: '13px', display: 'block', color: 'var(--text-primary)' }}>View Assignments</strong>
                     <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: '2px 0 0 0' }}>Manage assigned teams</p>
@@ -423,7 +423,7 @@ export default function EvaluatorDashboard() {
                     className="ref-mini-card" 
                     style={{ textDecoration: 'none', cursor: 'pointer', transition: 'all 0.2s', padding: '16px' }}
                   >
-                    <span className="ref-icon" style={{ fontSize: '20px', marginBottom: '8px' }}>📝</span>
+                    <span className="ref-icon" style={{ fontSize: '20px', marginBottom: '8px' }}>ðŸ“</span>
                     <div>
                       <strong style={{ fontSize: '13px', display: 'block', color: 'var(--text-primary)' }}>Next Evaluation</strong>
                       <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: '2px 0 0 0' }}>Open rubric workspace</p>
@@ -431,14 +431,14 @@ export default function EvaluatorDashboard() {
                   </Link>
                 )}
                 <Link to="/evaluator/history" className="ref-mini-card" style={{ textDecoration: 'none', cursor: 'pointer', transition: 'all 0.2s', padding: '16px' }}>
-                  <span className="ref-icon" style={{ fontSize: '20px', marginBottom: '8px' }}>🕒</span>
+                  <span className="ref-icon" style={{ fontSize: '20px', marginBottom: '8px' }}>ðŸ•’</span>
                   <div>
                     <strong style={{ fontSize: '13px', display: 'block', color: 'var(--text-primary)' }}>Grading History</strong>
                     <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: '2px 0 0 0' }}>Review submitted scores</p>
                   </div>
                 </Link>
                 <Link to="/evaluator/feedback" className="ref-mini-card" style={{ textDecoration: 'none', cursor: 'pointer', transition: 'all 0.2s', padding: '16px' }}>
-                  <span className="ref-icon" style={{ fontSize: '20px', marginBottom: '8px' }}>💬</span>
+                  <span className="ref-icon" style={{ fontSize: '20px', marginBottom: '8px' }}>ðŸ’¬</span>
                   <div>
                     <strong style={{ fontSize: '13px', display: 'block', color: 'var(--text-primary)' }}>Provide Feedback</strong>
                     <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: '2px 0 0 0' }}>Send portal remarks</p>
@@ -452,3 +452,4 @@ export default function EvaluatorDashboard() {
     </EvaluatorLayout>
   )
 }
+

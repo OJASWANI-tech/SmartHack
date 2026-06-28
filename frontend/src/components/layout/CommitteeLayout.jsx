@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import PortalLayout from './PortalLayout'
 import { committeeNavItems, dynamicCommitteeNavItems } from '../../navigation'
@@ -13,7 +13,7 @@ function CommitteeLayout({ children, notifications = [], statusItems = [], pageT
   const [eventTitle, setEventTitle] = useState("TI Hackathon 2026")
   const isDynamicTrack = location.pathname.startsWith('/dynamic-test')
 
-  // 🔐 FILTER SIDEBAR ENTRIES BASED ON ACCOUNT ROLE PRIVILEGES
+  // ðŸ” FILTER SIDEBAR ENTRIES BASED ON ACCOUNT ROLE PRIVILEGES
   const baseNavItems = isDynamicTrack ? dynamicCommitteeNavItems : committeeNavItems
   
   const navItems = (() => {
@@ -50,9 +50,9 @@ function CommitteeLayout({ children, notifications = [], statusItems = [], pageT
 
   const handleLogout = () => {
     const isAdmin = getCommitteeRole() === 'admin'
-    localStorage.removeItem('eventflow_token')
-    localStorage.removeItem('eventflow_refresh_token')
-    localStorage.removeItem('eventflow_mock_role')
+    localStorage.removeItem('HackSmart_token')
+    localStorage.removeItem('HackSmart_refresh_token')
+    localStorage.removeItem('HackSmart_mock_role')
     if (isAdmin) {
       localStorage.removeItem('current_event_id')
       localStorage.removeItem('event_id')
@@ -99,7 +99,7 @@ function CommitteeLayout({ children, notifications = [], statusItems = [], pageT
             e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.25)'
           }}
         >
-          🚪 <span className="nav-label">Logout</span>
+          ðŸšª <span className="nav-label">Logout</span>
         </button>
       }
     >

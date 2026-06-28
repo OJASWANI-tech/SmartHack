@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Committee CP-SAT Orchestration API Service
  * Coordinates solver runs, timetables, overrides, and matching heatmaps.
  */
@@ -12,7 +12,7 @@ function getEventId() {
 async function request(path, options = {}) {
   const eventId = getEventId()
   const fullPath = path.replace('{event_id}', eventId)
-  const token = localStorage.getItem('eventflow_token') || '';
+  const token = localStorage.getItem('HackSmart_token') || '';
   
   try {
     const res = await fetch(`${BASE}${fullPath}`, {
@@ -34,7 +34,7 @@ async function request(path, options = {}) {
   }
 }
 
-// ── RUN COMPATIBILITY MATCHING ENGINE ──
+// â”€â”€ RUN COMPATIBILITY MATCHING ENGINE â”€â”€
 export async function runMatchingEngine() {
   try {
     return await request('/api/v1/events/{event_id}/orchestration/run-matching', {
@@ -56,7 +56,7 @@ export async function runMatchingEngine() {
   }
 }
 
-// ── RUN CP-SAT ASSIGNMENT OPTIMIZER ──
+// â”€â”€ RUN CP-SAT ASSIGNMENT OPTIMIZER â”€â”€
 export async function runOptimizer(constraints = {}) {
   try {
     return await request('/api/v1/events/{event_id}/orchestration/run-optimizer', {
@@ -68,7 +68,7 @@ export async function runOptimizer(constraints = {}) {
   }
 }
 
-// ── RUN TIMETABLE SCHEDULER ──
+// â”€â”€ RUN TIMETABLE SCHEDULER â”€â”€
 export async function runScheduler() {
   try {
     return await request('/api/v1/events/{event_id}/orchestration/run-scheduler', {
@@ -79,7 +79,7 @@ export async function runScheduler() {
   }
 }
 
-// ── GET OPTIMIZATION ASSIGNMENTS ──
+// â”€â”€ GET OPTIMIZATION ASSIGNMENTS â”€â”€
 export async function getAssignments() {
   try {
     return await request('/api/v1/events/{event_id}/orchestration/assignments')
@@ -122,7 +122,7 @@ export async function getAssignments() {
   }
 }
 
-// ── GET TIMETABLE SCHEDULE GRID ──
+// â”€â”€ GET TIMETABLE SCHEDULE GRID â”€â”€
 export async function getScheduleGrid() {
   try {
     return await request('/api/v1/events/{event_id}/orchestration/schedule')
@@ -139,7 +139,7 @@ export async function getScheduleGrid() {
   }
 }
 
-// ── APPLY MANUAL ASSIGNMENT OVERRIDE ──
+// â”€â”€ APPLY MANUAL ASSIGNMENT OVERRIDE â”€â”€
 export async function applyAssignmentOverride(assignmentId, evaluatorId, teamId) {
   try {
     return await request(`/api/v1/events/{event_id}/orchestration/assignments/${assignmentId}`, {
@@ -151,7 +151,7 @@ export async function applyAssignmentOverride(assignmentId, evaluatorId, teamId)
   }
 }
 
-// ── GET OPTIMIZATION ANALYTICS ──
+// â”€â”€ GET OPTIMIZATION ANALYTICS â”€â”€
 export async function getOptimizationAnalytics() {
   try {
     return await request('/api/v1/events/{event_id}/orchestration/analytics')
@@ -175,7 +175,7 @@ export async function getOptimizationAnalytics() {
   }
 }
 
-// ── GET HEATMAP COMPATIBILITY MATRIX ──
+// â”€â”€ GET HEATMAP COMPATIBILITY MATRIX â”€â”€
 export async function getCompatibilityMatrix() {
   try {
     return await request('/api/v1/events/{event_id}/orchestration/compatibility')
@@ -188,7 +188,7 @@ export async function getCompatibilityMatrix() {
   }
 }
 
-// ── PROPOSE SAFE SWAP ──
+// â”€â”€ PROPOSE SAFE SWAP â”€â”€
 export async function proposeSwap(evaluatorId, teamId) {
   try {
     return await request('/api/v1/events/{event_id}/orchestration/propose-swap', {
@@ -210,7 +210,7 @@ export async function proposeSwap(evaluatorId, teamId) {
   }
 }
 
-// ── EXECUTE SAFE SWAP ──
+// â”€â”€ EXECUTE SAFE SWAP â”€â”€
 export async function executeSwap(evaluator1Id, team1Id, evaluator2Id, team2Id) {
   try {
     return await request('/api/v1/events/{event_id}/orchestration/execute-swap', {
@@ -226,3 +226,4 @@ export async function executeSwap(evaluator1Id, team1Id, evaluator2Id, team2Id) 
     return { status: 'success', message: 'Swap executed successfully via fallback.' }
   }
 }
+

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+﻿import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function AuthCallback() {
@@ -6,8 +6,8 @@ export default function AuthCallback() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    console.log('Full URL:', window.location.href)  // ← add this
-    console.log('All params:', Object.fromEntries(params))  // ← add this
+    console.log('Full URL:', window.location.href)  // â† add this
+    console.log('All params:', Object.fromEntries(params))  // â† add this
     const token = params.get('token')
     const refresh = params.get('refresh')
     const error = params.get('error')
@@ -27,9 +27,9 @@ export default function AuthCallback() {
       const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
 
       // Store tokens exactly like your existing login does
-      localStorage.setItem('eventflow_token', token)
-      if (refresh) localStorage.setItem('eventflow_refresh_token', refresh)
-      localStorage.setItem('eventflow_mock_role', 'committee')
+      localStorage.setItem('HackSmart_token', token)
+      if (refresh) localStorage.setItem('HackSmart_refresh_token', refresh)
+      localStorage.setItem('HackSmart_mock_role', 'committee')
       localStorage.setItem('committee_user', JSON.stringify({
         id: payload.sub,
         email: payload.email,

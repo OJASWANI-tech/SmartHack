@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from 'react-router-dom'
+﻿import { NavLink, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { PortalIcon } from '../participant/ParticipantPortalKit'
 
@@ -60,8 +60,8 @@ function PortalLayout({ title, eyebrow, subtitle, navItems, children, notificati
     const handleAnomaliesUpdate = () => {
       fetchAnomalies()
     }
-    window.addEventListener('eventflow-grievances-updated', handleUpdate)
-    window.addEventListener('eventflow-anomalies-updated', handleAnomaliesUpdate)
+    window.addEventListener('HackSmart-grievances-updated', handleUpdate)
+    window.addEventListener('HackSmart-anomalies-updated', handleAnomaliesUpdate)
 
     const interval = setInterval(() => {
       fetchUnclicked()
@@ -69,15 +69,15 @@ function PortalLayout({ title, eyebrow, subtitle, navItems, children, notificati
     }, 15000)
 
     return () => {
-      window.removeEventListener('eventflow-grievances-updated', handleUpdate)
-      window.removeEventListener('eventflow-anomalies-updated', handleAnomaliesUpdate)
+      window.removeEventListener('HackSmart-grievances-updated', handleUpdate)
+      window.removeEventListener('HackSmart-anomalies-updated', handleAnomaliesUpdate)
       clearInterval(interval)
     }
   }, [isCommittee])
 
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem('theme')
-    // Always default to 'dark' for EventFlow's futuristic enterprise style
+    // Always default to 'dark' for HackSmart's futuristic enterprise style
     return saved || 'dark'
   })
 
@@ -96,14 +96,14 @@ function PortalLayout({ title, eyebrow, subtitle, navItems, children, notificati
         setTheme(e.detail)
       }
     }
-    window.addEventListener('eventflow-theme-change', handleThemeChange)
-    return () => window.removeEventListener('eventflow-theme-change', handleThemeChange)
+    window.addEventListener('HackSmart-theme-change', handleThemeChange)
+    return () => window.removeEventListener('HackSmart-theme-change', handleThemeChange)
   }, [])
 
   const toggleTheme = () => {
     setTheme((prev) => {
       const next = prev === 'light' ? 'dark' : 'light'
-      window.dispatchEvent(new CustomEvent('eventflow-theme-change', { detail: next }))
+      window.dispatchEvent(new CustomEvent('HackSmart-theme-change', { detail: next }))
       return next
     })
   }
@@ -200,7 +200,7 @@ function PortalLayout({ title, eyebrow, subtitle, navItems, children, notificati
                   aria-label="Toggle Theme"
                   title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
                 >
-                  <span style={{ fontSize: '16px', lineHeight: 1 }}>{theme === 'light' ? '🌙' : '☀️'}</span>
+                  <span style={{ fontSize: '16px', lineHeight: 1 }}>{theme === 'light' ? 'ðŸŒ™' : 'â˜€ï¸'}</span>
                   <span style={{ fontSize: '11px', fontWeight: '700', marginLeft: '4px' }}>{theme === 'light' ? 'Dark' : 'Light'}</span>
                 </button>
               )}

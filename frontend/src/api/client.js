@@ -1,4 +1,4 @@
-import axios from 'axios'
+﻿import axios from 'axios'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
@@ -19,7 +19,7 @@ api.interceptors.response.use(async (response) => {
       if (rawType.includes('sport')) {
         localStorage.setItem('current_event_id', eventId)
         localStorage.setItem('event_id', eventId)
-        localStorage.setItem('eventflow_mock_role', 'dynamic-committee')
+        localStorage.setItem('HackSmart_mock_role', 'dynamic-committee')
         window.location.assign('/dynamic-test/dynamic-dashboard')
       }
     } catch (err) {
@@ -56,4 +56,5 @@ export async function getApprovals() {
 }
 
 export default api
+
 

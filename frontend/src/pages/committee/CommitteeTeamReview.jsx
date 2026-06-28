@@ -1,16 +1,16 @@
-import { useMemo, useState, useEffect } from 'react'
+﻿import { useMemo, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CommitteeLayout from '../../components/layout/CommitteeLayout'
 import * as CommitteeServices from '../../services/committee'
 
-// 🔄 Translation Dictionary to enforce PostgreSQL CHECK constraints
+// ðŸ”„ Translation Dictionary to enforce PostgreSQL CHECK constraints
 const UI_TO_DB_STATUS = {
   pending: 'proposed',
   approved: 'approved',
   rejected: 'eliminated'
 };
 
-// 🎬 Automated Runtime Animation Injector
+// ðŸŽ¬ Automated Runtime Animation Injector
 if (typeof document !== 'undefined') {
   const styleTag = document.createElement('style');
   styleTag.innerHTML = `
@@ -67,7 +67,7 @@ function TeamReviewCard({ team, onStatus, onRegenerate, loading, stageFinalized 
             {displayStatus}
           </span>
           <details className="overflow-menu" disabled={stageFinalized}>
-            <summary style={{ pointerEvents: stageFinalized ? 'none' : 'auto', opacity: stageFinalized ? 0.3 : 1, listStyle: 'none', cursor: 'pointer', padding: '0 4px', color: 'var(--text-secondary)' }}>⋮</summary>
+            <summary style={{ pointerEvents: stageFinalized ? 'none' : 'auto', opacity: stageFinalized ? 0.3 : 1, listStyle: 'none', cursor: 'pointer', padding: '0 4px', color: 'var(--text-secondary)' }}>â‹®</summary>
             <div className="committee-card" style={{ position: 'absolute', right: 0, padding: '4px', zIndex: 10 }}>
               <button type="button" className="committee-btn committee-btn-outline" style={{ display: 'block', width: '100%', padding: '6px 12px', textAlign: 'left', border: 'none', fontSize: '12px' }}>Rename Team</button>
               <button type="button" className="committee-btn committee-btn-outline" style={{ display: 'block', width: '100%', padding: '6px 12px', textAlign: 'left', border: 'none', fontSize: '12px' }}>Manually Edit</button>
@@ -89,7 +89,7 @@ function TeamReviewCard({ team, onStatus, onRegenerate, loading, stageFinalized 
 
       <section className="ai-rationale" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', padding: '8px 10px', borderRadius: '6px', marginBottom: '10px', fontSize: '12px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px', color: 'var(--status-purple)', fontWeight: 500 }}>
-          <span style={{ fontSize: '11px' }}>✦ AI RATIONALE</span>
+          <span style={{ fontSize: '11px' }}>âœ¦ AI RATIONALE</span>
           <button 
             type="button" 
             disabled={loading || stageFinalized}
@@ -106,10 +106,10 @@ function TeamReviewCard({ team, onStatus, onRegenerate, loading, stageFinalized 
             onMouseEnter={(e) => !loading && !stageFinalized && (e.currentTarget.style.transform = 'rotate(45deg)')}
             onMouseLeave={(e) => (e.currentTarget.style.transform = 'rotate(0deg)')}
           >
-            {loading ? '⏳' : '↻'}
+            {loading ? 'â³' : 'â†»'}
           </button>
         </div>
-        {team.stale && !stageFinalized && <p style={{ color: 'var(--status-warning)', margin: '0 0 2px 0', fontSize: '10px' }}>Rationale outdated — regenerate</p>}
+        {team.stale && !stageFinalized && <p style={{ color: 'var(--status-warning)', margin: '0 0 2px 0', fontSize: '10px' }}>Rationale outdated â€” regenerate</p>}
         {loading ? (
           <div className="rationale-skeleton"><span /><span /><span /></div>
         ) : (
@@ -224,13 +224,13 @@ function CommitteeTeamReview() {
     return matchesQuery && matchesFilter
   })
 
-  // 🚀 SMART HYBRID DISPATCHER: Real emails for Team #1, Console logs for the rest!
+  // ðŸš€ SMART HYBRID DISPATCHER: Real emails for Team #1, Console logs for the rest!
   async function dispatchTeamInvites() {
-    const adminToken = localStorage.getItem('eventflow_token');
+    const adminToken = localStorage.getItem('HackSmart_token');
 
     if (!adminToken) {
      
-      setToast("🛑 Error: Admin access token not found. Please re-login.");
+      setToast("ðŸ›‘ Error: Admin access token not found. Please re-login.");
       return;
     }
 
@@ -264,7 +264,7 @@ function CommitteeTeamReview() {
                 'Authorization': 'Bearer ' + adminToken.trim()
               },
               body: JSON.stringify({
-                // 🎯 FORCE SEND TO YOU so you can actually click and test the links!
+                // ðŸŽ¯ FORCE SEND TO YOU so you can actually click and test the links!
                 participant_email: "shubhtech1056@gmail.com", 
                 team_id: team.id,
                 participant_id: participantId,
@@ -301,7 +301,7 @@ function CommitteeTeamReview() {
     }
 
     setIsDispatchingInvites(false);
-    setToast(`⚡ Finished! Sent ${successCount} test emails to shubhtech1056@gmail.com & generated ${fallbackCount} console links.`);
+    setToast(`âš¡ Finished! Sent ${successCount} test emails to shubhtech1056@gmail.com & generated ${fallbackCount} console links.`);
   }
 
   async function setAll(status) {
@@ -412,7 +412,7 @@ function CommitteeTeamReview() {
           </div>
         )}
 
-        {/* 🛠️ Styled In-App Confirmation Modal Layer */}
+        {/* ðŸ› ï¸ Styled In-App Confirmation Modal Layer */}
         {showConfirmModal && (
           <div style={{
             position: 'fixed',
@@ -470,7 +470,7 @@ function CommitteeTeamReview() {
         <section className="committee-card" style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '16px', padding: '10px 14px' }}>
           <button className="committee-btn committee-btn-success" type="button" onClick={() => setAll('approved')} style={{ padding: '6px 12px', fontSize: '12px', transition: 'all 0.15s ease' }}>Approve All</button>
           <button className="committee-btn committee-btn-danger" type="button" onClick={() => setAll('rejected')} style={{ padding: '6px 12px', fontSize: '12px', transition: 'all 0.15s ease' }}>Reject All</button>
-          <input className="committee-input" placeholder="Search teams or participants…" value={query} onChange={(event) => setQuery(event.target.value)} style={{ flex: 1, transition: 'border-color 0.15s ease' }} />
+          <input className="committee-input" placeholder="Search teams or participantsâ€¦" value={query} onChange={(event) => setQuery(event.target.value)} style={{ flex: 1, transition: 'border-color 0.15s ease' }} />
           <select className="committee-select" value={filter} onChange={(event) => setFilter(event.target.value)} style={{ width: 'auto', transition: 'border-color 0.15s ease' }}>
             <option value="all">All</option>
             <option value="pending">Pending</option>
@@ -478,7 +478,7 @@ function CommitteeTeamReview() {
             <option value="rejected">Rejected</option>
           </select>
 
-          {/* ⚡ THE ACTION DISPATCHER BUTTON */}
+          {/* âš¡ THE ACTION DISPATCHER BUTTON */}
           {isStageFinalized && (
             <button
               className="committee-btn"
@@ -499,7 +499,7 @@ function CommitteeTeamReview() {
                 transition: 'all 0.2s ease'
               }}
             >
-              {isDispatchingInvites ? '⏳ Sending Links...' : '⚡ Invite Finalized Teams'}
+              {isDispatchingInvites ? 'â³ Sending Links...' : 'âš¡ Invite Finalized Teams'}
             </button>
           )}
         </section>
@@ -535,7 +535,7 @@ function CommitteeTeamReview() {
             </strong>
             <p style={{ margin: 0, fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '400' }}>
               {isStageFinalized 
-                ? "✨ Stage structural changes locked and tracked in production data repositories." 
+                ? "âœ¨ Stage structural changes locked and tracked in production data repositories." 
                 : "Approve and finalize rosters to open background mail communications."}
             </p>
           </div>
@@ -554,7 +554,7 @@ function CommitteeTeamReview() {
                 transition: 'all 0.2s ease'
               }}
             >
-              {isStageFinalized ? '🔒 Snapshot Frozen' : (isFinalizing ? 'Saving...' : 'Finalize List')}
+              {isStageFinalized ? 'ðŸ”’ Snapshot Frozen' : (isFinalizing ? 'Saving...' : 'Finalize List')}
             </button>
 
             <button 
@@ -571,7 +571,7 @@ function CommitteeTeamReview() {
                 transition: 'all 0.2s ease'
               }}
             >
-              Send Communications →
+              Send Communications â†’
             </button>
           </div>
         </section>

@@ -1,7 +1,7 @@
-import { useMemo, useState, useEffect } from 'react'
+﻿import { useMemo, useState, useEffect } from 'react'
 import CommitteeLayout from '../../components/layout/CommitteeLayout'
 
-// 📋 Dynamic Pipeline Campaign Template Definitions (Static Count Suffixes Removed)
+// ðŸ“‹ Dynamic Pipeline Campaign Template Definitions (Static Count Suffixes Removed)
 const pipelineEmails = [
   {
     id: 1,
@@ -9,24 +9,24 @@ const pipelineEmails = [
     status: 'Sent',
     targetScope: 'Participants',
     sentAt: 'May 21, 10:10 AM',
-    subject: '🚀 [{first_name}] Congratulations! Shortlisted for Round 2 - WiSE@TI Hackathon',
+    subject: 'ðŸš€ [{first_name}] Congratulations! Shortlisted for Round 2 - WiSE@TI Hackathon',
     body: `Dear {first_name},
 
 We're thrilled to inform you that you have been shortlisted for Round 2 of the WiSE@TI Hackathon for Women in Software Engineering.
 
 Based on our intelligent matching analysis, your team assignment is officially complete. You have been placed in {team_name}!
 
-📋 Here's what to do next:
+ðŸ“‹ Here's what to do next:
 
-1. Connect with your team 🤝
+1. Connect with your team ðŸ¤
 Your team members are marked below. Please reach out, establish communications, and introduce yourselves:
 {teammates}
 
-2. Understand your team synergy 💡
+2. Understand your team synergy ðŸ’¡
 Our orchestration platform evaluated your technical background and engineered this optimal alignment:
 "{rationale}"
 
-3. Pick your theme 🚀
+3. Pick your theme ðŸš€
 Review the challenge tracks with your team, select your technical domain focus, and begin outlining your architectural solution blueprints.`,
   },
   {
@@ -35,7 +35,7 @@ Review the challenge tracks with your team, select your technical domain focus, 
     status: 'Pending Approval',
     targetScope: 'Participants',
     sentAt: '',
-    subject: 'Your EventFlow team assignment is ready',
+    subject: 'Your HackSmart team assignment is ready',
     body: 'Hi there,\n\nYour team assignment has been generated and approved by the committee. Please review your teammates and prepare for the challenge briefing.\n\nRegards,\nOrganising Committee',
   },
   {
@@ -45,7 +45,7 @@ Review the challenge tracks with your team, select your technical domain focus, 
     targetScope: 'Participants',
     sentAt: '',
     subject: 'Challenge briefing and submission expectations',
-    body: 'Hello teams,\n\nThe challenge brief is now available. Build a focused prototype, document assumptions, and prepare a five-minute demo.\n\nRegards,\nEventFlow Committee',
+    body: 'Hello teams,\n\nThe challenge brief is now available. Build a focused prototype, document assumptions, and prepare a five-minute demo.\n\nRegards,\nHackSmart Committee',
   },
   {
     id: 4,
@@ -79,10 +79,10 @@ function CommitteeCommunications() {
   const [showDelivery, setShowDelivery] = useState(true)
   const [sending, setSending] = useState(false)
   
-  // 🔔 Elegant Toast Notification Banner State
+  // ðŸ”” Elegant Toast Notification Banner State
   const [toast, setToast] = useState({ message: '', type: '' })
 
-  // ⚖️ Dynamic Judges State Roster
+  // âš–ï¸ Dynamic Judges State Roster
   const [judges, setJudges] = useState([])
   const [loadingJudges, setLoadingJudges] = useState(false)
 
@@ -149,7 +149,7 @@ function CommitteeCommunications() {
     return uniqueParticipants.size > 0 ? uniqueParticipants.size : 42;
   }, [deliveryRows])
 
-  // 🔍 Fetch Unique Judges from Finalized Evaluation Sheets
+  // ðŸ” Fetch Unique Judges from Finalized Evaluation Sheets
   const fetchJudgesFromFinalizedList = async () => {
     setLoadingJudges(true)
     try {
@@ -216,7 +216,7 @@ function CommitteeCommunications() {
     }
   }
 
-  // 🚀 Dispatches personalized payloads to filtered targets
+  // ðŸš€ Dispatches personalized payloads to filtered targets
   async function handleApproveAndSend() {
     setSending(true)
     const isJudgeStage = preview.targetScope === 'Judges' || preview.id === 4
@@ -239,7 +239,7 @@ function CommitteeCommunications() {
             method: 'POST',
             headers: { 
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('eventflow_token') || ''}`
+              'Authorization': `Bearer ${localStorage.getItem('HackSmart_token') || ''}`
             },
             body: JSON.stringify({
               subject: editSubject,
@@ -250,13 +250,13 @@ function CommitteeCommunications() {
           })
         }
 
-        triggerNotification(`🚀 Success! Evaluation reminders transmitted cleanly to ${targetJudges.length} judges.`, 'success');
+        triggerNotification(`ðŸš€ Success! Evaluation reminders transmitted cleanly to ${targetJudges.length} judges.`, 'success');
       } else {
         const response = await fetch(`${apiBaseUrl}/api/v1/events/${currentEventId}/send-announcements`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('eventflow_token') || ''}`
+            'Authorization': `Bearer ${localStorage.getItem('HackSmart_token') || ''}`
           },
           body: JSON.stringify({
             subject: editSubject,
@@ -265,7 +265,7 @@ function CommitteeCommunications() {
         });
 
         if (!response.ok) throw new Error("Worker endpoint rejected payload parameters.");
-        triggerNotification('🚀 Success! Custom template parameters processed and handed off to Celery queues.', 'success');
+        triggerNotification('ðŸš€ Success! Custom template parameters processed and handed off to Celery queues.', 'success');
       }
 
       setPreview(null);
@@ -285,10 +285,10 @@ function CommitteeCommunications() {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('eventflow_token') || ''}`
+          'Authorization': `Bearer ${localStorage.getItem('HackSmart_token') || ''}`
         },
         body: JSON.stringify({
-          title: recipientScope === 'All Judges' ? '📢 Update for Judges' : '📢 Event Announcement',
+          title: recipientScope === 'All Judges' ? 'ðŸ“¢ Update for Judges' : 'ðŸ“¢ Event Announcement',
           body: announcement,
           type: 'info', 
           scope: recipientScope
@@ -314,10 +314,10 @@ function CommitteeCommunications() {
     <CommitteeLayout pageTitle="Communications" pageSubtitle="Broadcast announcements, manage email templates, and monitor delivery activity.">
       <div style={{ display: 'flex', minHeight: 'calc(100vh - 80px)', background: 'var(--bg-secondary)' }}>
         
-        {/* 🏢 LEFT PANEL WORKSPACE */}
+        {/* ðŸ¢ LEFT PANEL WORKSPACE */}
         <div style={{ flex: 1, padding: '16px', maxWidth: preview ? '60%' : '100%', transition: 'max-width 0.25s ease', boxSizing: 'border-box' }}>
 
-          {/* 🔔 ELEGANT IN-APP TOAST BANNER */}
+          {/* ðŸ”” ELEGANT IN-APP TOAST BANNER */}
           {toast.message && (
             <div style={{
               background: toast.type === 'success' ? '#e8f5e9' : '#ffebee',
@@ -338,7 +338,7 @@ function CommitteeCommunications() {
                 style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold' }} 
                 onClick={() => setToast({ message: '', type: '' })}
               >
-                ×
+                Ã—
               </button>
             </div>
           )}
@@ -346,7 +346,7 @@ function CommitteeCommunications() {
           {/* QUICK DISPATCH COMPONENT */}
           <section className="committee-card" style={{ padding: '12px 16px', marginBottom: '16px' }}>
             <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <div style={{ background: 'var(--status-info-bg)', color: 'var(--status-info)', width: '32px', height: '32px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>📢</div>
+              <div style={{ background: 'var(--status-info-bg)', color: 'var(--status-info)', width: '32px', height: '32px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>ðŸ“¢</div>
               <input 
                 className="committee-input"
                 placeholder="Type a dashboard announcement..." 
@@ -392,7 +392,7 @@ function CommitteeCommunications() {
               const statusTone = email.status.toLowerCase().includes('sent') ? 'success' : email.status.toLowerCase().includes('pending') ? 'warning' : 'info';
               const isSelected = preview?.id === email.id;
               
-              // 📊 Compute dynamic audience size labels
+              // ðŸ“Š Compute dynamic audience size labels
               const countLabel = email.targetScope === 'Judges' 
                 ? `All Judges (${judges.length || 6})` 
                 : `All Participants (${totalParticipantsCount})`;
@@ -442,7 +442,7 @@ function CommitteeCommunications() {
                 type="button" 
                 onClick={() => setShowDelivery(!showDelivery)}
               >
-                {showDelivery ? 'Collapse Logs ▲' : 'Expand Logs ▼'}
+                {showDelivery ? 'Collapse Logs â–²' : 'Expand Logs â–¼'}
               </button>
             </div>
             
@@ -493,12 +493,12 @@ function CommitteeCommunications() {
           </section>
         </div>
 
-        {/* 🏬 RIGHT PREVIEW DRAWER PANEL */}
+        {/* ðŸ¬ RIGHT PREVIEW DRAWER PANEL */}
         {preview && (
           <aside className="committee-card" style={{ width: '40%', borderLeft: '1px solid var(--border-color)', borderTop: 'none', borderBottom: 'none', borderRight: 'none', borderRadius: 0, padding: '20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '16px', position: 'sticky', top: '0', height: 'calc(100vh - 80px)', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '10px', borderBottom: '1px solid var(--border-color)' }}>
-              <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--status-purple)', letterSpacing: '0.05em' }}>✦ AGENT ENGINE PIPELINE DRAFT</span>
-              <button style={{ background: 'none', border: 'none', fontSize: '22px', color: 'var(--text-muted)', cursor: 'pointer', padding: 0 }} type="button" onClick={() => setPreview(null)}>×</button>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--status-purple)', letterSpacing: '0.05em' }}>âœ¦ AGENT ENGINE PIPELINE DRAFT</span>
+              <button style={{ background: 'none', border: 'none', fontSize: '22px', color: 'var(--text-muted)', cursor: 'pointer', padding: 0 }} type="button" onClick={() => setPreview(null)}>Ã—</button>
             </div>
 
             <div>
@@ -506,11 +506,11 @@ function CommitteeCommunications() {
               <h3 style={{ margin: 0, fontSize: '17px', fontWeight: 700, color: 'var(--text-primary)' }}>{preview.stage}</h3>
             </div>
 
-            {/* ⚖️ DYNAMIC INTERACTIVE PANELISTS CHECKBOX LIST */}
+            {/* âš–ï¸ DYNAMIC INTERACTIVE PANELISTS CHECKBOX LIST */}
             {(preview.targetScope === 'Judges' || preview.id === 4) && (
               <div style={{ background: 'var(--bg-secondary)', padding: '14px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
                 <label className="committee-label" style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: 'var(--accent-color)' }}>
-                  🎯 TARGET PANELISTS FROM FINALIZED DATA
+                  ðŸŽ¯ TARGET PANELISTS FROM FINALIZED DATA
                 </label>
                 {loadingJudges ? (
                   <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Analyzing score sheets for unique judge targets...</div>

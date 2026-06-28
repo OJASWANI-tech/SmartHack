@@ -1,4 +1,4 @@
-// ─── /src/services/committee.js ───
+﻿// â”€â”€â”€ /src/services/committee.js â”€â”€â”€
 import axios from 'axios';
 
 const api = axios.create({
@@ -7,13 +7,13 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('eventflow_token')
+  const token = localStorage.getItem('HackSmart_token')
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
 
 // ==========================================
-// 🏢 EVENT & ROSTER MANAGEMENT
+// ðŸ¢ EVENT & ROSTER MANAGEMENT
 // ==========================================
 
 /**
@@ -75,7 +75,7 @@ export async function getParticipants(eventId) {
 export const getParticipantRoster = getParticipants;
 
 // ==========================================
-// 🛠️ TEAM FORMATION & AI ENGINE CONTROLLERS
+// ðŸ› ï¸ TEAM FORMATION & AI ENGINE CONTROLLERS
 // ==========================================
 
 /**
@@ -129,7 +129,7 @@ export async function getTeams(eventId) {
 }
 
 // ==========================================
-// ✅ TEAM CARD STATE ACTIONS & APPROVALS
+// âœ… TEAM CARD STATE ACTIONS & APPROVALS
 // ==========================================
 
 /**
@@ -218,7 +218,7 @@ export async function getFinalizedTeams(eventId) {
 }
 
 // ==========================================
-// 📢 DISPATCH SYSTEMS & COMMUNICATIONS
+// ðŸ“¢ DISPATCH SYSTEMS & COMMUNICATIONS
 // ==========================================
 
 /**
@@ -239,7 +239,7 @@ export async function sendTeamAnnouncements(eventId, payload = {}) {
 }
 
 // ==========================================
-// ⚖️ SCORE ANOMALIES MANAGEMENT (ALIGNED WITH BACKEND)
+// âš–ï¸ SCORE ANOMALIES MANAGEMENT (ALIGNED WITH BACKEND)
 // ==========================================
 
 /**
@@ -306,7 +306,7 @@ export async function getAIDivergenceSummary(eventId, teamId) {
 }
 
 // ==========================================
-// 📈 TELEMETRY ENDPOINTS
+// ðŸ“ˆ TELEMETRY ENDPOINTS
 // ==========================================
 
 /**
@@ -442,7 +442,7 @@ export async function getActivityLog(eventId) {
 }
 
 // ==========================================
-// 🎓 MENTOR ALLOCATION MANAGEMENT
+// ðŸŽ“ MENTOR ALLOCATION MANAGEMENT
 // ==========================================
 
 /**
@@ -581,7 +581,7 @@ export const sendTargetedAnnouncements = async (eventId, payload = {}) => {
 };
 
 // ==========================================
-// ⚡ TEAM CHAT OPERATIONS INTERACTIVE TRACK
+// âš¡ TEAM CHAT OPERATIONS INTERACTIVE TRACK
 // ==========================================
 
 /**
@@ -626,7 +626,7 @@ export async function sendChatMessage({
   senderEmail,
   audio_url, 
   audioUrl,
-  fileUrl,    // 🎯 FIXED: Must destructure these parameters here!
+  fileUrl,    // ðŸŽ¯ FIXED: Must destructure these parameters here!
   file_url,
   fileType,   
   file_type,
@@ -644,7 +644,7 @@ export async function sendChatMessage({
       sender_email: senderEmail,
       audio_url: audio_url || audioUrl || null, 
       
-      // 🎯 FIXED: Safeguarded mappings so nothing arrives empty
+      // ðŸŽ¯ FIXED: Safeguarded mappings so nothing arrives empty
       file_url: file_url || fileUrl || null,     
       file_type: file_type || fileType || null,   
       file_name: file_name || fileName || null    
@@ -657,7 +657,7 @@ export async function sendChatMessage({
   }
 }
 // ==========================================
-// ⚙️ DYNAMIC WORKFLOW ENGINE
+// âš™ï¸ DYNAMIC WORKFLOW ENGINE
 // ==========================================
 
 export async function initWorkflow(eventId, eventType = 'hackathon') {

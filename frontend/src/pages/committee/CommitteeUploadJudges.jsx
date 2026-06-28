@@ -1,4 +1,4 @@
-import { getCommitteeRole } from '../../services/auth'
+﻿import { getCommitteeRole } from '../../services/auth'
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import CommitteeLayout from "../../components/layout/CommitteeLayout";
@@ -8,7 +8,7 @@ import {
   uploadJudgesExpertiseCsv,
 } from "../../services/committee";
 
-// 🎯 Synced exactly with your database normalization blocks
+// ðŸŽ¯ Synced exactly with your database normalization blocks
 const DOMAIN_MAPPING = {
   ai: "Artificial Intelligence & Machine Learning",
   developer: "Artificial Intelligence & Machine Learning",
@@ -66,7 +66,7 @@ function CommitteeUploadJudges() {
 
  const isAdmin = 
   getCommitteeRole() === 'admin' || 
-  localStorage.getItem('eventflow_mock_role') === 'dynamic-committee' ||
+  localStorage.getItem('HackSmart_mock_role') === 'dynamic-committee' ||
   getCommitteeRole() === 'committee';
 
   const showToast = useCallback((message, type = "info") => {
@@ -121,7 +121,7 @@ function CommitteeUploadJudges() {
       }
 
       const adminToken =
-        localStorage.getItem("eventflow_token") ||
+        localStorage.getItem("HackSmart_token") ||
         localStorage.getItem("token");
 
       const tokenResponse = await fetch(`${baseURL}/tokens/evaluator`, {
@@ -147,7 +147,7 @@ function CommitteeUploadJudges() {
         if (accessToken) {
           localStorage.setItem('evaluator_token', accessToken)
           localStorage.setItem('role', 'evaluator')
-          showToast(`📬 Magic Link routed to your test mailbox! Check shubhtech1056@gmail.com`, 'success')
+          showToast(`ðŸ“¬ Magic Link routed to your test mailbox! Check shubhtech1056@gmail.com`, 'success')
         } else {
           showToast(`Empty token returned for judge: ${judgeName}`, "error");
         }
@@ -274,7 +274,7 @@ function CommitteeUploadJudges() {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <span>{toast.type === "success" ? "✅" : "⚠️"}</span>
+              <span>{toast.type === "success" ? "âœ…" : "âš ï¸"}</span>
               <span>{toast.message}</span>
             </div>
             <button
@@ -291,7 +291,7 @@ function CommitteeUploadJudges() {
                 opacity: 0.7,
               }}
             >
-              ×
+              Ã—
             </button>
           </div>
         )}
@@ -331,7 +331,7 @@ function CommitteeUploadJudges() {
                     fontSize: '0.85rem'
                   }}
                 >
-                  {uploadingCsv ? 'Matching Expertise...' : '📤 Upload Judges CSV'}
+                  {uploadingCsv ? 'Matching Expertise...' : 'ðŸ“¤ Upload Judges CSV'}
                 </button>
               </>
             )}
@@ -362,7 +362,7 @@ function CommitteeUploadJudges() {
               border: "1px dashed #334155",
             }}
           >
-            <span style={{ fontSize: "2.5rem" }}>⚖️</span>
+            <span style={{ fontSize: "2.5rem" }}>âš–ï¸</span>
             <h3 style={{ margin: "1rem 0 0.5rem 0", color: "#f8fafc" }}>
               No Teams Available
             </h3>
@@ -519,7 +519,7 @@ function CommitteeUploadJudges() {
                                 e.currentTarget.style.transform = "scale(1)";
                               }}
                             >
-                              <span>🧧</span>
+                              <span>ðŸ§§</span>
                               <span>Invite {resolvedJudgeName}</span>
                             </span>
                           );
@@ -549,3 +549,4 @@ function CommitteeUploadJudges() {
 }
 
 export default CommitteeUploadJudges;
+

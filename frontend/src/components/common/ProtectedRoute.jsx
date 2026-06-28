@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+﻿import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { getCurrentRole } from '../../services/auth'
 
 function ProtectedRoute({ allowedRoles }) {
@@ -17,9 +17,9 @@ function ProtectedRoute({ allowedRoles }) {
       localStorage.setItem('token_version', tokenVersion)
     }
     
-    localStorage.setItem('eventflow_token', urlToken)
+    localStorage.setItem('HackSmart_token', urlToken)
     // clear mock role so it doesn't override the real token
-    localStorage.removeItem('eventflow_mock_role')
+    localStorage.removeItem('HackSmart_mock_role')
 
     // Decode JWT payload to retrieve and cache the event_id
     const parts = urlToken.split('.')
@@ -37,7 +37,7 @@ function ProtectedRoute({ allowedRoles }) {
   }
 
   // IMPORTANT
-  const token = localStorage.getItem('eventflow_token')
+  const token = localStorage.getItem('HackSmart_token')
   const role = getCurrentRole()
   console.log('ProtectedRoute debug:', { token: !!token, role, allowedRoles })
 
@@ -60,4 +60,5 @@ function ProtectedRoute({ allowedRoles }) {
 }
 
 export default ProtectedRoute
+
 

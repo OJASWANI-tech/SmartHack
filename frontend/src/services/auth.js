@@ -1,16 +1,16 @@
-// 🎯 FIXED: Ensure both 'admin' and 'dynamic-committee' are explicitly valid
+﻿// ðŸŽ¯ FIXED: Ensure both 'admin' and 'dynamic-committee' are explicitly valid
 const VALID_ROLES = ['committee', 'participant', 'evaluator', 'dynamic-committee', 'admin']
-const MOCK_ROLE_KEY = 'eventflow_mock_role'
-const TOKEN_KEY = 'eventflow_token'
+const MOCK_ROLE_KEY = 'HackSmart_mock_role'
+const TOKEN_KEY = 'HackSmart_token'
 
 const TOKEN_VERSION = 'v2'  
 
 export function checkTokenVersion() {
   const storedVersion = localStorage.getItem('token_version')
   if (storedVersion !== TOKEN_VERSION) {
-    localStorage.removeItem('eventflow_token')
-    localStorage.removeItem('eventflow_refresh_token')
-    localStorage.removeItem('eventflow_mock_role')
+    localStorage.removeItem('HackSmart_token')
+    localStorage.removeItem('HackSmart_refresh_token')
+    localStorage.removeItem('HackSmart_mock_role')
     localStorage.removeItem('committee_user')
     localStorage.setItem('token_version', TOKEN_VERSION)
   }
@@ -47,9 +47,9 @@ export function setMockRole(role) {
   }
 }
 
-// 🎯 FIXED: Forces admin layout permissions for your views when accessing the panel
+// ðŸŽ¯ FIXED: Forces admin layout permissions for your views when accessing the panel
 export function getCommitteeRole() {
-  // ✅ DB role from localStorage — "admin" or "member"
+  // âœ… DB role from localStorage â€” "admin" or "member"
   const stored = localStorage.getItem('committee_user')
   if (stored) {
     try {
@@ -65,7 +65,7 @@ export function getCommitteeRole() {
     if (payload?.role) return payload.role
   }
 
-  return 'member'  // ✅ least privilege fallback
+  return 'member'  // âœ… least privilege fallback
 }
 
 export { VALID_ROLES }

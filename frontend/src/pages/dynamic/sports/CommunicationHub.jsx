@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Megaphone, Send, Loader2, CheckCircle2 } from 'lucide-react';
 import { resolveEventId } from '../../../api/dynamicRuntime';
 
@@ -9,10 +9,10 @@ const SCOPES = ['All Teams', 'All Referees', 'All Participants'];
 const TYPES = [{ key: 'info', label: 'Info' }, { key: 'urgent', label: 'Urgent' }];
 
 /*
- * CommunicationHub — the committee-side broadcast composer described in the
+ * CommunicationHub â€” the committee-side broadcast composer described in the
  * brief. Posts to the existing, already-authenticated /broadcasts endpoint
  * (the same one the Participant Dashboard's Live Announcements panel already
- * polls), so no new backend route is needed — this just gives committee users
+ * polls), so no new backend route is needed â€” this just gives committee users
  * a UI for it instead of requiring a raw API call.
  */
 export default function CommunicationHub() {
@@ -32,7 +32,7 @@ export default function CommunicationHub() {
     setSending(true);
     setError(null);
     try {
-      const token = localStorage.getItem('eventflow_token');
+      const token = localStorage.getItem('HackSmart_token');
       const res = await fetch(`${BASE}/api/v1/events/${eventId}/broadcasts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -81,7 +81,7 @@ export default function CommunicationHub() {
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          placeholder="Details for teams and referees…"
+          placeholder="Details for teams and refereesâ€¦"
           rows={4}
           className="w-full mb-4 bg-slate-900/60 border border-white/[0.08] rounded-lg px-3 py-2 text-white focus:border-cyan-500 outline-none transition-all duration-300 resize-vertical"
         />
@@ -115,7 +115,7 @@ export default function CommunicationHub() {
           </div>
         </div>
 
-        {error && <p className="text-xs text-red-400 mb-4">⚠️ {error}</p>}
+        {error && <p className="text-xs text-red-400 mb-4">âš ï¸ {error}</p>}
         {sent && (
           <p className="text-xs text-emerald-400 mb-4 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Broadcast sent.</p>
         )}
@@ -126,9 +126,10 @@ export default function CommunicationHub() {
           className="w-full flex items-center justify-center gap-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-slate-950 font-extrabold px-4 py-3 transition-all duration-300"
         >
           {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-          {sending ? 'Sending…' : 'Send Broadcast'}
+          {sending ? 'Sendingâ€¦' : 'Send Broadcast'}
         </button>
       </div>
     </div>
   );
 }
+

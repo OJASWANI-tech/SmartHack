@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Participant Portal API Service
  * All calls to the backend endpoints for the participant portal.
  * Every call reads event_id and participant_id from localStorage.
@@ -7,7 +7,7 @@
 const BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export async function verifyToken() {
-  const token = localStorage.getItem('eventflow_token')
+  const token = localStorage.getItem('HackSmart_token')
   if (!token) throw new Error('no_token')
   
   const res = await fetch(`${BASE}/tokens/verify?token=${token}`)
@@ -20,7 +20,7 @@ export async function verifyToken() {
 
 function decodeToken() {
   try {
-    const token = localStorage.getItem('eventflow_token')
+    const token = localStorage.getItem('HackSmart_token')
     if (!token) return {}
     const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
     return payload
@@ -37,12 +37,12 @@ function getIds() {
     participantId: payload.participant_id || localStorage.getItem('participant_id'),
     email: payload.sub,
     teamId: payload.team_id,
-    token: localStorage.getItem('eventflow_token'),
+    token: localStorage.getItem('HackSmart_token'),
   }
 }
 
 async function request(path, options = {}) {
-  const token = localStorage.getItem('eventflow_token')
+  const token = localStorage.getItem('HackSmart_token')
   const res = await fetch(`${BASE}${path}`, {
     headers: { 
       'Content-Type': 'application/json',
@@ -120,3 +120,4 @@ export async function askAI(question) {
     body: JSON.stringify({ event_id: eventId, participant_id: participantId, question }),
   })
 }
+

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+﻿import { useState, useRef, useEffect } from 'react'
 import ParticipantLayout from '../../components/layout/ParticipantLayout'
 import { askAI } from '../../api/participant'
 
@@ -24,7 +24,7 @@ export default function ParticipantAssistant() {
   const [messages, setMessages] = useState([
     {
       sender: 'ai',
-      text: "Hello! I'm your EventFlow AI assistant. I can answer questions about this event, your team, submission status, mentor sessions, stages, and official rules.\n\nWhat would you like to know?",
+      text: "Hello! I'm your HackSmart AI assistant. I can answer questions about this event, your team, submission status, mentor sessions, stages, and official rules.\n\nWhat would you like to know?",
     },
   ])
   const [input, setInput] = useState('')
@@ -63,15 +63,15 @@ export default function ParticipantAssistant() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '20px', alignItems: 'start' }}>
 
-          {/* ── Chat window ── */}
+          {/* â”€â”€ Chat window â”€â”€ */}
           <section className="ref-card" style={{ display: 'flex', flexDirection: 'column', height: '540px', overflow: 'hidden' }}>
 
             {/* Header bar */}
             <div style={{ padding: '16px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '999px', background: '#b899eb', display: 'grid', placeItems: 'center', fontSize: '16px' }}>🤖</div>
+              <div style={{ width: '32px', height: '32px', borderRadius: '999px', background: '#b899eb', display: 'grid', placeItems: 'center', fontSize: '16px' }}>ðŸ¤–</div>
               <div>
-                <h4 style={{ margin: 0, fontSize: '13px', fontWeight: '800' }}>EventFlow Helper</h4>
-                <small style={{ color: '#71dd8c', fontSize: '10px' }}>Always active · Event-scoped AI</small>
+                <h4 style={{ margin: 0, fontSize: '13px', fontWeight: '800' }}>HackSmart Helper</h4>
+                <small style={{ color: '#71dd8c', fontSize: '10px' }}>Always active Â· Event-scoped AI</small>
               </div>
             </div>
 
@@ -98,7 +98,7 @@ export default function ParticipantAssistant() {
               {typing && (
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                   <div style={{ width: '24px', height: '24px', borderRadius: '999px', background: '#adadfb', display: 'grid', placeItems: 'center', fontSize: '10px', fontWeight: '700' }}>AI</div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>EventFlow AI is thinking…</span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>HackSmart AI is thinkingâ€¦</span>
                 </div>
               )}
               <div ref={chatEndRef} />
@@ -118,7 +118,7 @@ export default function ParticipantAssistant() {
               {/* Text input */}
               <div style={{ display: 'flex', gap: '8px' }}>
                 <input
-                  type="text" placeholder="Type your question…"
+                  type="text" placeholder="Type your questionâ€¦"
                   value={input} onChange={e => setInput(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() } }}
                   disabled={typing}
@@ -132,7 +132,7 @@ export default function ParticipantAssistant() {
             </div>
           </section>
 
-          {/* ── Info panel ── */}
+          {/* â”€â”€ Info panel â”€â”€ */}
           <section className="ref-card" style={{ padding: '20px' }}>
             <div className="ref-section-title"><h3>What I Can Help With</h3></div>
             <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.6', margin: '8px 0 16px 0' }}>
@@ -148,7 +148,7 @@ export default function ParticipantAssistant() {
             </div>
             <div style={{ marginTop: '16px', padding: '10px', background: 'var(--bg-secondary)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
               <p style={{ margin: 0, fontSize: '10px', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                🔒 <strong>Privacy:</strong> Your data is never shared with other participants. Each response uses only your event context.
+                ðŸ”’ <strong>Privacy:</strong> Your data is never shared with other participants. Each response uses only your event context.
               </p>
             </div>
           </section>

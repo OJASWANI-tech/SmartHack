@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Committee Score Anomalies & Governance API Service
  */
 
@@ -9,7 +9,7 @@ async function request(path, eventId, options = {}) {
   // If eventId wasn't passed, look it up as a last resort fallback
   const finalEventId = eventId || localStorage.getItem('current_event_id') || localStorage.getItem('event_id') || '';
   const fullPath = path.replace('{event_id}', finalEventId)
-  const token = localStorage.getItem('eventflow_token') || '';
+  const token = localStorage.getItem('HackSmart_token') || '';
   
   try {
     const res = await fetch(`${BASE}${fullPath}`, {
@@ -31,7 +31,7 @@ async function request(path, eventId, options = {}) {
   }
 }
 
-// ── LIST ALL DETECTED ANOMALIES ──
+// â”€â”€ LIST ALL DETECTED ANOMALIES â”€â”€
 export async function getScoreAnomalies(eventId = null) {
   try {
     return await request('/api/v1/events/{event_id}/anomalies', eventId)
@@ -40,7 +40,7 @@ export async function getScoreAnomalies(eventId = null) {
   }
 }
 
-// ── RESOLVE SCORE ANOMALY ──
+// â”€â”€ RESOLVE SCORE ANOMALY â”€â”€
 export async function resolveScoreAnomaly(anomalyId, action, note, eventId = null) {
   try {
     return await request(`/api/v1/events/{event_id}/anomalies/${anomalyId}/resolve`, eventId, {
@@ -52,7 +52,7 @@ export async function resolveScoreAnomaly(anomalyId, action, note, eventId = nul
   }
 }
 
-// ── ESCALATE ANOMALY / ESCALATE RESCORE ──
+// â”€â”€ ESCALATE ANOMALY / ESCALATE RESCORE â”€â”€
 export async function requestRescoreFromEvaluators(anomalyId, eventId = null) {
   try {
     return await request(`/api/v1/events/{event_id}/anomalies/${anomalyId}/request-rescore`, eventId, {
@@ -63,7 +63,7 @@ export async function requestRescoreFromEvaluators(anomalyId, eventId = null) {
   }
 }
 
-// ── GET AI DIVERGENCE SUMMARY REPORT ──
+// â”€â”€ GET AI DIVERGENCE SUMMARY REPORT â”€â”€
 export async function getAIDivergenceSummary(teamId, eventId = null) {
   try {
     return await request(`/api/v1/events/{event_id}/anomalies/summary/${teamId}`, eventId)

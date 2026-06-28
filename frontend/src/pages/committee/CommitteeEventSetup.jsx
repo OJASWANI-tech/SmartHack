@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+﻿import { useState, useRef, useEffect } from 'react'
 import PortalLayout from '../../components/layout/PortalLayout'
 import { createEvent } from '../../services/committee'
 
@@ -71,7 +71,7 @@ function parseEventFromMessages(messages) {
       num: i + 1,
       label,
       badge: isAuto ? 'AUTOMATED' : 'ASSESSMENT',
-      sub: [isAuto ? 'Automatically scored' : 'Evaluated by judges', qualifyMatch ? `Top ${qualifyMatch[1]} qualify` : null].filter(Boolean).join(' • '),
+      sub: [isAuto ? 'Automatically scored' : 'Evaluated by judges', qualifyMatch ? `Top ${qualifyMatch[1]} qualify` : null].filter(Boolean).join(' â€¢ '),
     }
   })
 
@@ -115,7 +115,7 @@ function ConfigPreview({ config, messages }) {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ color: 'var(--accent)', fontSize: 18 }}>✦</span>
+          <span style={{ color: 'var(--accent)', fontSize: 18 }}>âœ¦</span>
           <span style={{ fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>Live Configuration Preview</span>
         </div>
         <span style={{ fontSize: 11, fontWeight: 700, background: 'var(--accent)', color: '#fff', borderRadius: 20, padding: '3px 10px' }}>
@@ -128,10 +128,10 @@ function ConfigPreview({ config, messages }) {
         <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 10, padding: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 16 }}>📋</span>
+              <span style={{ fontSize: 16 }}>ðŸ“‹</span>
               <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--text)' }}>Event Overview</span>
             </div>
-            <button style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, padding: '3px 10px', fontSize: 12, cursor: 'pointer', color: 'var(--text-muted)' }}>✎ Edit</button>
+            <button style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, padding: '3px 10px', fontSize: 12, cursor: 'pointer', color: 'var(--text-muted)' }}>âœŽ Edit</button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
             {[
@@ -143,12 +143,12 @@ function ConfigPreview({ config, messages }) {
                 <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 3 }}>{f.label}</div>
                 {f.chip && f.value
                   ? <span style={{ fontSize: 12, fontWeight: 600, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 4, padding: '2px 8px', color: 'var(--text)' }}>{f.value}</span>
-                  : <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--text)' }}>{f.value || '—'}</div>}
+                  : <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--text)' }}>{f.value || 'â€”'}</div>}
               </div>
             ))}
             <div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 3 }}>Participants</div>
-              <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--text)' }}>{config.participants || '—'}</div>
+              <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--text)' }}>{config.participants || 'â€”'}</div>
             </div>
           </div>
         </div>
@@ -159,10 +159,10 @@ function ConfigPreview({ config, messages }) {
         <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 10, padding: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 16 }}>🔀</span>
+              <span style={{ fontSize: 16 }}>ðŸ”€</span>
               <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--text)' }}>Event Workflow <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>({config.rounds.length} Rounds Detected)</span></span>
             </div>
-            <button style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, padding: '3px 10px', fontSize: 12, cursor: 'pointer', color: 'var(--text-muted)' }}>✎ Edit</button>
+            <button style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, padding: '3px 10px', fontSize: 12, cursor: 'pointer', color: 'var(--text-muted)' }}>âœŽ Edit</button>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {config.rounds.map((r, i) => (
@@ -184,14 +184,14 @@ function ConfigPreview({ config, messages }) {
       {/* Progress card */}
       <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 10, padding: 16 }}>
         <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--text)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span>📊</span> Configuration Progress
+          <span>ðŸ“Š</span> Configuration Progress
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
           {CONFIG_FIELDS.map(f => {
             const done = fieldsDone.includes(f)
             return (
               <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 14, color: done ? '#43a047' : '#bdbdbd' }}>{done ? '✅' : '⭕'}</span>
+                <span style={{ fontSize: 14, color: done ? '#43a047' : '#bdbdbd' }}>{done ? 'âœ…' : 'â­•'}</span>
                 <span style={{ fontSize: 12, color: done ? 'var(--text)' : 'var(--text-muted)' }}>{f}</span>
               </div>
             )
@@ -212,7 +212,7 @@ function ConfigPreview({ config, messages }) {
 
 const INITIAL_BOT_MSG = {
   role: 'bot',
-  text: "Hi! I'm your Event Configuration Assistant.\n\nTell me about the event you want to create. You can describe it in any way you like – I'll figure out the structure, rules, and settings.",
+  text: "Hi! I'm your Event Configuration Assistant.\n\nTell me about the event you want to create. You can describe it in any way you like â€“ I'll figure out the structure, rules, and settings.",
 }
 
 function summarizeEvent(config) {
@@ -260,7 +260,7 @@ function CommitteeEventSetup() {
     await new Promise(r => setTimeout(r, 900))
     const summary = summarizeEvent(newConfig)
     const botText = summary.length
-      ? `Got it! I've understood the event structure. Here's what I have so far:\n\n${summary.map(l => `✅ ${l}`).join('\n')}\n\nI just need a few more details to complete the configuration.\nShall we continue?`
+      ? `Got it! I've understood the event structure. Here's what I have so far:\n\n${summary.map(l => `âœ… ${l}`).join('\n')}\n\nI just need a few more details to complete the configuration.\nShall we continue?`
       : "Got it! Could you tell me more about the event structure? For example: the number of rounds, how participants are scored, and how many advance to each stage."
     setMessages(prev => [...prev, { role: 'bot', text: botText }])
     setLoading(false)
@@ -339,14 +339,14 @@ function CommitteeEventSetup() {
 
   return (
     <PortalLayout
-      title="EventFlow"
+      title="HackSmart"
       eyebrow="Committee Portal"
       navItems={navItems}
       pageTitle="Event Configuration Assistant"
       pageSubtitle="Describe your event in natural language and I'll configure everything for you."
       headerActions={
         <button style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 8, padding: '6px 14px', fontSize: 13, cursor: 'pointer', color: 'var(--text)', display: 'flex', alignItems: 'center', gap: 6 }}>
-          ← Back to Dashboard
+          â† Back to Dashboard
         </button>
       }
     >
@@ -360,7 +360,7 @@ function CommitteeEventSetup() {
             {messages.map((msg, i) => (
               <div key={i} style={{ display: 'flex', gap: 10, justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', alignItems: 'flex-start' }}>
                 {msg.role === 'bot' && (
-                  <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>🤖</div>
+                  <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>ðŸ¤–</div>
                 )}
                 <div style={{
                   maxWidth: '75%',
@@ -382,8 +382,8 @@ function CommitteeEventSetup() {
             ))}
             {loading && (
               <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🤖</div>
-                <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px 12px 12px 2px', padding: '12px 16px', fontSize: 18, color: 'var(--text-muted)' }}>···</div>
+                <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>ðŸ¤–</div>
+                <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px 12px 12px 2px', padding: '12px 16px', fontSize: 18, color: 'var(--text-muted)' }}>Â·Â·Â·</div>
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -448,11 +448,11 @@ function CommitteeEventSetup() {
               disabled={!input.trim() || loading}
               style={{ width: 40, height: 40, borderRadius: 10, background: 'var(--accent)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, color: '#fff', opacity: !input.trim() || loading ? 0.5 : 1, flexShrink: 0 }}
             >
-              ➤
+              âž¤
             </button>
           </div>
           <div style={{ textAlign: 'center', fontSize: 11, color: 'var(--text-muted)', padding: '4px 16px 10px' }}>
-            {isRecording ? '🎙️ Recording...' : 'Press Enter to send • Shift + Enter for new line • Or upload PDF / record voice'}
+            {isRecording ? 'ðŸŽ™ï¸ Recording...' : 'Press Enter to send â€¢ Shift + Enter for new line â€¢ Or upload PDF / record voice'}
           </div>
         </div>
 
@@ -466,3 +466,4 @@ function CommitteeEventSetup() {
 }
 
 export default CommitteeEventSetup
+

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+﻿import { useState, useEffect, useMemo, useCallback } from 'react'
 import CommitteeLayout from '../../components/layout/CommitteeLayout'
 
 export default function CommitteeGrievances() {
@@ -35,7 +35,7 @@ export default function CommitteeGrievances() {
       await fetch(`${apiBase}/api/v1/events/${eventId}/grievances/mark-clicked`, {
         method: 'POST'
       })
-      window.dispatchEvent(new CustomEvent('eventflow-grievances-updated'))
+      window.dispatchEvent(new CustomEvent('HackSmart-grievances-updated'))
     } catch (e) {
       console.error('Failed to mark grievances as clicked:', e)
     }
@@ -133,7 +133,7 @@ export default function CommitteeGrievances() {
         `We have received complaints regarding your availability and engagement for Team ${grievance.team_name}.\n` +
         `Please connect with them immediately to resolve their issues and organize your scheduled sync sessions.\n\n` +
         `Best,\n` +
-        `Texas Hackathon Organizing Committee`
+        `HackSmart Organizing Committee`
       )
     } else if (grievance.category === 'team_conflict') {
       setEmailSubject(`[Action Required] Team Conflict warning - Team ${grievance.team_name}`)
@@ -142,7 +142,7 @@ export default function CommitteeGrievances() {
         `We have received reports of internal conflict and work distribution disputes in Team ${grievance.team_name}.\n` +
         `As their assigned mentor, please organize a mediation meeting as soon as possible to help them align and divide tasks fairly.\n\n` +
         `Best,\n` +
-        `Texas Hackathon Organizing Committee`
+        `HackSmart Organizing Committee`
       )
     } else {
       setEmailSubject(`[Support Query] Team ${grievance.team_name} Grievance Update`)
@@ -150,7 +150,7 @@ export default function CommitteeGrievances() {
         `Dear Team,\n\n` +
         `Our platform supervisors have received your query: "${grievance.detail}". We are reviewing the logs and will assist shortly.\n\n` +
         `Best,\n` +
-        `Texas Hackathon Organizing Committee`
+        `HackSmart Organizing Committee`
       )
     }
   }
@@ -199,12 +199,12 @@ export default function CommitteeGrievances() {
 
   const getSeverityBadge = (sev) => {
     if (sev === 'high') {
-      return <span className="badge" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>🔴 High Severity</span>
+      return <span className="badge" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>ðŸ”´ High Severity</span>
     }
     if (sev === 'medium') {
-      return <span className="badge" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b' }}>🟡 Medium</span>
+      return <span className="badge" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b' }}>ðŸŸ¡ Medium</span>
     }
-    return <span className="badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>🟢 Low</span>
+    return <span className="badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>ðŸŸ¢ Low</span>
   }
 
   const getStatusBadge = (stat) => {
@@ -249,7 +249,7 @@ export default function CommitteeGrievances() {
         {/* Analytics strip */}
         <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
           <article className="ref-mini-card">
-            <span className="ref-icon" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>📥</span>
+            <span className="ref-icon" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>ðŸ“¥</span>
             <div>
               <strong>{stats.total}</strong>
               <p>Total Filed</p>
@@ -257,7 +257,7 @@ export default function CommitteeGrievances() {
             </div>
           </article>
           <article className="ref-mini-card">
-            <span className="ref-icon" style={{ background: 'rgba(251, 191, 36, 0.15)', color: '#fbbf24' }}>⌛</span>
+            <span className="ref-icon" style={{ background: 'rgba(251, 191, 36, 0.15)', color: '#fbbf24' }}>âŒ›</span>
             <div>
               <strong>{stats.pending}</strong>
               <p>Pending Tickets</p>
@@ -265,7 +265,7 @@ export default function CommitteeGrievances() {
             </div>
           </article>
           <article className="ref-mini-card">
-            <span className="ref-icon" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>🔴</span>
+            <span className="ref-icon" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>ðŸ”´</span>
             <div>
               <strong>{stats.high}</strong>
               <p>High Severity</p>
@@ -273,7 +273,7 @@ export default function CommitteeGrievances() {
             </div>
           </article>
           <article className="ref-mini-card">
-            <span className="ref-icon" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>✅</span>
+            <span className="ref-icon" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>âœ…</span>
             <div>
               <strong>{stats.resolved}</strong>
               <p>Resolved Tickets</p>
@@ -316,13 +316,13 @@ export default function CommitteeGrievances() {
           <section className="ref-card" style={{ padding: '20px', marginBottom: '20px', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--accent-color)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
               <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 'bold', color: 'var(--accent-color)', textTransform: 'uppercase' }}>
-                📧 Compose warning message to team mentor
+                ðŸ“§ Compose warning message to team mentor
               </h4>
               <button 
                 onClick={() => setShowEmailForm(false)}
                 style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '14px' }}
               >
-                ✕
+                âœ•
               </button>
             </div>
 
@@ -437,7 +437,7 @@ export default function CommitteeGrievances() {
                       padding: '10px 12px'
                     }}>
                       <div style={{ fontSize: '10px', fontWeight: 'bold', color: 'var(--status-purple)', letterSpacing: '0.05em', marginBottom: '4px' }}>
-                        ✦ AI COPILOT SUGGESTED RESPONSE
+                        âœ¦ AI COPILOT SUGGESTED RESPONSE
                       </div>
                       <p style={{ margin: 0, fontSize: '12px', lineHeight: '1.4', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
                         "{g.ai_drafted_reply}"
@@ -481,7 +481,7 @@ export default function CommitteeGrievances() {
                           onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.2)' }}
                           onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.1)' }}
                         >
-                          📧 Email Mentor
+                          ðŸ“§ Email Mentor
                         </button>
                       </div>
 
@@ -494,7 +494,7 @@ export default function CommitteeGrievances() {
                             onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(16, 185, 129, 0.2)' }}
                             onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(16, 185, 129, 0.1)' }}
                           >
-                            🔄 Swap Mentor
+                            ðŸ”„ Swap Mentor
                           </button>
                           <button
                             onClick={() => handleResolveAction(g, 'remove_mentor')}
@@ -503,7 +503,7 @@ export default function CommitteeGrievances() {
                             onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)' }}
                             onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)' }}
                           >
-                            🚫 Remove Mentor
+                            ðŸš« Remove Mentor
                           </button>
                         </div>
                       )}
@@ -527,3 +527,4 @@ export default function CommitteeGrievances() {
     </CommitteeLayout>
   )
 }
+

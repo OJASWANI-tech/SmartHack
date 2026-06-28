@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useSearchParams, useNavigate, useParams, Outlet } from 'react-router-dom'
+﻿import { Navigate, Route, Routes, useSearchParams, useNavigate, useParams, Outlet } from 'react-router-dom'
 import { useEffect } from 'react'
 
 // --- CORE FRAMEWORK IMPORTS ---
@@ -6,18 +6,17 @@ import ProtectedRoute from './components/common/ProtectedRoute'
 import AdminRoute from './components/common/AdminRoute'
 import AccessDenied from './pages/AccessDenied'
 import Login from './pages/Login'
-import LandingPage from './pages/LandingPage'
 import LinkExpired from './pages/LinkExpired'
 import AuthCallback from './pages/AuthCallback'
 
-// --- ⚡ NEW UNIFIED DYNAMIC PIPELINE ENGINE ---
+// --- âš¡ NEW UNIFIED DYNAMIC PIPELINE ENGINE ---
 import DynamicTestLayout from './pages/dynamic/DynamicTestLayout'
 import DynamicComponentSelector from './pages/dynamic/DynamicComponentSelector'
 import DynamicParticipantPortal from './pages/dynamic/DynamicParticipantPortal'
 import DynamicEvaluatorPortal from './pages/dynamic/DynamicEvaluatorPortal'
 import DynamicGateway from './pages/dynamic/DynamicGateway'
 
-// --- 🏆 SPORTS TRACK (isolated under /dynamic/sports) ---
+// --- ðŸ† SPORTS TRACK (isolated under /dynamic/sports) ---
 import SportsOverview from './pages/dynamic/sports/participant/SportsOverview'
 import SportsBracket from './pages/dynamic/sports/participant/SportsBracket'
 import SportsRoster from './pages/dynamic/sports/participant/SportsRoster'
@@ -26,7 +25,7 @@ import SportsEvaluatorQueue from './pages/dynamic/sports/evaluator/SportsEvaluat
 import EventInitialization from './pages/dynamic/sports/EventInitialization'
 import CommunicationHub from './pages/dynamic/sports/CommunicationHub'
 
-// --- 🏛️ DEBATE SANDBOX TRACK VIEWS ---
+// --- ðŸ›ï¸ DEBATE SANDBOX TRACK VIEWS ---
 import DebateDashboard from './pages/dynamic/debate/DebateDashboard'
 import DebateIntakeFormation from './pages/dynamic/debate/DebateIntakeFormation'
 import DebateTeamReview from './pages/dynamic/debate/DebateTeamReview'
@@ -34,7 +33,7 @@ import DebateAnomalies from './pages/dynamic/debate/DebateAnomalies'
 import DebateResults from './pages/dynamic/debate/DebateResults'
 import DebateCommunications from './pages/dynamic/debate/DebateCommunications'
 
-// --- 🏛️ STANDARD PRODUCTION TRACK VIEWS ---
+// --- ðŸ›ï¸ STANDARD PRODUCTION TRACK VIEWS ---
 import CommitteeSetup from './pages/committee/CommitteeSetup'
 import CommitteeDashboard from './pages/committee/CommitteeDashboard'
 import CommitteeIntakeFormation from './pages/committee/CommitteeIntakeFormation'
@@ -87,8 +86,8 @@ function TokenEntry({ redirectTo }) {
   useEffect(() => {
     const token = searchParams.get('token')
     if (token) {
-      localStorage.setItem('eventflow_token', token)
-      localStorage.removeItem('eventflow_mock_role')
+      localStorage.setItem('HackSmart_token', token)
+      localStorage.removeItem('HackSmart_mock_role')
 
       try {
         const payload = token.split('.')[1]
@@ -107,13 +106,13 @@ function TokenEntry({ redirectTo }) {
   return null
 }
 
-// --- ⚡ DYNAMIC PIPELINE PARAMETER WRAPPER ---
+// --- âš¡ DYNAMIC PIPELINE PARAMETER WRAPPER ---
 function DynamicRouteWrapper() {
   const { componentKey } = useParams();
   return <DynamicComponentSelector componentKey={componentKey} />;
 }
 
-// --- 🌙 DYNAMIC TRACK THEME BOUNDARY ---
+// --- ðŸŒ™ DYNAMIC TRACK THEME BOUNDARY ---
 // Forces the dark theme across the ENTIRE dynamic track (sandbox + dynamic
 // participant/evaluator + sports) so these pages keep their original dark look,
 // regardless of the global light theme. The user's saved theme preference is
@@ -134,7 +133,7 @@ function DynamicThemeBoundary() {
   return <Outlet />;
 }
 
-// --- 🏆 SPORTS PORTAL INDEX REDIRECT — carries :eventId through to the default tab ---
+// --- ðŸ† SPORTS PORTAL INDEX REDIRECT â€” carries :eventId through to the default tab ---
 function SportsPortalIndexRedirect({ to }) {
   const { eventId } = useParams();
   return <Navigate to={eventId ? `${to}/${eventId}` : to} replace />;
@@ -144,7 +143,7 @@ function App() {
   return (
     <Routes>
       {/* OPEN ENTRY PASSES */}
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/access-denied" element={<AccessDenied />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
@@ -152,11 +151,11 @@ function App() {
       <Route path="/committee/setup" element={<CommitteeSetup />} />
 
       {/* =========================================================
-          ⚡ DYNAMIC RUNTIME PORTALS — participant submission + evaluator
+          âš¡ DYNAMIC RUNTIME PORTALS â€” participant submission + evaluator
           scoring, both driven by GET /api/dynamic/event/:id. Open entry
           (magic-link style); event id comes from the URL or localStorage.
           ========================================================= */}
-      {/* 🌙 All dynamic-track routes are wrapped so they render in dark theme */}
+      {/* ðŸŒ™ All dynamic-track routes are wrapped so they render in dark theme */}
       <Route element={<DynamicThemeBoundary />}>
       <Route path="/dynamic/participant" element={<DynamicGateway role="participant" genericComponent={DynamicParticipantPortal} />} />
       <Route path="/dynamic/participant/:eventId" element={<DynamicGateway role="participant" genericComponent={DynamicParticipantPortal} />} />
@@ -164,7 +163,7 @@ function App() {
       <Route path="/dynamic/evaluator/:eventId" element={<DynamicGateway role="evaluator" genericComponent={DynamicEvaluatorPortal} />} />
 
       {/* =========================================================
-          🏆 DYNAMIC SPORTS TRACK — full multi-page participant/evaluator
+          ðŸ† DYNAMIC SPORTS TRACK â€” full multi-page participant/evaluator
           portals for sports_tournament events, reached transparently via
           DynamicGateway above. Isolated from /participant, /evaluator and
           /committee; built on /api/dynamic + /api/dynamic/sports.
@@ -184,7 +183,7 @@ function App() {
       <Route path="/dynamic/sports/evaluator/:eventId" element={<SportsEvaluatorQueue />} />
 
       {/* =========================================================
-          ⚡ THE DYNAMIC WORKFLOW TESTING PIPELINE (DATABASE METRICS)
+          âš¡ THE DYNAMIC WORKFLOW TESTING PIPELINE (DATABASE METRICS)
           ========================================================= */}
       <Route element={<ProtectedRoute allowedRoles={['dynamic-committee']} />}>
         <Route path="/dynamic-test" element={<DynamicTestLayout />}>
@@ -199,7 +198,7 @@ function App() {
           <Route path="debate-results" element={<DebateResults />} />
           <Route path="debate-communications" element={<DebateCommunications />} />
 
-          {/* Sports Committee Extension — CSV provisioning + bracket generation */}
+          {/* Sports Committee Extension â€” CSV provisioning + bracket generation */}
           <Route path="event-initialization" element={<EventInitialization />} />
           <Route path="communication-hub" element={<CommunicationHub />} />
 
@@ -212,7 +211,7 @@ function App() {
       </Route>
 
       {/* =========================================================
-          🏛️ STANDARD PRODUCTION TRACK
+          ðŸ›ï¸ STANDARD PRODUCTION TRACK
           ========================================================= */}
       <Route element={<ProtectedRoute allowedRoles={['committee']} />}>
         <Route path="/committee" element={<Navigate to="/committee/dashboard" replace />} />
